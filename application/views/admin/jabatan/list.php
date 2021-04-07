@@ -28,8 +28,8 @@
 									<td>Rp. <?= number_format($jabatan->gapok) ?></td>
 									<td>Rp. <?= number_format($jabatan->gaji_jabatan) ?></td>
 									<td>
-										<a href="<?= base_url('admin/jabatan/edit/' . $jabatan->id_kat_jabatan) ?>" class="btn btn-warning btn-sm">Edit</a>
-										<a href="<?= base_url('admin/jabatan/hapus/' . $jabatan->id_kat_jabatan) ?>" class="btn btn-danger btn-sm">Hapus</a>
+										<a href="<?= base_url('admin/jabatan/edit/' . $jabatan->id_kat_jabatan) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit"></i></a>
+										<a href="<?= base_url('admin/jabatan/hapus/' . $jabatan->id_kat_jabatan) ?>" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
 									</td>
 								</tr>
 								<?php $no++; ?>
