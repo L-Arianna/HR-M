@@ -26,8 +26,8 @@
 									<td><?= $sp->nama_peringatan ?></td>
 									<td><?= $sp->keterangan ?></td>
 									<td>
-										<a href="<?= base_url('admin/sp/edit/' . $sp->id_kat_peringatan) ?>" class="btn btn-warning btn-sm">Edit</a>
-										<a href="<?= base_url('admin/sp/hapus/' . $sp->id_kat_peringatan) ?>" class="btn btn-danger btn-sm">Hapus</a>
+										<a href="<?= base_url('admin/sp/edit/' . $sp->id_kat_peringatan) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
+										<a href="<?= base_url('admin/sp/hapus/' . $sp->id_kat_peringatan) ?>" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
 									</td>
 								</tr>
 								<?php $no++; ?>
