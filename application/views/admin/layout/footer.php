@@ -35,6 +35,7 @@
 <!-- Chained -->
 <script>
 	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
+		produk_ajax();
 		// Kita sembunyikan dulu untuk loadingnya
 		// $("#loading").hide();
 
