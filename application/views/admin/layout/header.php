@@ -14,6 +14,12 @@
 	<link href="<?= base_url() ?>assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+	<!-- date picker -->
+	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<?= base_url() ?>assets/js/jquery-ui.min.css" /> <!-- Load file css jquery-ui -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css">
 	<!-- loader-->
 	<link href="<?= base_url() ?>assets/css/pace.min.css" rel="stylesheet" />
 	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>
