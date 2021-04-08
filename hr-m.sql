@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2021 at 11:03 AM
+-- Generation Time: Apr 08, 2021 at 05:26 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -67,7 +67,6 @@ CREATE TABLE `dat_pegawai` (
 --
 
 INSERT INTO `dat_pegawai` (`id_kat_jabatan`, `id_grade`, `id_pendidikan`, `id_kat_golongan`, `id_resign`, `nip`, `nama_pegawai`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `nomor_ktp`, `npwp`, `alamat`, `kecamatan`, `kelurahan`, `rt`, `rw`, `desa`, `agama`, `status_nikah`, `asal_negara`, `no_telp`, `email`, `username`, `password`, `role_id`, `image`, `date_created`, `no_rek`, `atas_nama`, `nama_bank`, `is_active`) VALUES
-(2, 1, 4, 6, 4, 1505042021001, 'Arief Rahman Hakim', 'Semarang', '1998-02-24', 'Laki-laki', NULL, NULL, 'Jl tawang mas baru', '', '', 0, 0, '', 'Islam', 'Belum', 'Warga Negara Indonesia', '081239972181', 'ariefhakim2402@gmail.com', '', '', 0, '', 2147483647, NULL, NULL, NULL, 0),
 (2, 2, 4, 8, 0, 1506042021002, 'Arief Rahman Hakim', 'Semarang', '1998-02-24', 'Laki-laki', '3232937142', '', 'Jl ahmad', 'Semarang barat', 'tawang mas', 6, 0, '-', 'Islam', 'Belum', 'Warga Negara Indonesia', '087636452126', 'ariefhakim@gmail.com', 'arief', '$2y$10$DVACsNRDeCllMC9rsid31ewB8eyr17/XT/cbvzFcIJbQ.Tz7LHJb.', 3, 'default.jpg', 0, 2147483647, 'Ariefrahman', 'BCA', 1),
 (3, 2, 4, 8, 0, 1507042021003, 'Sinta am', 'Semarang', '2021-04-08', 'Perempuan', '4365465232', '2312314324', 'Jl sholeh', 'Semarang barat', 'jroro', 1, 6, 'swuda', 'Islam', 'Belum', 'Warga Negara Indonesia', '087636452126', 'sinta@gmail.com', 'sinta', '$2y$10$dny.aXfCRn88f/1ll5gHnupxBdrBgL6byB6BepmZ2wrRgjg6h8cX2', 3, 'default.jpg', 1617768255, 45646454, 'sinta', 'BCA', 1);
 
@@ -420,8 +419,7 @@ CREATE TABLE `tb_gaji` (
 --
 
 INSERT INTO `tb_gaji` (`id_gaji`, `nip`, `id_pendidikan`, `id_kat_jabatan`, `id_kat_golongan`, `id_grade`, `makan`, `pulsa`, `transport`, `kesehatan_k`, `tot_pot_bpjs`, `tunj_lainnya`, `jml_potongan`, `gaji_kotor`, `gaji_net`, `status`) VALUES
-(16, '1505042021001', 4, 2, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ''),
-(17, '1506042021002', 4, 2, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, ''),
+(17, '1506042021002', 4, 2, 8, 2, 30000, 20000, 15000, 110000, 5, 15000, 110000, 2785000, 2675000, 'bayar'),
 (19, '1507042021003', 4, 3, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, '');
 
 -- --------------------------------------------------------
@@ -613,7 +611,6 @@ INSERT INTO `tb_resign` (`id_resign`, `nip`, `tgl_resign`, `keterangan`) VALUES
 
 CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
-  `nip` varchar(50) DEFAULT NULL,
   `nama` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -627,8 +624,8 @@ CREATE TABLE `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `nip`, `nama`, `username`, `password`, `role_id`, `image`, `is_active`, `date_created`) VALUES
-(17, NULL, 'arief rahman hakim', 'admin', '$2y$10$H4MBENBFSMwSAXpOpKzpfuVm1ifak2UNBZdxm/7w3G65a/fg9rC3e', 1, 'default.jpg', 1, 1617778539);
+INSERT INTO `tb_user` (`id_user`, `nama`, `username`, `password`, `role_id`, `image`, `is_active`, `date_created`) VALUES
+(17, 'arief rahman hakim', 'admin', '$2y$10$H4MBENBFSMwSAXpOpKzpfuVm1ifak2UNBZdxm/7w3G65a/fg9rC3e', 1, 'default.jpg', 1, 1617778539);
 
 --
 -- Indexes for dumped tables
