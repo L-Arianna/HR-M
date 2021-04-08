@@ -21,7 +21,7 @@ class Auth extends CI_Controller
 			$data = [
 				'title' => 'Sign in your account'
 			];
-			$this->load->view('Auth', $data);
+			$this->load->view('auth', $data);
 		} else {
 			if ($user) {
 				if ($user['role_id'] == 1) {
@@ -52,7 +52,7 @@ class Auth extends CI_Controller
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {
 						// print_r($this->session->userdata());
-						redirect('admin/dashboard');
+						redirect('Admin/Dashboard');
 					} elseif ($user['role_id'] == 2) {
 						redirect('operator/dashboard');
 					}
@@ -60,14 +60,14 @@ class Auth extends CI_Controller
 					$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
 					username dan password salah!
 					</div>');
-					redirect('auth');
+					redirect('Auth');
 				}
 			} elseif ($user['is_active'] == 0) {
 				$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
 			username dan password tidak aktif, silahkan hubungi admin!
 			</div>');
 				// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
-				redirect('auth');
+				redirect('Auth');
 			}
 		} else {
 			//MENAMPILKAN NOTIFIKASI ERROR 
@@ -94,20 +94,20 @@ class Auth extends CI_Controller
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 3) {
 						// print_r($this->session->userdata());
-						redirect('pegawai/dashboard');
+						redirect('Pegawai/Dashboard');
 					}
 				} else {
 					$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
 					username dan password salah!
 					</div>');
-					redirect('auth');
+					redirect('Auth');
 				}
 			} elseif ($user['is_active'] == 0) {
 				$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
 			username dan password tidak aktif, silahkan hubungi admin!
 			</div>');
 				// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
-				redirect('auth');
+				redirect('Auth');
 			}
 		} else {
 			//MENAMPILKAN NOTIFIKASI ERROR 
@@ -115,7 +115,7 @@ class Auth extends CI_Controller
 			username atau password tidak terdaftar
 			</div>');
 			// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
-			redirect('auth');
+			redirect('Auth');
 		}
 	}
 
@@ -133,7 +133,7 @@ class Auth extends CI_Controller
             </div>');
 
 		// SETALAH LOGOUT MAKA AKAN DI ARAHKAN PADA HALAMAN LOGIN(auth)
-		redirect('auth');
+		redirect('Auth');
 	}
 }
 

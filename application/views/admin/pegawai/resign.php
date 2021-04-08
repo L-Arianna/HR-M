@@ -7,7 +7,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="p-4 border rounded">
-					<?= form_open_multipart(base_url('admin/pegawai/resign/' . $pegawai->nip)) ?>
+					<?= form_open_multipart(base_url('Admin/Pegawai/resign/' . $pegawai->nip)) ?>
 					<div class="row mb-1">
 						<div class="col-md-3">
 							<label for="form-control">NIP</label>
@@ -84,12 +84,12 @@
 						<div class="col-md-3">
 							<label for="form-control">Hak akses</label>
 							<input type="text" name="role_id" class="form-control" value="<?php if ($pegawai->role_id == 1) {
-																													echo 'Super Admin';
-																												} elseif ($pegawai->role_id == 2) {
-																													echo 'Admin';
-																												} else {
-																													echo 'Pegawai';
-																												} ?>" readonly>
+																								echo 'Super Admin';
+																							} elseif ($pegawai->role_id == 2) {
+																								echo 'Admin';
+																							} else {
+																								echo 'Pegawai';
+																							} ?>" readonly>
 						</div>
 					</div>
 

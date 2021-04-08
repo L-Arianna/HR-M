@@ -30,19 +30,19 @@
 				<div class="menu-title">Master Core HR</div>
 			</a>
 			<ul>
-				<li> <a href="<?= base_url('admin/jabatan') ?>"><i class="bx bx-right-arrow-alt"></i>Jabatan</a>
+				<li> <a href="<?= base_url('Admin/Jabatan') ?>"><i class="bx bx-right-arrow-alt"></i>Jabatan</a>
 				</li>
-				<li> <a href="<?= base_url('admin/grade') ?>"><i class="bx bx-right-arrow-alt"></i>Grade</a>
+				<li> <a href="<?= base_url('Admin/Grade') ?>"><i class="bx bx-right-arrow-alt"></i>Grade</a>
 				</li>
-				<li> <a href="<?= base_url('admin/golongan') ?>"><i class="bx bx-right-arrow-alt"></i>Golongan</a>
+				<li> <a href="<?= base_url('Admin/Golongan') ?>"><i class="bx bx-right-arrow-alt"></i>Golongan</a>
 				</li>
-				<li> <a href="<?= base_url('admin/sp') ?>"><i class="bx bx-right-arrow-alt"></i>Peringatan</a>
+				<li> <a href="<?= base_url('Admin/Sp') ?>"><i class="bx bx-right-arrow-alt"></i>Peringatan</a>
 				</li>
-				<li> <a href="<?= base_url('admin/pend') ?>"><i class="bx bx-right-arrow-alt"></i>Pendidikan</a>
+				<li> <a href="<?= base_url('Admin/Pend') ?>"><i class="bx bx-right-arrow-alt"></i>Pendidikan</a>
 				</li>
-				<li> <a href="<?= base_url('admin/cuti') ?>"><i class="bx bx-right-arrow-alt"></i>Cuti</a>
+				<li> <a href="<?= base_url('Admin/Cuti') ?>"><i class="bx bx-right-arrow-alt"></i>Cuti</a>
 				</li>
-				<li> <a href="<?= base_url('admin/gaji') ?>"><i class="bx bx-right-arrow-alt"></i>Gaji</a>
+				<li> <a href="<?= base_url('Admin/Gaji') ?>"><i class="bx bx-right-arrow-alt"></i>Gaji</a>
 				</li>
 			</ul>
 		</li>
@@ -54,9 +54,9 @@
 				<div class="menu-title">Data master pegawai</div>
 			</a>
 			<ul>
-				<li> <a href="<?= base_url('admin/pegawai') ?>"><i class="bx bx-right-arrow-alt"></i>Data Pegawai</a>
+				<li> <a href="<?= base_url('Admin/Pegawai') ?>"><i class="bx bx-right-arrow-alt"></i>Data Pegawai</a>
 				</li>
-				<li> <a href="<?= base_url('admin/resign') ?>"><i class="bx bx-right-arrow-alt"></i>Data Resign Pegawai</a>
+				<li> <a href="<?= base_url('Admin/Resign') ?>"><i class="bx bx-right-arrow-alt"></i>Data Resign Pegawai</a>
 				</li>
 				<li> <a href="form-input-group.html"><i class="bx bx-right-arrow-alt"></i>Data SP Pegawai</a>
 				</li>
@@ -64,13 +64,13 @@
 				</li>
 				<li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Data Absen</a>
 				</li>
-				<li> <a href="<?= base_url('admin/user') ?>"><i class="bx bx-right-arrow-alt"></i>Data User</a>
+				<li> <a href="<?= base_url('Admin/User') ?>"><i class="bx bx-right-arrow-alt"></i>Data User</a>
 				</li>
 		</li>
 	</ul>
 	<li class="menu-label">Payroll</li>
 	<li>
-		<a href="<?= base_url('admin/payroll') ?>">
+		<a href="<?= base_url('Admin/Payroll') ?>">
 			<div class="parent-icon"><i class='bx bx-home-circle'></i>
 			</div>
 			<div class="menu-title">Payroll</div>

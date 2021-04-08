@@ -4,7 +4,7 @@
 		<h6 class="mb-0 text-uppercase"><?= $title ?></h6>
 
 		<!-- Button trigger modal -->
-		<a href="<?= base_url('admin/user') ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleExtraLargeModal">Tambah user</a>
+		<a href="<?= base_url('Admin/User') ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleExtraLargeModal">Tambah user</a>
 		<?= $this->session->flashdata('suksess'); ?>
 		<!-- Modal -->
 		<div class="modal fade" id="exampleExtraLargeModal" tabindex="-1" aria-hidden="true">

@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="<?= base_url('admin/pegawai/tambah') ?>" method="post">
+                    <form class="row g-3" action="<?= base_url('Admin/Pegawai/tambah') ?>" method="post">
                         <div class="row mb-1">
                             <div class="col-md-3">
                                 <label for="form-control">NIP</label>

@@ -29,7 +29,7 @@
 									<td><?= $key->tgl_resign ?></td>
 									<td><?= $key->keterangan ?></td>
 									<td>
-										<a href="<?= base_url('admin/resign/hapus/' . $key->id_resign) ?>" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="hapus data resign"><i class="bx bx-trash"></i></a>
+										<a href="<?= base_url('Admin/Resign/hapus/' . $key->id_resign) ?>" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="hapus data resign"><i class="bx bx-trash"></i></a>
 									</td>
 								</tr>
 							<?php

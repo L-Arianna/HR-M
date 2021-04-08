@@ -37,41 +37,6 @@
 	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
 		// Kita sembunyikan dulu untuk loadingnya
 		// $("#loading").hide();
-		produk_ajax();
-		$("#golongan").change(function() { // Ketika user mengganti atau memilih data provinsi
-			$("#gaji_gol").hide(); // Sembunyigol dulu combobox kota nya
-			// $("#loading").show(); // Tampilkan loadingnya
-
-			$.ajax({
-				type: "POST", // Method pengiriman data bisa dengan GET atau POST
-				url: "<?php echo base_url("admin/gaji/listgol"); ?>", // Isi dengan url/path file php yang dituju
-				data: {
-					id_kat_golongan: $("#golongan").val()
-				}, // data yang akan dikirim ke file yang dituju
-				dataType: "json",
-				beforeSend: function(e) {
-					if (e && e.overrideMimeType) {
-						e.overrideMimeType("application/json;charset=UTF-8");
-					}
-				},
-				success: function(response) { // Ketika proses pengiriman berhasil
-					// $("#loading").hide(); // Sembunyikan loadingnya
-
-					// set isi dari combobox kota
-					// lalu munculkan kembali combobox kotanya
-					$("#gaji_gol").html(response.list_gol).show();
-				},
-				error: function(xhr, ajaxOptions, thrownError) { // Ketika ada error
-					alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError); // Munculkan alert error
-				}
-			});
-		});
-	});
-
-
-	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
-		// Kita sembunyikan dulu untuk loadingnya
-		// $("#loading").hide();
 
 		$("#grade").change(function() { // Ketika user mengganti atau memilih data provinsi
 			$("#subgrade").hide(); // Sembunyigol dulu combobox kota nya
@@ -79,14 +44,14 @@
 
 			$.ajax({
 				type: "POST", // Method pengiriman data bisa dengan GET atau POST
-				url: "<?php echo base_url("admin/pegawai/listgrade"); ?>", // Isi dengan url/path file php yang dituju
+				url: "<?php echo base_url("Admin/Pegawai/listgrade"); ?>", // Isi dengan url/path file php yang dituju
 				data: {
 					id_grade: $("#grade").val()
 				}, // data yang akan dikirim ke file yang dituju
 				dataType: "json",
 				beforeSend: function(e) {
 					if (e && e.overrideMimeType) {
-						e.overrideMimeType("application/json;charset=UTF-8");
+						e.overrideMimeType("Application/json;charset=UTF-8");
 					}
 				},
 				success: function(response) { // Ketika proses pengiriman berhasil

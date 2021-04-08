@@ -147,7 +147,7 @@ class Pegawai extends CI_Controller
                     'sukses',
                     '<div class="alert alert-success" role="alert">Berhasil menambahkan data pegawai </div>'
                 );
-                redirect('admin/pegawai', 'refresh');
+                redirect('Admin/Pegawai', 'refresh');
             }
         }
     }
@@ -226,7 +226,7 @@ class Pegawai extends CI_Controller
                     'sukses',
                     '<div class="alert alert-success" role="alert">Berhasil update data pegawai </div>'
                 );
-                redirect('admin/pegawai');
+                redirect('Admin/Pegawai');
                 // var_dump($data);
             }
         }
@@ -264,7 +264,7 @@ class Pegawai extends CI_Controller
                     'sukses',
                     '<div class="alert alert-success" role="alert">Berhasil menambahkan data resign pegawai </div>'
                 );
-                redirect('admin/pegawai');
+                redirect('Admin/Pegawai');
                 // var_dump($data);
             }
         }
@@ -284,7 +284,7 @@ class Pegawai extends CI_Controller
             'sukses',
             '<div class="alert alert-danger" role="alert">Berhasil hapus data pegawai </div>'
         );
-        redirect('admin/pegawai', 'refresh');
+        redirect('Admin/Pegawai', 'refresh');
     }
 
 
@@ -292,7 +292,7 @@ class Pegawai extends CI_Controller
     {
         $nip = $this->input->post('nip');
         $this->Pegawai_model->simpan_nip($nip);
-        redirect('admin/pegawai/tambah');
+        redirect('Admin/Pegawai/tambah');
     }
 
     public function listgrade()
@@ -304,6 +304,7 @@ class Pegawai extends CI_Controller
 
         foreach ($grade as $data) {
             $lists .= "<option value='" . $data->id_kat_golongan  . "'>" . $data->nama_golongan . "</option>";
+            //$lists = "'" . $data->id_kat_golongan  . "'/" . $data->nama_golongan . "";
         }
 
         $callback = array('list_grade' => $lists);

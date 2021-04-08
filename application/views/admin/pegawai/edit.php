@@ -7,7 +7,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="p-4 border rounded">
-					<?= form_open_multipart(base_url('admin/pegawai/edit/' . $pegawai->nip)) ?>
+					<?= form_open_multipart(base_url('Admin/Pegawai/Edit/' . $pegawai->nip)) ?>
 					<div class="row mb-1">
 						<div class="col-md-3">
 							<label for="form-control">NIP</label>
@@ -247,10 +247,10 @@
 							<label for="form-control">Hak akses</label>
 							<select name="role_id" class="form-control">
 								<option value="<?= $pegawai->role_id ?>"><?php if ($pegawai->role_id == 2) {
-																							echo 'Admin';
-																						} elseif ($pegawai->role_id == 3) {
-																							echo 'Pegawai';
-																						} ?></option>
+																				echo 'Admin';
+																			} elseif ($pegawai->role_id == 3) {
+																				echo 'Pegawai';
+																			} ?></option>
 								<option value="2">Admin</option>
 								<option value="3">pegawai</option>
 							</select>

@@ -2,7 +2,7 @@
 <div class="page-wrapper">
     <div class="page-content">
         <h6 class="mb-1 text-uppercase"><?= $title ?></h6>
-        <a href="<?= base_url('admin/pegawai/tambah') ?>" class="btn btn-primary btn-sm mb-1">Tambah data pegawai</a>
+        <a href="<?= base_url('Admin/Pegawai/tambah') ?>" class="btn btn-primary btn-sm mb-1">Tambah data pegawai</a>
         <?= $this->session->flashdata('sukses'); ?>
         <hr />
         <div class="card">
@@ -52,11 +52,11 @@
                                     </td>
                                     <td>
                                         <?php if ($peg->is_active == 1) { ?>
-                                            <a href="<?= base_url('admin/pegawai/edit/' . $peg->nip) ?>" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="edit data pegawai"><i class="bx bx-edit-alt"></i></a>
+                                            <a href="<?= base_url('Admin/Pegawai/edit/' . $peg->nip) ?>" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="edit data pegawai"><i class="bx bx-edit-alt"></i></a>
 
-                                            <a href="<?= base_url('admin/pegawai/resign/' . $peg->nip) ?>" class="btn btn-danger btn-sm"><i class="bx bx-log-out" data-bs-toggle="tooltip" data-bs-placement="top" title="tambah data resign"></i></a>
+                                            <a href="<?= base_url('Admin/Pegawai/resign/' . $peg->nip) ?>" class="btn btn-danger btn-sm"><i class="bx bx-log-out" data-bs-toggle="tooltip" data-bs-placement="top" title="tambah data resign"></i></a>
                                         <?php } else { ?>
-                                            <a href="<?= base_url('admin/pegawai/hapus/' . $peg->nip) ?>" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="hapus data pegawai"><i class="bx bx-trash-alt"></i></a>
+                                            <a href="<?= base_url('Admin/Pegawai/hapus/' . $peg->nip) ?>" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="hapus data pegawai"><i class="bx bx-trash-alt"></i></a>
                                         <?php } ?>
                                     </td>
                                 </tr>
