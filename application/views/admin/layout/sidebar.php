@@ -16,7 +16,7 @@
 
 	<ul class="metismenu" id="menu">
 		<li>
-			<a href="<?= base_url('admin/dashboard') ?>">
+			<a href="<?= base_url('Admin/Dashboard') ?>">
 				<div class="parent-icon"><i class='bx bx-home-circle'></i>
 				</div>
 				<div class="menu-title">Dashboard</div>
@@ -137,6 +137,14 @@
 			<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Data LPJ MPK</a>
 			</li>
 		</ul>
+	</li>
+	<li class="menu-label">Surat Masuk</li>
+	<li>
+		<a class="has-arrow" href="<?= base_url(); ?>Admin/Surat_Masuk">
+			<div class="parent-icon"><i class='bx bx-message-square-edit'></i>
+			</div>
+			<div class="menu-title">Surat Masuk</div>
+		</a>
 	</li>
 	<!--end navigation-->
 </div>
