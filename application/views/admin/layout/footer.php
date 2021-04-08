@@ -21,9 +21,8 @@
 <script src="<?= base_url() ?>assets/js/table-datatable.js"></script>
 <!--app JS-->
 <script src="<?= base_url() ?>assets/js/app.js"></script>
-
 <script src="<?= base_url() ?>assets/js/penjumlahan.js"></script>
-
+<script src="<?= base_url() ?>assets/js/produk-ajax.js"></script>
 <script src="<?= base_url() ?>assets/plugins/select2/js/select2.min.js"></script>
 <script src="<?= base_url() ?>assets/js/form-select2.js"></script>
 <script src="<?= base_url() ?>assets/js/form-text-editor.js"></script>
@@ -38,7 +37,7 @@
 	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
 		// Kita sembunyikan dulu untuk loadingnya
 		// $("#loading").hide();
-
+		produk_ajax();
 		$("#golongan").change(function() { // Ketika user mengganti atau memilih data provinsi
 			$("#gaji_gol").hide(); // Sembunyigol dulu combobox kota nya
 			// $("#loading").show(); // Tampilkan loadingnya
