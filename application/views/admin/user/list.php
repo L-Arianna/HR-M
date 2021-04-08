@@ -59,7 +59,6 @@
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>NIP</th>
 								<th>Username</th>
 								<th>Status Aktif</th>
 							</tr>
@@ -70,7 +69,6 @@
 							foreach ($usr as $key) { ?>
 								<tr>
 									<td><?= $i ?></td>
-									<td><?= $key->nip ?></td>
 									<td><?= $key->username ?></td>
 									<td><?php if ($key->is_active == 1) { ?>
 											<span class="badge bg-success">Aktif</span>

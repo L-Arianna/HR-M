@@ -70,7 +70,7 @@
 	</ul>
 	<li class="menu-label">Payroll</li>
 	<li>
-		<a href="javascript:;">
+		<a href="<?= base_url('admin/payroll') ?>">
 			<div class="parent-icon"><i class='bx bx-home-circle'></i>
 			</div>
 			<div class="menu-title">Payroll</div>
