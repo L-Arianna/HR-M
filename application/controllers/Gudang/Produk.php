@@ -36,8 +36,8 @@ class Produk extends CI_Controller
             $row[] = $person->kode_dropdown_produk;
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="produk_edit_ajax(' . "'" . $person->id_dropdown_produk . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_produk(' . "'" . $person->id_dropdown_produk . "'" . ')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="produk_edit_ajax(' . "'" . $person->id_dropdown_produk . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_produk(' . "'" . $person->id_dropdown_produk . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
 
             $data[] = $row;
         }
@@ -155,8 +155,8 @@ class Produk extends CI_Controller
             $row[] = $person->nama_dropdown_pendidikan;
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="pendidikan_edit_ajax(' . "'" . $person->id_dropdown_pendidikan . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pendidikan(' . "'" . $person->id_dropdown_pendidikan . "'" . ')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="pendidikan_edit_ajax(' . "'" . $person->id_dropdown_pendidikan . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pendidikan(' . "'" . $person->id_dropdown_pendidikan . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
 
             $data[] = $row;
         }
@@ -264,8 +264,8 @@ class Produk extends CI_Controller
             $row[] = $person->nama_dropdown_pekerjaan;
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="tipe_pendapatan_edit_ajax(' . "'" . $person->id_dropdown_pekerjaan . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_tipe_pendapatan(' . "'" . $person->id_dropdown_pekerjaan . "'" . ')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="tipe_pendapatan_edit_ajax(' . "'" . $person->id_dropdown_pekerjaan . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_tipe_pendapatan(' . "'" . $person->id_dropdown_pekerjaan . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
 
             $data[] = $row;
         }
@@ -373,8 +373,8 @@ class Produk extends CI_Controller
             $row[] = $person->nama_dropdown_bidangusaha;
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="bidang_usaha_edit_ajax(' . "'" . $person->id_dropdown_bidangusaha . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_bidang_usaha(' . "'" . $person->id_dropdown_bidangusaha . "'" . ')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="bidang_usaha_edit_ajax(' . "'" . $person->id_dropdown_bidangusaha . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_bidang_usaha(' . "'" . $person->id_dropdown_bidangusaha . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
 
             $data[] = $row;
         }
