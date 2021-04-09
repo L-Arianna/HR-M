@@ -105,18 +105,6 @@
 	})
 	// end fungsi filter
 </script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		// Selector input yang akan menampilkan autocomplete.
-		$("#kepadasuratmasuk").autocomplete({
-			serviceUrl: "<?= base_url(); ?>Admin/Surat_Masuk/autocomplete", // Kode php untuk prosesing data.
-			dataType: "JSON", // Tipe data JSON.
-			onSelect: function(suggestion) {
-				$("#buah").val("" + suggestion.buah);
-			}
-		});
-	})
-</script>
 </body>
 
 </html>
