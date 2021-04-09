@@ -349,7 +349,117 @@ class Produk extends CI_Controller
         echo json_encode($this->Gudang->show_all_produk_tipe_pekerjaan());
     }
 
-    //Controller Bidang Usaha
+    //Controller Status Surat Masuk
+    public function status_surat_masuk()
+    {
+        $data = [
+            'title' => 'Dropdown Status Surat Masuk',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/statussuratmasuk'
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    public function ajax_list_status_surat_masuk()
+    {
+        $list = $this->Gudang->get_datatables_status_surat_masuk();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_dropdown_statussuratmasuk;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="status_surat_masuk_edit_ajax(' . "'" . $person->id_dropdown_statussuratmasuk . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_status_surat_masuk(' . "'" . $person->id_dropdown_statussuratmasuk . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_status_surat_masuk(),
+            "recordsFiltered" => $this->Gudang->count_filtered_status_surat_masuk(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_status_surat_masuk($iddropdownstatussuratmasuk)
+    {
+        $data = $this->Gudang->get_by_id_status_surat_masuk($iddropdownstatussuratmasuk);
+        //$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($data);
+    }
+
+    public function ajax_add_status_surat_masuk()
+    {
+        $this->_validate_status_surat_masuk();
+
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namadropdownstatussuratmasuk')));
+        $data = array(
+            'nama_dropdown_statussuratmasuk' => $nama
+        );
+        $insert = $this->Gudang->status_surat_masuk_save($data);
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_update_status_surat_masuk()
+    {
+        $this->_validate_status_surat_masuk();
+        $idssm = strip_tags(str_replace("'", "", $this->input->post('iddropdownstatussuratmasuk')));
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namadropdownstatussuratmasuk')));
+        $data = array(
+            'nama_dropdown_statussuratmasuk' => $nama,
+        );
+        $update = $this->Gudang->status_surat_masuk_update(array('id_dropdown_statussuratmasuk' => $idssm), $data);
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_delete_status_surat_masuk($iddropdownstatussuratmasuk)
+    {
+        $this->Gudang->status_surat_masuk_delete_by_id($iddropdownstatussuratmasuk);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_status_surat_masuk()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('namadropdownstatussuratmasuk') == '') {
+            $data['inputerror'][] = 'namadropdownstatussuratmasuk';
+            $data['error_string'][] = 'Nama Status Surat Masuk is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_status_surat_masuk()
+    {
+        echo json_encode($this->Gudang->show_all_status_surat_masuk());
+    }
+
+    //Controller Pengirim Surat
+
     public function bidang_usaha()
     {
         $data = [

@@ -140,7 +140,7 @@
 	</li>
 	<li class="menu-label">Surat Masuk</li>
 	<li>
-		<a class="has-arrow" href="<?= base_url(); ?>Admin/Surat_Masuk">
+		<a href="<?= base_url(); ?>Admin/Surat_Masuk">
 			<div class="parent-icon"><i class='bx bx-message-square-edit'></i>
 			</div>
 			<div class="menu-title">Surat Masuk</div>

@@ -7,6 +7,7 @@
 		datatable_pendidikan();
 		datatable_tipe_pendapatan();
 		datatable_bidang_usaha();
+		datatable_status_surat_masuk();
 		//datatables Produk
 		table_produk = $('#tableprodukdropdown').DataTable({
 
@@ -41,6 +42,7 @@
 			$(this).parent().parent().removeClass('has-error');
 			$(this).next().empty();
 		});
+
 
 	};
 
@@ -595,6 +597,155 @@
 					//if success reload ajax table
 					$('#bidang_usaha_modal_form').modal('hide');
 					bidang_usaha_reload_table();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('Error deleting data');
+				}
+			});
+
+		}
+	}
+	//CRUD Surat Masuk
+	var save_method_status_surat_masuk; //for save method string
+	var table_status_surat_masuk;
+
+	function datatable_status_surat_masuk()
+	{
+		//datatables Pendidikan
+		table_status_surat_masuk = $('#tablestatussuratmasukdropdown').DataTable({
+
+			"processing": true, //Feature control the processing indicator.
+			"serverSide": true, //Feature control DataTables' server-side processing mode.
+			"order": [], //Initial no order.
+
+			// Load data for the table's content from an Ajax source
+			"ajax": {
+				"url": "ajax_list_status_surat_masuk",
+				"type": "POST"
+			},
+
+			//Set column definition initialisation properties.
+			"columnDefs": [{
+				"targets": [-1], //last column
+				"orderable": false, //set not orderable
+			}, ],
+
+		});
+
+		//set input/textarea/select event when change value, remove class error and remove text help block 
+		$("input").change(function() {
+			$(this).parent().parent().removeClass('has-error');
+			$(this).next().empty();
+		});
+		$("textarea").change(function() {
+			$(this).parent().parent().removeClass('has-error');
+			$(this).next().empty();
+		});
+		$("select").change(function() {
+			$(this).parent().parent().removeClass('has-error');
+			$(this).next().empty();
+		});
+	}
+
+	function status_surat_masuk_add_ajax() {
+		save_method_status_surat_masuk = 'add';
+		$('#formstatussuratmasuk')[0].reset(); // reset form on modals
+		$('.form-group').removeClass('has-error'); // clear error class
+		$('.help-block').empty(); // clear error string
+		$('#statussuratmasuk_modal_form').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Add Bidang Usaha'); // Set Title to Bootstrap modal title
+		$('#btnSavestatussuratmasuk').text('save'); //change button text
+		$('#btnSavestatussuratmasuk').attr('disabled', false); //set button enable 
+	}
+
+	function status_surat_masuk_edit_ajax(iddropdownstatussuratmasuk) {
+		save_method_status_surat_masuk = 'update';
+		$('#formstatussuratmasuk')[0].reset(); // reset form on modals
+		$('.form-group').removeClass('has-error'); // clear error class
+		$('.help-block').empty(); // clear error string
+		//Ajax Load data from ajax
+		$.ajax({
+			url: "ajax_edit_status_surat_masuk/" + iddropdownstatussuratmasuk,
+			type: "GET",
+			dataType: "JSON",
+			success: function(data) {
+
+				$('[name="iddropdownstatussuratmasuk"]').val(data.id_dropdown_statussuratmasuk);
+				$('[name="namadropdownstatussuratmasuk"]').val(data.nama_dropdown_statussuratmasuk);
+				//$('[name="dob"]').datepicker('update',data.dob);
+				$('#status_surat_masuk_modal_form').modal('show'); // show bootstrap modal when complete loaded
+				$('.modal-title').text('Edit Bidang Usaha'); // Set title to Bootstrap modal title
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error get data from ajax');
+			}
+		});
+	}
+
+	function status_surat_masuk_reload_table() {
+		table_status_surat_masuk.ajax.reload(null, false); //reload datatable ajax 
+	}
+
+	function status_surat_masuk_save() {
+		$('#btnSavestatussuratmasuk').text('saving...'); //change button text
+		$('#btnSavestatussuratmasuk').attr('disabled', true); //set button disable 
+		var url;
+
+		if (save_method_status_surat_masuk == 'add') {
+			url = "ajax_add_status_surat_masuk";
+		} else {
+			url = "ajax_update_status_surat_masuk";
+		}
+		var form = document.forms.namedItem('formdata');
+		var form_data = new FormData(form);
+
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: form_data,
+			dataType: "JSON",
+			contentType: false,
+			processData: false,
+			cache: false,
+			success: function(data) {
+
+				if (data.status) //if success close modal and reload ajax table
+				{
+					$('#btnSavestatussuratmasuk').text('save'); //change button text
+					$('#btnSavestatussuratmasuk').attr('disabled', false); //set button enable 
+					$('#status_surat_masuk_modal_form').modal('hide');
+					$('#formstatussuratmasuk')[0].reset();
+					status_surat_masuk_reload_table();
+				} else {
+					for (var i = 0; i < data.inputerror.length; i++) {
+						$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+						$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+					}
+					$('#btnSavestatussuratmasuk').text('save'); //change button text
+					$('#btnSavestatussuratmasuk').attr('disabled', false); //set button enable 
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error adding / update data');
+				$('#btnSavestatussuratmasuk').text('save'); //change button text
+				$('#btnSavestatussuratmasuk').attr('disabled', false); //set button enable 
+
+			}
+		});
+	}
+
+	function delete_status_surat_masuk(iddropdownstatussuratmasuk) {
+		if (confirm('Are you sure delete this data?')) {
+			// ajax delete data to database
+			$.ajax({
+				url: "ajax_delete_status_surat_masuk/" + iddropdownstatussuratmasuk,
+				type: "POST",
+				dataType: "JSON",
+				success: function(data) {
+					//if success reload ajax table
+					$('#status_surat_masuk_modal_form').modal('hide');
+					status_surat_masuk_reload_table();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					alert('Error deleting data');

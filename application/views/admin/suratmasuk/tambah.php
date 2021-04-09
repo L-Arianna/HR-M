@@ -1,8 +1,11 @@
 <div class="page-wrapper">
     <div class="page-content">
+
+        <?php
+        date_default_timezone_set('Asia/Jakarta'); ?>
         <form action="" id="formsuratmasuk" name="formdata" class="form-horizontal" enctype="multipart/form-data" method="POST">
             <div class="col-md-12">
-                <input type="hidden" value="" name="iddropdownproduk" />
+                <input type="hidden" value="" name="idsuratmasuk" />
                 <div class="form-group">
                     <label class="control-label col-md-6">Nomor Surat Masuk</label>
                     <div class="col-md-12">
@@ -13,7 +16,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-6">Surat Masuk Diterima</label>
                     <div class="col-md-12">
-                        <input name="diterimasuratmasuk" placeholder="Surat Masuk Diterima" class="form-control" type="text" value="sekarang" readonly>
+                        <input name="diterimasuratmasuk" placeholder="Surat Masuk Diterima" class="form-control" type="text" value="<?= date('d-M-Y h i s ') ?>" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -42,8 +45,12 @@
                     <label class="control-label col-md-6">Status Surat Masuk</label>
                     <div class="col-md-12">
                         <select class="form-control" name="statussuratmasuk">
-                            <option value="0">Rahasia</option>
-                            <option value="1">Tidak Rahasia</option>
+                            <option value="">Pilih</option>
+                            <?php foreach ($statussurat as $v) {
+                            ?>
+                                <option value="<?= $v->id_dropdown_statussuratmasuk; ?>"><?= $v->nama_dropdown_statussuratmasuk; ?></option>
+                            <?php
+                            } ?>
                         </select>
                         <span class="text-danger"></span>
                     </div>

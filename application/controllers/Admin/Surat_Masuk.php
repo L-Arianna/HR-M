@@ -8,7 +8,8 @@ class Surat_Masuk extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('Gudang');
+        $this->load->model('Kat_jabatan');
+        $this->load->model('Gudang');
     }
 
     public function index()
@@ -28,7 +29,9 @@ class Surat_Masuk extends CI_Controller
             'title' => 'Aplikasi',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/suratmasuk/tambah'
+            'content' => 'admin/suratmasuk/tambah',
+            'jabatan' => $this->Kat_jabatan->listing(),
+            'statussurat' => $this->Gudang->show_all_status_surat_masuk()
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }

@@ -352,7 +352,7 @@ class Gudang extends CI_Model
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
 
-                if (count($this->column_search_tipe_pekerjaan) - 1 == $i) //last loop
+                if (count($this->column_search_bidang_usaha) - 1 == $i) //last loop
                     $this->db->group_end(); //close bracket
             }
             $i++;
@@ -421,6 +421,109 @@ class Gudang extends CI_Model
     public function show_all_bidang_usaha()
     {
         return $this->db->from($this->jointablebidang_usaha())->get()->result();
+    }
+
+    //Model Bidang Usaha
+    var $table_status_surat_masuk = 'tbl_dropdown_statussuratmasuk';
+    var $column_order_status_surat_masuk = array('nama_dropdown_statussuratmasuk', null); //set column field database for datatable orderable
+    var $column_search_status_surat_masuk = array('nama_dropdown_statussuratmasuk'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_status_surat_masuk = array('id_dropdown_statussuratmasuk' => 'desc'); // default order 
+
+    function jointablestatus_surat_masuk()
+    {
+        $this->db->from($this->table_status_surat_masuk);
+    }
+
+    private function _get_datatables_query_status_surat_masuk()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointablestatus_surat_masuk();
+
+        $i = 0;
+
+        foreach ($this->column_search_status_surat_masuk as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_status_surat_masuk) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_status_surat_masuk[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_status_surat_masuk)) {
+            $order = $this->order_status_surat_masuk;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_status_surat_masuk()
+    {
+        $this->_get_datatables_query_status_surat_masuk();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_status_surat_masuk()
+    {
+        $this->_get_datatables_query_status_surat_masuk();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_status_surat_masuk()
+    {
+        $this->db->from($this->table_status_surat_masuk);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_status_surat_masuk($iddropdownstatussuratmasuk)
+    {
+        //$this->db->from($this->table);
+        $this->jointablestatus_surat_masuk();
+
+        $this->db->where('id_dropdown_statussuratmasuk', $iddropdownstatussuratmasuk);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
+    public function status_surat_masuk_save($data)
+    {
+        $this->db->insert($this->table_status_surat_masuk, $data);
+        return $this->db->insert_id();
+    }
+
+    public function status_surat_masuk_update($where, $data)
+    {
+        $this->db->update($this->table_status_surat_masuk, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function status_surat_masuk_delete_by_id($iddropdownstatussuratmasuk)
+    {
+        $this->db->where('id_dropdown_statussuratmasuk', $iddropdownstatussuratmasuk);
+        $this->db->delete($this->table_status_surat_masuk);
+    }
+
+    public function show_all_status_surat_masuk()
+    {
+        return $this->db->from($this->jointablestatus_surat_masuk())->get()->result();
     }
 }
 
