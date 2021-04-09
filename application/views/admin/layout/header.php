@@ -15,6 +15,8 @@
 	<link href="<?= base_url() ?>assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/input-tags/css/tagsinput.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
 	<!-- date picker -->
 	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
