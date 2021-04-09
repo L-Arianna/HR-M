@@ -21,6 +21,7 @@
 	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/js/jquery-ui.min.css" /> <!-- Load file css jquery-ui -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<!-- loader-->
 	<link href="<?= base_url() ?>assets/css/pace.min.css" rel="stylesheet" />
 	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>
