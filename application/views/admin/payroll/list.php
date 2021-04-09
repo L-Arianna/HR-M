@@ -66,15 +66,7 @@
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>NIP</th>
-								<th>Nama Pegawai</th>
-								<th>Jabatan</th>
-								<th>Grade</th>
 								<th>Tanggal</th>
-								<th>Status</th>
-								<th>Action</th>
-								<!-- <th>Tanggal</th>
-								<th>Kode Transaksi</th> -->
 							</tr>
 						</thead>
 						<tbody>
@@ -85,37 +77,9 @@
 									$tgl = date('d-m-Y', strtotime($gaji->tgl));  ?>
 									<tr>
 										<td><?= $i ?></td>
-										<td><?= $gaji->nip ?></td>
-										<td><?= $gaji->nama_pegawai ?></td>
-										<td><?= $gaji->nama_jabatan ?></td>
-										<td><?= $gaji->nama_grade ?></td>
+
 										<td><?= $tgl ?></td>
-										<form action="<?= base_url('admin/payroll/bayar/' . $gaji->id_gaji) ?>" method="post">
-											<td>
-												<?php if ($gaji->gaji_net == 0) {
-													echo '<span class="badge rounded-pill bg-warning text-dark">Tidak ada nominal gaji</span>';
-												} else { ?>
-													<select name="status" class="form-control">
-														<option value=""><?= $gaji->status ?></option>
-														<option value="bayar">bayar</option>
-														<?php if ($gaji->status == 'bayar') { ?>
-															<option disabled="disabled" value="belum bayar">belum bayar</option>
-														<?php } elseif ($gaji->status == 'belum bayar') { ?>
-															<option value="bayar">bayar</option>
-														<?php } ?>
-													</select>
-												<?php } ?>
-											</td>
-											<td>
-												<?php if ($gaji->status == 'belum bayar') { ?>
-													<button name="submit" type="submit" class="btn btn-primary btn-sm"><i class="bx bx-save"></i></button>
-												<?php  } elseif ($gaji->status == 'bayar') { ?>
-													<span class="badge rounded-pill bg-success text-white">Sudah terbayar</span>
-												<?php } elseif ($gaji->gaji_net == 0) { ?>
-													<span class="badge rounded-pill bg-danger text-white">silahkan input nominal gaji</span>
-												<?php } ?>
-											</td>
-										</form>
+
 									</tr>
 							<?php $i++;
 								}

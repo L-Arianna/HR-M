@@ -13,6 +13,7 @@ class Gaji extends CI_Controller
         $this->load->model('Kat_jabatan');
         $this->load->model('Kat_golongan');
         $this->load->model('Kat_pend');
+        $this->load->model('Slip_gaji');
     }
 
     public function index()
@@ -29,11 +30,13 @@ class Gaji extends CI_Controller
         $this->load->view('admin/layout/wrapper', $data);
     }
 
+
     public function tambah($id_gaji)
     {
 
         $gaji = $this->Gaji_model->detail($id_gaji);
 
+        $this->form_validation->set_rules('tgl', 'tanggal gaji pegawai', 'trim|required|is_unique[tb_slip.tgl]');
         $this->form_validation->set_rules('makan', 'Tunjangan Makan', 'trim|required|numeric');
         $this->form_validation->set_rules('kesehatan_k', 'Kesehatan Pegawai', 'trim|required|numeric');
         $this->form_validation->set_rules('pulsa', 'Tunjangan Pulsa', 'trim|required|numeric');
@@ -45,10 +48,9 @@ class Gaji extends CI_Controller
         $this->form_validation->set_rules('gaji_net', 'Jumlah Gaji Bersih', 'trim|required|numeric');
         $this->form_validation->set_rules('gaji_kotor', 'Jumlah Gaji Kotor', 'trim|required|numeric');
 
-
         if ($this->form_validation->run() ==  FALSE) {
             $data = [
-                'title' => 'Tambah data gaji',
+                'title' => 'Tambah slip gaji',
                 'gaji' => $gaji,
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
@@ -56,8 +58,15 @@ class Gaji extends CI_Controller
             ];
             $this->load->view('admin/layout/wrapper', $data);
         } else {
+
             $data = [
                 'id_gaji' => $id_gaji,
+                'nip' => $this->input->post('nip'),
+                'id_kat_jabatan' => $this->input->post('id_kat_jabatan'),
+                'id_grade' => $this->input->post('id_grade'),
+                'id_kat_golongan' => $this->input->post('id_kat_golongan'),
+                'id_pendidikan' => $this->input->post('id_pendidikan'),
+                'tgl' => $this->input->post('tgl'),
                 'makan' => $this->input->post('makan'),
                 'pulsa' => $this->input->post('pulsa'),
                 'transport' => $this->input->post('transport'),
@@ -66,10 +75,9 @@ class Gaji extends CI_Controller
                 'tunj_lainnya' => $this->input->post('tunj_lainnya'),
                 'jml_potongan' => $this->input->post('jml_potongan'),
                 'gaji_kotor' => $this->input->post('gaji_kotor'),
-                'gaji_net' => $this->input->post('gaji_net'),
-                'status' => 'belum dibayar'
+                'gaji_net' => $this->input->post('gaji_net')
             ];
-            $this->Gaji_model->edit($data);
+            $this->Slip_gaji->tambah($data);
             $this->session->set_flashdata(
                 'sukses',
                 '<div class="alert alert-success" role="alert">Berhasil menambahkan gaji </div>'
@@ -108,6 +116,11 @@ class Gaji extends CI_Controller
         } else {
             $data = [
                 'id_gaji' => $id_gaji,
+                'nip' => $this->input->post('nip'),
+                'id_kat_jabatan' => $this->input->post('id_kat_jabatan'),
+                'id_grade' => $this->input->post('id_grade'),
+                'id_kat_golongan' => $this->input->post('id_kat_golongan'),
+                'id_pendidikan' => $this->input->post('id_pendidikan'),
                 'makan' => $this->input->post('makan'),
                 'pulsa' => $this->input->post('pulsa'),
                 'transport' => $this->input->post('transport'),

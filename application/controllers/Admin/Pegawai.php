@@ -98,8 +98,6 @@ class Pegawai extends CI_Controller
                     'id_grade' => $this->input->post('id_grade'),
                     'id_kat_golongan' => $this->input->post('id_kat_golongan'),
                     'id_pendidikan' => $this->input->post('id_pendidikan'),
-                    'status' => 'belum di bayar'
-
                 ];
                 $id = $this->Pegawai_model->tambah_gaji($data2);
 
