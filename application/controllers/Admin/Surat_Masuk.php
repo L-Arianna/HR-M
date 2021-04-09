@@ -21,6 +21,17 @@ class Surat_Masuk extends CI_Controller
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
+
+    function tambah()
+    {
+        $data = [
+            'title' => 'Aplikasi',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/suratmasuk/tambah'
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
 }
 
 /* End of file Surat_Masuk.php */
