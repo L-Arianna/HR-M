@@ -124,7 +124,7 @@
 			</li>
 			<li> <a href="<?= base_url(); ?>Gudang/Produk/bidang_usaha"><i class="bx bx-right-arrow-alt"></i>Manage Bidang Usaha</a>
 			</li>
-			<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Data LPJ Kios</a>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/status_surat_masuk"><i class="bx bx-right-arrow-alt"></i>Manage Status Surat Masuk</a>
 			</li>
 			<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Data LPJ Tanah Kosong</a>
 			</li>
