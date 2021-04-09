@@ -27,6 +27,16 @@ class Gaji_model extends CI_Model
         return $query->result();
     }
 
+    public function jumlahkategori()
+    {
+        $query = $this->db->get('tb_gaji');
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();
+        } else {
+            return 0;
+        }
+    }
+
     public function viewByGaji($id_gaji)
     {
         $this->db->where('id_gaji', $id_gaji);

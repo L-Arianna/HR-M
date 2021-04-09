@@ -23,7 +23,7 @@ class Payroll extends CI_Controller
 
 				$ket = 'Data Pembayaran Gaji Tanggal ' . date('d-m-y', strtotime($tgl));
 				$url_cetak = 'Admin/Payroll/filter=1&tanggal=' . $tgl;
-				$gaji = $this->Slip_gaji->view_by_date($tgl); // Panggil fungsi view_by_date yang ada di Slip_gaji
+				$gaji = $this->Gaji_model->view_by_date($tgl); // Panggil fungsi view_by_date yang ada di Gaji_model
 			} else if ($filter == '2') { // Jika filter nya 2 (per bulan)
 				$bulan = $_GET['bulan'];
 				$tahun = $_GET['tahun'];
@@ -31,29 +31,31 @@ class Payroll extends CI_Controller
 
 				$ket = 'Data Pembayaran Gaji Bulan ' . $nama_bulan[$bulan] . ' ' . $tahun;
 				$url_cetak = 'Admin/Payroll/filter=2&bulan=' . $bulan . '&tahun=' . $tahun;
-				$gaji = $this->Slip_gaji->view_by_month($bulan, $tahun); // Panggil fungsi view_by_month yang ada di Slip_gaji
+				$gaji = $this->Gaji_model->view_by_month($bulan, $tahun); // Panggil fungsi view_by_month yang ada di Gaji_model
+
 			} else { // Jika filter nya 3 (per tahun)
 				$tahun = $_GET['tahun'];
 
 				$ket = 'Data Pembayaran Gaji Tahun ' . $tahun;
 				$url_cetak = 'Admin/Payroll/filter=3&tahun=' . $tahun;
-				$gaji = $this->Slip_gaji->view_by_year($tahun); // Panggil fungsi view_by_year yang ada di Slip_gaji
+				$gaji = $this->Gaji_model->view_by_year($tahun); // Panggil fungsi view_by_year yang ada di Gaji_model
 			}
 		} else { // Jika user tidak mengklik tombol tampilkan
 			$ket = 'Semua Data Pembayaran Gaji';
 			$url_cetak = 'Admin/Payroll/cetak';
-			$gaji = $this->Slip_gaji->listing(); // Panggil fungsi view_all yang ada di Slip_gaji
+			$gaji = $this->Gaji_model->listing(); // Panggil fungsi view_all yang ada di Gaji_model
+
 		}
 
-		$option_tahun = $this->Slip_gaji->option_tahun();
+		$option_tahun = $this->Gaji_model->option_tahun();
 
 		$data = [
 			'title' => 'Pembayaran gaji',
 			'user' =>  $this->db->get_where('tb_user', ['username' =>
 			$this->session->userdata('username')])->row_array(),
 			'gaji' => $gaji,
-			'ket' => $ket,
 			'option_tahun' => $option_tahun,
+			'ket' => $ket,
 			'url_cetak' => $url_cetak,
 			'content' => 'admin/payroll/list'
 		];

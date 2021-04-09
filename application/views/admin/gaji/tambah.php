@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label">Masukan tanggal gaji pegawai</label>
-                                <input class="result form-control" name="tgl" type="text" id="date-time" placeholder="Tanggal">
+                                <input class="result form-control" name="tgl" type="text" id="date" placeholder="Tanggal">
                                 <?= form_error('tgl', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>

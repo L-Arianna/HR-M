@@ -18,14 +18,16 @@ class Gaji extends CI_Controller
 
     public function index()
     {
-
         $gaji = $this->Gaji_model->listing();
+        $tot = $this->Gaji_model->jumlahkategori();
         $data = [
             'title' => 'Data gaji pegawai',
             'content' => 'admin/gaji/list',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
-            'gaji' => $gaji
+            'gaji' => $gaji,
+            'tot' => $tot,
+            // 'bulan' => $bulan,'tahun' => $tahun
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -77,7 +79,8 @@ class Gaji extends CI_Controller
                 'gaji_kotor' => $this->input->post('gaji_kotor'),
                 'gaji_net' => $this->input->post('gaji_net')
             ];
-            $this->Slip_gaji->tambah($data);
+            // $this->Slip_gaji->tambah($data);
+            $this->Gaji_model->edit($data);
             $this->session->set_flashdata(
                 'sukses',
                 '<div class="alert alert-success" role="alert">Berhasil menambahkan gaji </div>'
