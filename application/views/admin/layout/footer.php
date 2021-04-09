@@ -19,6 +19,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
 <script src="<?= base_url() ?>assets/js/table-datatable.js"></script>
+<script src="<?= base_url() ?>assets/plugins/input-tags/js/tagsinput.js"></script>
 <!-- date picker -->
 <script src="<?= base_url() ?>assets/plugins/datetimepicker/js/legacy.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datetimepicker/js/picker.js"></script>
@@ -101,6 +102,18 @@
 		})
 	})
 	// end fungsi filter
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Selector input yang akan menampilkan autocomplete.
+		$("#kepadasuratmasuk").autocomplete({
+			serviceUrl: "<?= base_url(); ?>Admin/Surat_Masuk/autocomplete", // Kode php untuk prosesing data.
+			dataType: "JSON", // Tipe data JSON.
+			onSelect: function(suggestion) {
+				$("#buah").val("" + suggestion.buah);
+			}
+		});
+	})
 </script>
 </body>
 
