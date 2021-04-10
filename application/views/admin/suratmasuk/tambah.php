@@ -23,14 +23,22 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleDataList" class="form-label">Pengirim Surat</label>
-                            <input class="form-control" name="kepadasuratmasuk" placeholder="Pengirim Surat">
-                            <?= form_error('kepadasuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
+                            <input class="form-control" name="pengirimsuratmasuk" placeholder="Pengirim Surat">
+                            <?= form_error('pengirimsuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Deposisi Surat Masuk</label>
                             <div class="col-md-12">
                                 <input name="deposisisuratmasuk" placeholder="Deposisi Surat Masuk" class="form-control" type="text">
                                 <?= form_error('deposisisuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-6">Kepada</label>
+                            <div class="col-md-12">
+                                <input name="kepadasuratmasuk" placeholder="Kepada" class="form-control" type="text">
+                                <?= form_error('kepadasuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -43,14 +51,22 @@
                         <div class="form-group">
                             <label class="control-label">Tembusan</label>
                             <div class="col-md-12">
-                                <select id="multiselect" name="tembusan[]" class="multiple-select form-control" multiple="multiple">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                </select>
+                                <div class="row">
+                                    <?php foreach ($jabatan as $value) {
+                                    ?>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-3">
+                                                <!--<input class="form-check-input" type="checkbox" value=""><?//= $value->nama_jabatan; ?></input>-->
+                                                <div class="input-group-text">
+                                                    <input class="form-check-input" name="tembusan[]" type="checkbox" value="<?= $value->nama_jabatan; ?>" aria-label="Checkbox for following text input">
+                                                </div>
+                                                <input type="text" class="form-control" aria-label="Text input with checkbox" value="<?= $value->nama_jabatan; ?>" readonly>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    } ?>
+                                </div>
+
                             </div>
                         </div>
                         <div class="form-group">

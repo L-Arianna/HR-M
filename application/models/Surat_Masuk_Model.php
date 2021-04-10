@@ -16,10 +16,21 @@ class Surat_Masuk_Model extends CI_Model
     {
         //$this->db->select('*');
         $this->db->from($this->table);
+        $this->db->join('tbl_dropdown_statussuratmasuk', 'tbl_dropdown_statussuratmasuk.id_dropdown_statussuratmasuk = tbl_surat_masuk.status_surat_masuk');
         $query = $this->db->get();
         return $query->result();
     }
 
+    public function tambah($data)
+    {
+        $this->db->insert($this->table, $data);
+    }
+
+    function count_all()
+    {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
     /*
     public function detail($nip)
     {
@@ -37,10 +48,7 @@ class Surat_Masuk_Model extends CI_Model
 
 
 
-    public function tambah($data)
-    {
-        $this->db->insert('dat_pegawai', $data);
-    }
+    
 
     // INSERT TO TABLE USER
     public function tambah_user($data1)
