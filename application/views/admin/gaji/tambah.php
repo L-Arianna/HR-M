@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="<?= base_url('admin/gaji/tambah/' . $gaji->id_gaji) ?>" method="post">
+                    <form class="row g-3" action="<?= base_url('admin/gaji/tambah/' . $pegawai->nip) ?>" method="post">
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label">Masukan tanggal gaji pegawai</label>
@@ -18,44 +18,44 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="form-control">Nama Pegawai</label>
-                                <input type="text" name="nama_pegawai" class="form-control" value="<?= $gaji->nama_pegawai ?>" readonly>
+                                <input type="text" name="nama_pegawai" class="form-control" value="<?= $pegawai->nama_pegawai ?>" readonly>
                             </div>
                             <div class="col-md-4">
                                 <label for="form-control">NIP Pegawai</label>
-                                <input type="text" name="nip" class="form-control" value="<?= $gaji->nip ?>" readonly>
+                                <input type="text" name="nip" class="form-control" value="<?= $pegawai->nip ?>" readonly>
                             </div>
                         </div>
                         <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="hidden" name="id_kat_jabatan" class="form-control" value="<?= $gaji->id_kat_jabatan ?>" readonly>
+                                <input type="hidden" name="id_kat_jabatan" class="form-control" value="<?= $pegawai->id_kat_jabatan ?>" readonly>
                             </div>
                             <div class="col-md-4">
-                                <input type="hidden" name="id_grade" class="form-control" value="<?= $gaji->id_grade ?>" readonly>
+                                <input type="hidden" name="id_grade" class="form-control" value="<?= $pegawai->id_grade ?>" readonly>
                             </div>
                             <div class="col-md-4">
-                                <input type="hidden" name="id_kat_golongan" class="form-control" value="<?= $gaji->id_kat_golongan ?>" readonly>
+                                <input type="hidden" name="id_kat_golongan" class="form-control" value="<?= $pegawai->id_kat_golongan ?>" readonly>
                             </div>
                             <div class="col-md-4">
-                                <input type="hidden" name="id_pendidikan" class="form-control" value="<?= $gaji->id_pendidikan ?>" readonly>
+                                <input type="hidden" name="id_pendidikan" class="form-control" value="<?= $pegawai->id_pendidikan ?>" readonly>
                             </div>
                         </div>
                         <div class="row mb-1">
                             <div class="col-md-4">
                                 <label for="form-control">Gaji Pokok Pegawai</label>
-                                <input type="text" name="gapok" id="gapok" class="form-control" value="<?= $gaji->gapok ?>" readonly onkeyup="sum();">
+                                <input type="text" name="gapok" id="gapok" class="form-control" value="<?= $pegawai->gapok ?>" readonly onkeyup="sum();">
                             </div>
                             <div class="col-md-4">
                                 <label for="form-control">Tunjangan Jabatan Pegawai</label>
-                                <input type="text" name="gaji_jabatan" id="gaji_jabatan" class="form-control" value="<?= $gaji->gaji_jabatan ?>" readonly onkeyup="sum();">
+                                <input type="text" name="gaji_jabatan" id="gaji_jabatan" class="form-control" value="<?= $pegawai->gaji_jabatan ?>" readonly onkeyup="sum();">
                             </div>
                             <div class="col-md-4">
                                 <label for="form-control">Gaji Golongan Pegawai</label>
-                                <input type="text" name="gaji_gol" id="gaji_gol" class="form-control" value="<?= $gaji->gaji_gol ?>" readonly onkeyup="sum();">
+                                <input type="text" name="gaji_gol" id="gaji_gol" class="form-control" value="<?= $pegawai->gaji_gol ?>" readonly onkeyup="sum();">
                             </div>
                             <div class="col-md-4">
                                 <label for="form-control">Gaji Pendidikan</label>
-                                <input type="text" name="gaji_pend" id="gaji_pend" class="form-control" value="<?= $gaji->gaji_pend ?>" readonly onkeyup="sum();">
+                                <input type="text" name="gaji_pend" id="gaji_pend" class="form-control" value="<?= $pegawai->gaji_pend ?>" readonly onkeyup="sum();">
                             </div>
                         </div>
                         <hr>

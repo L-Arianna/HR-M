@@ -19,7 +19,13 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
+    public function view_by_month($month, $year)
+    {
+        $this->db->where('MONTH(tgl)', $month); // Tambahkan where bulan
+        $this->db->where('YEAR(tgl)', $year); // Tambahkan where tahun
 
+        return $this->db->get('dat_pegawai')->result(); // Tampilkan data tb_gaji sesuai bulan dan tahun yang diinput oleh user pada filter
+    }
 
 
     public function detail($nip)
@@ -31,6 +37,20 @@ class Pegawai_model extends CI_Model
         $this->db->join('tb_grade', 'tb_grade.id_grade = dat_pegawai.id_grade', 'left');
         $this->db->join('tb_pendidikan', 'tb_pendidikan.id_pendidikan = dat_pegawai.id_pendidikan', 'left');
         $this->db->where('nip', $nip);
+        $this->db->order_by('nip', 'asc');
+        $query = $this->db->get();
+        return $query->row();
+    }
+    public function slip($nip)
+    {
+        $this->db->select('dat_pegawai.*, tb_kat_jabatan.*, tb_kat_golongan.* , tb_grade.*, tb_pendidikan.*');
+        $this->db->from('dat_pegawai');
+        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = dat_pegawai.id_kat_jabatan', 'left');
+        $this->db->join('tb_kat_golongan', 'tb_kat_golongan.id_kat_golongan = dat_pegawai.id_kat_golongan', 'left');
+        $this->db->join('tb_grade', 'tb_grade.id_grade = dat_pegawai.id_grade', 'left');
+        $this->db->join('tb_pendidikan', 'tb_pendidikan.id_pendidikan = dat_pegawai.id_pendidikan', 'left');
+        $this->db->where('nip', $nip);
+
         $this->db->order_by('nip', 'asc');
         $query = $this->db->get();
         return $query->row();
