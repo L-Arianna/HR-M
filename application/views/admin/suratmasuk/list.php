@@ -12,12 +12,14 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nomor Surat</th>
+                                    <th>Pengirim Surat</th>
                                     <th>Surat Diterima</th>
                                     <th>Kepada</th>
                                     <th>Deposisi</th>
                                     <th>Ringkasan</th>
                                     <th>Status Surat</th>
                                     <th>Tembusan</th>
+                                    <th>File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -28,6 +30,7 @@
 
                                     <tr>
                                         <td><?= $no; ?></td>
+                                        <td><?= $value->nomor_surat_masuk; ?></td>
                                         <td><?= $value->pengirim_surat_masuk; ?></td>
                                         <td><?= $value->diterima_surat_masuk; ?></td>
                                         <td><?= $value->kepada_surat_masuk; ?></td>
@@ -35,8 +38,11 @@
                                         <td><?= $value->ringkasan_surat_masuk; ?></td>
                                         <td><?= $value->nama_dropdown_statussuratmasuk; ?></td>
                                         <td><?= $value->tembusan_surat_masuk; ?></td>
-                                        <td><a href="<?= base_url() ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
-                                            <a href="<?= base_url() ?>" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
+                                        <td><?= $value->file_surat_masuk; ?></td>
+                                        <td>
+                                            <a href="<?= base_url('Admin/Surat_Masuk/lihatsurat/' . $value->id_surat_masuk) ?>" target="_blank" class="btn btn-info btn-sm"><i class="bx bx-book-alt"></i></a>
+                                            <a href="<?= base_url('Admin/Surat_Masuk/edit/' . $value->id_surat_masuk) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
+                                            <a href="<?= base_url('Admin/Surat_Masuk/delete/' . $value->id_surat_masuk . '/' . $value->file_surat_masuk) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php $no++;

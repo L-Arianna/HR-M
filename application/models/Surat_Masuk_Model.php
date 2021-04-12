@@ -31,21 +31,29 @@ class Surat_Masuk_Model extends CI_Model
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
-    /*
-    public function detail($nip)
+
+    public function detail($idsuratmasuk)
     {
-        $this->db->select('dat_pegawai.*, tb_kat_jabatan.*, tb_kat_golongan.* , tb_grade.*, tb_pendidikan.*');
-        $this->db->from('dat_pegawai');
-        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = dat_pegawai.id_kat_jabatan', 'left');
-        $this->db->join('tb_kat_golongan', 'tb_kat_golongan.id_kat_golongan = dat_pegawai.id_kat_golongan', 'left');
-        $this->db->join('tb_grade', 'tb_grade.id_grade = dat_pegawai.id_grade', 'left');
-        $this->db->join('tb_pendidikan', 'tb_pendidikan.id_pendidikan = dat_pegawai.id_pendidikan', 'left');
-        $this->db->where('nip', $nip);
-        $this->db->order_by('nip', 'asc');
+        $this->db->from($this->table);
+        $this->db->where($this->primaryKey, $idsuratmasuk);
         $query = $this->db->get();
         return $query->row();
     }
 
+    function update($data, $where)
+    {
+        //$this->db->update($this->table, $data, $where);
+        //return $this->db->affected_rows();
+        $this->db->where($where);
+        $this->db->update($this->table, $data);
+    }
+
+    public function delete($data)
+    {
+        $this->db->where($this->primaryKey, $data['id_surat_masuk']);
+        $this->db->delete($this->table);
+    }
+    /*
 
 
     
