@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/header-colors.css" />
 	<!-- loader-->
 	<link href="<?= base_url() ?>assets/css/pace.min.css" rel="stylesheet" />
-	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>
+	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>>
 	<title>Human Resources Manager</title>
 </head>
 

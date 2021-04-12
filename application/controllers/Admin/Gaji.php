@@ -38,7 +38,7 @@ class Gaji extends CI_Controller
             $tahun           = date('Y');
         }
         $data = [
-            'title' => 'Data gaji pegawai',
+            'title' => 'Data slip gaji pegawai',
             'modal_title' => 'tambah slip gaji',
             'content' => 'admin/gaji/list',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
@@ -53,7 +53,7 @@ class Gaji extends CI_Controller
     public function tambah($nip)
     {
         $pegawai = $this->Pegawai_model->detail($nip);
-        $this->form_validation->set_rules('tgl', 'tanggal gaji pegawai', 'trim|required|is_unique[tb_slip.tgl]');
+        $this->form_validation->set_rules('tgl', 'tanggal gaji pegawai', 'trim|required');
         $this->form_validation->set_rules('makan', 'Tunjangan Makan', 'trim|required|numeric');
         $this->form_validation->set_rules('kesehatan_k', 'Kesehatan Pegawai', 'trim|required|numeric');
         $this->form_validation->set_rules('pulsa', 'Tunjangan Pulsa', 'trim|required|numeric');
@@ -68,7 +68,7 @@ class Gaji extends CI_Controller
         if ($this->form_validation->run() ==  FALSE) {
 
             $data = [
-                'title' => 'Tambah slip gaji',
+                'title' => 'Tambah slip gaji pegawai',
                 'pegawai' => $pegawai,
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
@@ -93,7 +93,8 @@ class Gaji extends CI_Controller
                 'tunj_lainnya' => $this->input->post('tunj_lainnya'),
                 'jml_potongan' => $this->input->post('jml_potongan'),
                 'gaji_kotor' => $this->input->post('gaji_kotor'),
-                'gaji_net' => $this->input->post('gaji_net')
+                'gaji_net' => $this->input->post('gaji_net'),
+                'status' => 'belum bayar'
             ];
             // $this->Slip_gaji->tambah($data);
             $this->Gaji_model->tambah($data);
@@ -181,7 +182,7 @@ class Gaji extends CI_Controller
         $gaji = $this->Gaji_model->detail($id_gaji);
         $data = [
             'gaji' => $gaji,
-            'title' => 'Detail data gaji',
+            'title' => 'Detail slip gaji',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/gaji/detail'

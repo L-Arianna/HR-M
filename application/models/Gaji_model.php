@@ -27,31 +27,6 @@ class Gaji_model extends CI_Model
         return $query->result();
     }
 
-    public function datacek($nip, $tahun, $bulan)
-    {
-
-        $this->db->select('*');
-        $this->db->from('tb_gaji');
-        $this->db->where('nip', $nip);
-        $this->db->where('tgl', $bulan);
-        $this->db->where('tgl', $tahun);
-        $this->db->group_by('tb_gaji.id_gaji');
-        $this->db->order_by('id_gaji', 'asc');
-        $query = $this->db->get();
-        // return $query->result();
-
-        return $query->num_rows();
-
-        // CEK 
-        if ($query > 0) {
-            return $query;
-        } else {
-            return FALSE;
-        }
-    }
-
-
-
     public function jumlahkategori()
     {
         $query = $this->db->get('tb_gaji');
@@ -69,19 +44,18 @@ class Gaji_model extends CI_Model
         return $result;
     }
 
-    public function detail($nip, $bulan, $tahun)
+    public function detail($id_gaji)
     {
 
-        $this->db->select('tb_gaji. *, tb_kat_jabatan. *, tb_kat_golongan.*, tb_pendidikan.*, tb_grade.*');
+        $this->db->select('tb_gaji. *, tb_kat_jabatan. *, tb_kat_golongan.*, tb_pendidikan.*, tb_grade.* , dat_pegawai.*');
         $this->db->from('tb_gaji');
         $this->db->join('tb_grade', 'tb_grade.id_grade = tb_gaji.id_grade', 'left');
         $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = tb_gaji.id_kat_jabatan', 'left');
         $this->db->join('tb_kat_golongan', 'tb_kat_golongan.id_kat_golongan = tb_gaji.id_kat_golongan', 'left');
         $this->db->join('tb_pendidikan', 'tb_pendidikan.id_pendidikan = tb_gaji.id_pendidikan', 'left');
+        $this->db->join('dat_pegawai', 'dat_pegawai.nip = tb_gaji.nip', 'left');
         $this->db->group_by('tb_gaji.id_gaji');
-        $this->db->where('nip', $nip);
-        $this->db->where('MONTH(tgl)', $bulan);
-        $this->db->where('YEAR(tgl)', $tahun);
+        $this->db->where('id_gaji', $id_gaji);
         $this->db->order_by('id_gaji', 'asc');
         $query = $this->db->get();
         return $query->row();

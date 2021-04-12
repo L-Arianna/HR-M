@@ -130,7 +130,7 @@
 									<td>
 										<?php
 
-										$sql = "SELECT * FROM `tb_gaji` WHERE `nip` = $pegawai->nip AND`gaji_net` AND MONTH(tgl) = $bulan AND year(tgl) = $tahun";
+										$sql = "SELECT * FROM `tb_gaji` WHERE `id_gaji` AND `nip` = $pegawai->nip AND`gaji_net` AND MONTH(tgl) = $bulan AND year(tgl) = $tahun";
 										$num_gaji = $this->db->query($sql)->num_rows();
 										$query = $this->db->query($sql)->row_array();
 
@@ -145,14 +145,14 @@
 										?>
 									</td>
 									<td>
-
 										<?php
+
 										if ($num_gaji < 1) { ?>
-											<a href="<?= base_url('admin/gaji/tambah/' . $pegawai->nip) ?>" class="btn btn-primary btn-sm"><i class="bx bx-plus"></i>
+											<a href="<?= base_url('admin/gaji/tambah/' . $pegawai->nip) ?>" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Tambah slip gaji"><i class="bx bx-plus"></i>
 											</a>
 										<?php
 										} else { ?>
-											<a href="<?= base_url('Admin/Gaji/detail/' . $pegawai->nip) ?>" class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail gaji"><i class="bx bx-info-square"></i></a>
+											<a href="<?= base_url('Admin/Gaji/detail/' .  $query['id_gaji']) ?>" class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail gaji"><i class="bx bx-info-square"></i></a>
 										<?php
 										}
 										?>

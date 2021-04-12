@@ -5,17 +5,16 @@
         <h6 class="mb-0 text-uppercase"><?= $title ?></h6>
         <hr />
         <div class="card">
+            <div class="card-header bg-primary">
+                <label for="form-control" class="d-flex justify-content-end text-white">Nama pegawai : <?= $gaji->nama_pegawai ?></label>
+            </div>
             <div class="card-body">
                 <div class="p-4 border rounded">
                     <form class="row g-3" action="<?= base_url('admin/gaji/detail/' . $gaji->id_gaji) ?>" method="post">
                         <div class="row">
-                            <div class="col-md-4">
-                                <label for="form-control">Nama Pegawai</label>
-                                <input type="text" name="nama_pegawai" class="form-control" value="<?= $gaji->nama_pegawai ?>" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="form-control">NIP Pegawai</label>
-                                <input type="text" name="nip" class="form-control" value="<?= $gaji->nip ?>" readonly>
+                            <div class="col-md-12">
+                                <h5 class="d-flex justify-content-start">Data Gaji Tanggal <?= $gaji->tgl ?> || Nip Pegawai :<?= $gaji->nip ?>
+                                </h5>
                             </div>
                         </div>
                         <hr style="height:2px;border-width:0;color:gray;background-color:gray">

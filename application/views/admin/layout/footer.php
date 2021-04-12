@@ -42,12 +42,27 @@
 
 
 
+
 <!-- Chained -->
 <script>
 	$(document).ready(function() {
 		$('.multiple-select2').select2();
 	});
+
+	// $('#exampleModal').on('show.bs.modal', function(event) {
+	// 	let bookId = $(event.relatedTarget).data('bookid')
+	// 	$(this).find('.modal-body input').val(bookId)
+	// })
+
+	$(function() {
+		$(".open-AddBookDialog").click(function() {
+			$('#id_gaji').val($(this).data('id'));
+			$('#nama_pegawai').val($(this).data('nama'));
+			$("#addBookDialog").modal("show");
+		});
+	});
 </script>
+
 <script>
 	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)
 		produk_ajax();
