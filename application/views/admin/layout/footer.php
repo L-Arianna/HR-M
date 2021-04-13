@@ -47,6 +47,9 @@
 <script>
 	$(document).ready(function() {
 		$('.multiple-select2').select2();
+		$('#date-time-2').bootstrapMaterialDatePicker({
+			format: 'YYYY-MM-DD HH:mm'
+		});
 	});
 
 	// $('#exampleModal').on('show.bs.modal', function(event) {

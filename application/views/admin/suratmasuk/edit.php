@@ -1,5 +1,6 @@
 <div class="page-wrapper">
     <div class="page-content">
+        <h3 class="mb-0 text-uppercase"><?= $title ?></h3>
         <div class="card">
             <div class="card-body">
                 <?php
@@ -49,40 +50,38 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Tembusan</label>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <?php foreach ($jabatan as $value) {
-                                    ?>
-                                        <div class="col-md-6">
-                                            <div class="input-group mb-3">
-                                                <!--<input class="form-check-input" type="checkbox" value=""><?//= $value->nama_jabatan; ?></input>-->
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input" name="tembusan[]" type="checkbox" value="<?= $value->nama_jabatan; ?>" aria-label="Checkbox for following text input">
-                                                </div>
-                                                <input type="text" class="form-control" aria-label="Text input with checkbox" value="<?= $value->nama_jabatan; ?>" readonly>
-                                            </div>
-                                        </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tembusan</label>
+                                <select id="multiple-select2" name="tembusan[]" class="multiple-select2 form-control" data-placeholder="Choose anything" multiple="multiple">
                                     <?php
-                                    } ?>
-                                    <!-- <?= form_error('tembusan', '<small class="text-danger pl-3">', '</small>'); ?> -->
-                                </div>
-
+                                    $o = 0;
+                                    $exp = explode(",", $surat_masuk->tembusan_surat_masuk);
+                                    $hitung = count($exp);
+                                    foreach ($jabatan as $value) {
+                                    ?>
+                                        <option value="<?= $value->id_kat_jabatan; ?>" <?php if (array_search($value->id_kat_jabatan, $exp) !== false) {
+                                                                                            echo 'selected';
+                                                                                        } ?>><?= $value->nama_jabatan; ?></option>
+                                    <?php
+                                    }
+                                    $o++; ?>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Status Surat Masuk</label>
                             <div class="col-md-12">
                                 <select class="form-control" name="statussuratmasuk" id="sss" required>
-                                    <?php
-                                    $x = $surat_masuk->status_surat_masuk;
-                                    foreach ($statussurat as $v) {
-                                        if ($x = $v->id_dropdown_statussuratmasuk) {
-                                            echo "<option value= $v->id_dropdown_statussuratmasuk>$v->nama_dropdown_statussuratmasuk</option>";
+                                    <?php foreach ($statussurat as $v) {
+                                        if ($surat_masuk->status_surat_masuk == $v->id_dropdown_statussuratmasuk) {
+                                            $select = "selected";
+                                        } else {
+                                            $select = "";
                                         }
+
+                                        echo "<option value=$v->id_dropdown_statussuratmasuk $select>$v->nama_dropdown_statussuratmasuk</option>";
+                                    }
                                     ?>
-                                    <?php
-                                    } ?>
                                 </select>
                                 <?= form_error('statussuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>

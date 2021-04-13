@@ -1,6 +1,7 @@
 <div class="page-wrapper">
     <div class="page-content">
         <div class="col">
+            <h3 class="mb-0 text-uppercase"><?= $title ?></h3>
             <!-- Button trigger modal -->
             <a type="button" class="btn btn-primary" href="<?= base_url(); ?>Admin/Surat_Masuk/tambah">Tambah Surat Masuk</a>
             </br></br>
@@ -26,6 +27,8 @@
                             <tbody>
                                 <?php $no = 1;
                                 foreach ($suratmasuk as $value) {
+                                    $exp = explode(",", $value->tembusan_surat_masuk);
+
                                 ?>
 
                                     <tr>
@@ -37,7 +40,11 @@
                                         <td><?= $value->deposisi_surat_masuk; ?></td>
                                         <td><?= $value->ringkasan_surat_masuk; ?></td>
                                         <td><?= $value->nama_dropdown_statussuratmasuk; ?></td>
-                                        <td><?= $value->tembusan_surat_masuk; ?></td>
+                                        <td><?php foreach ($y as $v) {
+                                                if (array_search($v->id_kat_jabatan, $exp) !== false) {
+                                                    echo "<span class='badge rounded-pill bg-warning text-dark'>" . "[" . $v->nama_jabatan . "] " . "</span";
+                                                }
+                                            } ?></td>
                                         <td><?= $value->file_surat_masuk; ?></td>
                                         <td>
                                             <a href="<?= base_url('Admin/Surat_Masuk/lihatsurat/' . $value->id_surat_masuk) ?>" target="_blank" class="btn btn-info btn-sm"><i class="bx bx-book-alt"></i></a>

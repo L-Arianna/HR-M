@@ -4,10 +4,23 @@
 	var table_produk;
 
 	function produk_ajax() {
-		datatable_pendidikan();
-		datatable_tipe_pendapatan();
-		datatable_bidang_usaha();
-		datatable_status_surat_masuk();
+		if($('#tableprodukdropdown').length){
+			datatable_produk();
+		} else if ($('#tablependidikandropdown').length) {
+			datatable_pendidikan();
+		} else if ($('#tabletipependapatandropdown').length) {
+			datatable_tipe_pendapatan();
+		} else if ($('#tablebidangusahadropdown').length) {
+			datatable_bidang_usaha();
+		} else if ($('#tablestatussuratmasukdropdown').length) {
+			datatable_status_surat_masuk();
+		} else {
+			
+		}
+	};
+
+	function datatable_produk()
+	{
 		//datatables Produk
 		table_produk = $('#tableprodukdropdown').DataTable({
 
@@ -42,9 +55,7 @@
 			$(this).parent().parent().removeClass('has-error');
 			$(this).next().empty();
 		});
-
-
-	};
+	}
 
 	function produk_add_ajax() {
 		save_method_produk = 'add';

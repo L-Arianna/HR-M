@@ -16,11 +16,12 @@ class Surat_Masuk extends CI_Controller
     public function index()
     {
         $data = [
-            'title' => 'Aplikasi',
+            'title' => 'Surat Masuk',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/suratmasuk/list',
-            'suratmasuk' => $this->Surat_Masuk_Model->listing()
+            'suratmasuk' => $this->Surat_Masuk_Model->listing(),
+            'y' => $this->Kat_jabatan->listing()
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -47,15 +48,15 @@ class Surat_Masuk extends CI_Controller
         $this->form_validation->set_rules('deposisisuratmasuk', 'Deposisi', 'trim|required');
         $this->form_validation->set_rules('ringkasansuratmasuk', 'Number', 'trim|required');
         $this->form_validation->set_rules('statussuratmasuk', 'Status', 'trim|required');
-        $this->form_validation->set_rules('tembusan', 'Tembusan', 'trim|required');
-        $this->form_validation->set_rules('filesuratmasuk', 'File', 'trim|required');
+        //$this->form_validation->set_rules('tembusan', 'Tembusan', 'trim|required');
+        //$this->form_validation->set_rules('filesuratmasuk', 'File', 'trim|required');
 
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE or empty($_FILES['filesuratmasuk']['name'])) {
             $data = [
                 'title' => 'Tambah Surat Masuk',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
-                'content' => 'admin/suratmasuk/tambah',
+                'content' => 'admin/suratmasuk/',
                 'jabatan' => $this->Kat_jabatan->listing(),
                 'statussurat' => $this->Gudang->show_all_status_surat_masuk()
             ];
@@ -248,7 +249,6 @@ class Surat_Masuk extends CI_Controller
             'title' => 'Lihat Surat PDF',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/suratmasuk/tambah',
             'surat_masuk' => $this->Surat_Masuk_Model->detail($idsuratmasuk),
             'content' => 'admin/suratmasuk/lihatsurat'
         ];
@@ -280,8 +280,21 @@ class Surat_Masuk extends CI_Controller
     }
     function tes()
     {
-        $x = $this->Surat_Masuk_Model->listing();
-        echo json_encode($x);
+        $awal  = date_create('2020-04-10');
+        $akhir = date_create(); // waktu sekarang
+        $diff  = date_diff($awal, $akhir);
+
+        echo 'Selisih waktu: ';
+        echo $diff->y . ' tahun, ';
+        echo $diff->m . ' bulan, ';
+        echo $diff->d . ' hari, ';
+        echo $diff->h . ' jam, ';
+        echo $diff->i . ' menit, ';
+        echo $diff->s . ' detik, ';
+        // Output: Selisih waktu: 28 tahun, 5 bulan, 9 hari, 13 jam, 7 menit, 7 detik
+
+        echo 'Total selisih hari : ' . $diff->days;
+        // Output: Total selisih hari: 10398
     }
 }
 
