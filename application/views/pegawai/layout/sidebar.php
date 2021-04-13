@@ -19,6 +19,13 @@
 				<div class="menu-title">Dashboard</div>
 			</a>
 		</li>
+		<li>
+			<a href="<?= base_url('pegawai/Cuti') ?>">
+				<div class="parent-icon"><i class='bx bx-home-circle'></i>
+				</div>
+				<div class="menu-title">Pengajuan Cuti</div>
+			</a>
+		</li>
 	</ul>
 	<!--end navigation-->
 </div>
