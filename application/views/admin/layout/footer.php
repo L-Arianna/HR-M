@@ -58,6 +58,10 @@
 		$(".open-AddBookDialog").click(function() {
 			$('#id_gaji').val($(this).data('id'));
 			$('#nama_pegawai').val($(this).data('nama'));
+			$('#nip').val($(this).data('nip'));
+			$('#nama_bank').val($(this).data('bank'));
+			$('#no_rek').val($(this).data('rek'));
+			$('#atas_nama').val($(this).data('an'));
 			$("#addBookDialog").modal("show");
 		});
 	});

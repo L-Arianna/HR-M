@@ -173,7 +173,7 @@
 											</div>
 										<?php
 										} else { ?>
-											<a data-id="<?= $query['id_gaji'] ?>" data-nama="<?= $pegawai->nama_pegawai ?>" title="Add this item" class="open-AddBookDialog btn btn-success btn-sm"><i class="bx bx-check"></i></a>
+											<a data-id="<?= $query['id_gaji'] ?>" data-nama="<?= $pegawai->nama_pegawai ?>" data-nip="<?= $pegawai->nip ?>" data-bank="<?= $pegawai->nama_bank ?>" data-an="<?= $pegawai->atas_nama ?>" data-rek="<?= $pegawai->no_rek ?>" title="Add this item" class="open-AddBookDialog btn btn-success btn-sm"><i class="bx bx-check"></i></a>
 										<?php } ?>
 									</td>
 								</tr>
@@ -188,28 +188,54 @@
 </div>
 
 
-
-
-<div id="addBookDialog" class="modal fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-lg" role="document">
+<!-- Modal -->
+<div class="modal fade" id="addBookDialog" tabindex="-1" aria-hidden="true" role="dialog">
+	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
-			<div class="modal-body">
-				<input type="hidden" name="id_gaji" id="id_gaji" value="" />
-				<div class="row">
-					<div class="col-md-3">
-						<input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" value="" />
+			<div class="modal-header">
+				<h5 class="modal-title">Selesaikan pembayaran gaji bulan ini</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="" method="post">
+				<div class="modal-body">
+					<div class="row mb-1">
+						<div class="col-md-3">
+							<label for="form-control">Nama Pegawai</label>
+							<input type="hidden" class="form-control" name="id_gaji" id="id_gaji" value="" />
+							<input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" value="" readonly />
+						</div>
+						<div class="col-md-3">
+							<label for="form-control">NIP Pegawai</label>
+							<input type="text" name="nip" class="form-control" id="nip" value="" readonly />
+						</div>
 					</div>
-					<div class="col-md-3">
-						<input type="text" name="atas_nama" class="form-control" id="atas_nama" value="" />
-					</div>
-					<div class="col-md-3">
-						<input type="text" name="no_rek" class="form-control" id="no_rek" value="" />
-					</div>
-					<div class="col-md-3">
-						<input type="text" name="status" class="form-control" id="status" value="" />
+					<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+					<div class="row mb-1">
+						<div class="col-md-3">
+							<label for="form-control">Nama bank</label>
+							<input type="text" name="nama_bank" class="form-control" id="nama_bank" value="" readonly />
+						</div>
+						<div class="col-md-3">
+							<label for="form-control">No Rekening</label>
+							<input type="text" name="no_rek" class="form-control" id="no_rek" value="" readonly />
+						</div>
+						<div class="col-md-3">
+							<label for="form-control">Atas Nama</label>
+							<input type="text" class="form-control" name="atas_nama" id="atas_nama" value="" readonly />
+						</div>
+						<div class="col-md-3">
+							<label for="form-control">Status Gaji</label>
+							<select name="status" class="form-control">
+								<option value="bayar">bayar</option>
+							</select>
+						</div>
 					</div>
 				</div>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
