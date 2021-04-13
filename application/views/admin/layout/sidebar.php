@@ -60,7 +60,7 @@
 				</li>
 				<li> <a href="form-input-group.html"><i class="bx bx-right-arrow-alt"></i>Data SP Pegawai</a>
 				</li>
-				<li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Data Cuti</a>
+				<li> <a href="<?= base_url('Admin/Cuti_d') ?>"><i class="bx bx-right-arrow-alt"></i>Data Cuti</a>
 				</li>
 				<li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Data Absen</a>
 				</li>

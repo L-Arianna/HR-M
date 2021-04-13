@@ -36,14 +36,10 @@
 						<div class="col-md-4" id="form-tahun">
 							<label for="form-control">Tahun</label>
 							<select class="form-control" name="tahun">
-								<option value="">Pilih</option>
-								<?php
-								$mulai = date('Y') - 6;
-								for ($i = $mulai; $i < $mulai + 100; $i++) {
-									$sel = $i == date('Y') ? ' selected = "selected"' : '';
-									echo '<option value="' . $i . '"' . $sel . '>' . $i . '</option>';
-								}
-								?>
+								<?php foreach ($option_tahun as $key) { ?>
+									<option value="">Pilih</option>
+									<option value="<?= $key->tahun ?>"><?= $key->tahun ?></option>
+								<?php } ?>
 							</select>
 						</div>
 					</div>
@@ -131,8 +127,9 @@
 									<td>
 										<?php
 
-										$sql = "SELECT * FROM `tb_gaji` WHERE `id_gaji` AND `nip` = $pegawai->nip AND`gaji_net` AND `status` = 'belum bayar' AND MONTH(tgl) = $bulan AND year(tgl) = $tahun";
+										$sql = "SELECT * FROM `tb_gaji` WHERE `id_gaji` AND `nip` = $pegawai->nip AND`gaji_net` AND MONTH(tgl) = $bulan AND year(tgl) = $tahun";
 										$num_gaji = $this->db->query($sql)->num_rows();
+										$start = $this->db->query($sql)->result_array();
 										$query = $this->db->query($sql)->row_array();
 
 										if ($num_gaji < 1) {
@@ -164,16 +161,15 @@
 										?>
 									</td>
 									<td>
-										<?php
-
-										if ($num_gaji < 1) {
-										?>
+										<?php if ($num_gaji < 1) { ?>
 											<div class="text-center">
 												<span class="badge rounded-pill bg-danger text-white">tidak ada nominal gaji</span>
 											</div>
 										<?php
-										} else { ?>
+										} elseif ($query['status'] == 'belum bayar') { ?>
 											<a data-id="<?= $query['id_gaji'] ?>" data-nama="<?= $pegawai->nama_pegawai ?>" data-nip="<?= $pegawai->nip ?>" data-bank="<?= $pegawai->nama_bank ?>" data-an="<?= $pegawai->atas_nama ?>" data-rek="<?= $pegawai->no_rek ?>" title="Add this item" class="open-AddBookDialog btn btn-success btn-sm"><i class="bx bx-check"></i></a>
+										<?php } else { ?>
+											<a href="<?= base_url('Admin/Payroll/detail/' . $query['id_gaji']) ?>" class="btn btn-primary btn-sm"><i class="bx bx-detail"></i></a>
 										<?php } ?>
 									</td>
 								</tr>
@@ -233,7 +229,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="submit" name="submit" class="btn btn-primary">Save changes</button>
 				</div>
 			</form>
 		</div>

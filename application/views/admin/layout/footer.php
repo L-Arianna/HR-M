@@ -65,6 +65,16 @@
 			$("#addBookDialog").modal("show");
 		});
 	});
+	$(function() {
+		$(".open-modalcuti").click(function() {
+			$('#id').val($(this).data('id'));
+			$('#nama_pegawai').val($(this).data('nama'));
+			$('#nip').val($(this).data('nip'));
+			$('#tgl_mulai').val($(this).data('tglmulai'));
+			$('#tgl_selesai').val($(this).data('tglselesai'));
+			$("#modalcuti").modal("show");
+		});
+	});
 </script>
 
 <script>
