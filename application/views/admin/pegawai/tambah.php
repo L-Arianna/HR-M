@@ -199,8 +199,9 @@
                                 <label for="form-control">Hak Akses</label>
                                 <select name="role_id" class="form-control">
                                     <option value="">pilih</option>
-                                    <option value="2">Admin</option>
-                                    <option value="3">pegawai</option>
+                                    <option value="1">pegawai A</option>
+                                    <option value="2">pegawai B</option>
+                                    <option value="3">pegawai C</option>
                                 </select>
                                 <?= form_error('role_id', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>

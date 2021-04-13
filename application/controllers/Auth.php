@@ -28,7 +28,7 @@ class Auth extends CI_Controller
 					$this->_login();
 				}
 			} elseif ($pegawai) {
-				if ($pegawai['role_id'] == 3) {
+				if ($pegawai['role_id'] == 1) {
 					$this->_login_pegawai();
 				}
 			}
@@ -93,7 +93,7 @@ class Auth extends CI_Controller
 						'role_id' => $user['role_id']
 					];
 					$this->session->set_userdata($data);
-					if ($user['role_id'] == 3) {
+					if ($user['role_id'] == 1) {
 						// print_r($this->session->userdata());
 						redirect('Pegawai/Dashboard');
 					}
