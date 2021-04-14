@@ -39,7 +39,7 @@
                                         <td><?= $value->kepada_surat_masuk; ?></td>
                                         <td><?= $value->deposisi_surat_masuk; ?></td>
                                         <td><?= $value->ringkasan_surat_masuk; ?></td>
-                                        <td><?= $value->nama_dropdown_statussuratmasuk; ?></td>
+                                        <td><?= $value->status_surat_masuk; ?></td>
                                         <td><?php foreach ($y as $v) {
                                                 if (array_search($v->id_kat_jabatan, $exp) !== false) {
                                                     echo "<span class='badge rounded-pill bg-warning text-dark'>" . "[" . $v->nama_jabatan . "] " . "</span";

@@ -71,18 +71,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Status Surat Masuk</label>
                             <div class="col-md-12">
-                                <select class="form-control" name="statussuratmasuk" id="sss" required>
-                                    <?php foreach ($statussurat as $v) {
-                                        if ($surat_masuk->status_surat_masuk == $v->id_dropdown_statussuratmasuk) {
-                                            $select = "selected";
-                                        } else {
-                                            $select = "";
-                                        }
-
-                                        echo "<option value=$v->id_dropdown_statussuratmasuk $select>$v->nama_dropdown_statussuratmasuk</option>";
-                                    }
-                                    ?>
-                                </select>
+                                <input name="statussuratmasuk" placeholder="Status Surat Masuk" class="form-control" type="text" value="<?= $surat_masuk->status_surat_masuk; ?>" />
                                 <?= form_error('statussuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>

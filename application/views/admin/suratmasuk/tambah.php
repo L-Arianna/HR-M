@@ -65,14 +65,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Status Surat Masuk</label>
                             <div class="col-md-12">
-                                <select class="form-control" name="statussuratmasuk">
-                                    <option value="">Pilih</option>
-                                    <?php foreach ($statussurat as $v) {
-                                    ?>
-                                        <option value="<?= $v->id_dropdown_statussuratmasuk; ?>"><?= $v->nama_dropdown_statussuratmasuk; ?></option>
-                                    <?php
-                                    } ?>
-                                </select>
+                                <input name="statussuratmasuk" placeholder="Status Surat Masuk" class="form-control" type="text">
                                 <?= form_error('statussuratmasuk', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>

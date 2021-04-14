@@ -124,8 +124,6 @@
 			</li>
 			<li> <a href="<?= base_url(); ?>Gudang/Produk/bidang_usaha"><i class="bx bx-right-arrow-alt"></i>Manage Bidang Usaha</a>
 			</li>
-			<li> <a href="<?= base_url(); ?>Gudang/Produk/status_surat_masuk"><i class="bx bx-right-arrow-alt"></i>Manage Status Surat Masuk</a>
-			</li>
 			<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Data LPJ Tanah Kosong</a>
 			</li>
 			<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Data LPJ Tanah & bangunan</a>
@@ -141,9 +139,31 @@
 	<li class="menu-label">Surat Masuk</li>
 	<li>
 		<a href="<?= base_url(); ?>Admin/Surat_Masuk">
-			<div class="parent-icon"><i class='bx bx-message-square-edit'></i>
+			<div class="parent-icon"><i class='fadeIn animated bx bx-mail-send'></i>
 			</div>
 			<div class="menu-title">Surat Masuk</div>
+		</a>
+	</li>
+	<li class="menu-label">Surat Keluar</li>
+	<li>
+		<a class="has-arrow" href="javascript:;">
+			<div class="parent-icon"><i class='fadeIn animated bx bx-mail-send'></i>
+			</div>
+			<div class="menu-title">Surat Keluar</div>
+		</a>
+		<ul>
+			<li> <a href="<?= base_url(); ?>Admin/Surat_Keluar"><i class="bx bx-right-arrow-alt"></i>Manage Surat Keluar</a>
+			</li>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/status_surat_masuk"><i class="bx bx-right-arrow-alt"></i>Manage Status Surat Keluar</a>
+			</li>
+		</ul>
+	</li>
+	<li class="menu-label">Buku Tamu</li>
+	<li>
+		<a href="<?= base_url(); ?>Admin/Buku_Tamu">
+			<div class="parent-icon"><i class='bx bx-message-square-edit'></i>
+			</div>
+			<div class="menu-title">Buku Tamu</div>
 		</a>
 	</li>
 	<!--end navigation-->

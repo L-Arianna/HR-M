@@ -33,8 +33,7 @@ class Surat_Masuk extends CI_Controller
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/suratmasuk/tambah',
-            'jabatan' => $this->Kat_jabatan->listing(),
-            'statussurat' => $this->Gudang->show_all_status_surat_masuk()
+            'jabatan' => $this->Kat_jabatan->listing()
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -56,9 +55,7 @@ class Surat_Masuk extends CI_Controller
                 'title' => 'Tambah Surat Masuk',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
-                'content' => 'admin/suratmasuk/',
-                'jabatan' => $this->Kat_jabatan->listing(),
-                'statussurat' => $this->Gudang->show_all_status_surat_masuk()
+                'content' => 'admin/suratmasuk/tambah'
             ];
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
@@ -131,10 +128,8 @@ class Surat_Masuk extends CI_Controller
             'title' => 'Edit Surat Masuk',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/suratmasuk/tambah',
-            'jabatan' => $this->Kat_jabatan->listing(),
-            'statussurat' => $this->Gudang->show_all_status_surat_masuk(),
             'surat_masuk' => $this->Surat_Masuk_Model->detail($idsuratmasuk),
+            'jabatan' => $this->Kat_jabatan->listing(),
             'content' => 'admin/suratmasuk/edit'
         ];
         $this->load->view('admin/layout/wrapper', $data);
@@ -158,9 +153,7 @@ class Surat_Masuk extends CI_Controller
                 'title' => 'Edit Surat Masuk',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
-                'content' => 'admin/suratmasuk/tambah',
                 'jabatan' => $this->Kat_jabatan->listing(),
-                'statussurat' => $this->Gudang->show_all_status_surat_masuk(),
                 'surat_masuk' => $this->Surat_Masuk_Model->detail($idsuratmasuk),
                 'content' => 'admin/suratmasuk/edit'
             ];
@@ -277,24 +270,6 @@ class Surat_Masuk extends CI_Controller
             unlink('assets/upload-pdf/' . $filesuratmasuk . '.pdf');
         }
         redirect('Admin/Surat_Masuk', 'refresh');
-    }
-    function tes()
-    {
-        $awal  = date_create('2020-04-10');
-        $akhir = date_create(); // waktu sekarang
-        $diff  = date_diff($awal, $akhir);
-
-        echo 'Selisih waktu: ';
-        echo $diff->y . ' tahun, ';
-        echo $diff->m . ' bulan, ';
-        echo $diff->d . ' hari, ';
-        echo $diff->h . ' jam, ';
-        echo $diff->i . ' menit, ';
-        echo $diff->s . ' detik, ';
-        // Output: Selisih waktu: 28 tahun, 5 bulan, 9 hari, 13 jam, 7 menit, 7 detik
-
-        echo 'Total selisih hari : ' . $diff->days;
-        // Output: Total selisih hari: 10398
     }
 }
 

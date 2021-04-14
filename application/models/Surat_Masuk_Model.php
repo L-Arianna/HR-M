@@ -16,7 +16,7 @@ class Surat_Masuk_Model extends CI_Model
     {
         //$this->db->select('*');
         $this->db->from($this->table);
-        $this->db->join('tbl_dropdown_statussuratmasuk', 'tbl_dropdown_statussuratmasuk.id_dropdown_statussuratmasuk = tbl_surat_masuk.status_surat_masuk');
+        //$this->db->join('tbl_dropdown_statussuratmasuk', 'tbl_dropdown_statussuratmasuk.id_dropdown_statussuratmasuk = tbl_surat_masuk.status_surat_masuk');
         $query = $this->db->get();
         return $query->result();
     }
