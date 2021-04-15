@@ -13,8 +13,14 @@
 	<link href="<?= base_url() ?>assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+	<link href="<?= base_url() ?>assets/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/input-tags/css/tagsinput.css" rel="stylesheet" />
+
+	<!-- loader-->
+	<link href="<?= base_url() ?>assets/css/pace.min.css" rel="stylesheet" />
+	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>>
 	<!-- date picker -->
 	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
 	<link href="<?= base_url() ?>assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
@@ -30,9 +36,7 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/dark-theme.css" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/semi-dark.css" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/header-colors.css" />
-	<!-- loader-->
-	<link href="<?= base_url() ?>assets/css/pace.min.css" rel="stylesheet" />
-	<script src="<?= base_url() ?>assets/js/pace.min.js"></script>>
+
 	<title>Human Resources Manager</title>
 </head>
 

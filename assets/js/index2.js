@@ -1,9 +1,10 @@
+
 $(function() {
 	"use strict";
 	var e = {
 		series: [{
-			name: "Sessions",
-			data: [14, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5]
+			name: "Contoh",
+			data: [14,3,10,9,29,19,22,9,12,7,19,5]
 		}],
 		chart: {
 			foreColor: "#9ba7b2",
@@ -32,7 +33,7 @@ $(function() {
 			categories: ["1/11/2000", "2/11/2000", "3/11/2000", "4/11/2000", "5/11/2000", "6/11/2000", "7/11/2000", "8/11/2000", "9/11/2000", "10/11/2000", "11/11/2000", "12/11/2000"]
 		},
 		title: {
-			text: "Sessions",
+			text: "Contoh2",
 			align: "left",
 			style: {
 				fontSize: "16px",
@@ -66,7 +67,7 @@ $(function() {
 		colors: ["#0d6efd"],
 		yaxis: {
 			title: {
-				text: "Sessions"
+				text: "Contoh3"
 			}
 		}
 	};
@@ -74,7 +75,7 @@ $(function() {
 	e = {
 		series: [{
 			name: "Total Users",
-			data: [240, 160, 671, 414, 555, 257, 901, 613, 727, 414, 555, 257]
+			data: [500, 160, 671, 414, 555, 257, 901, 613, 727, 414, 555, 257]
 		}],
 		chart: {
 			type: "bar",

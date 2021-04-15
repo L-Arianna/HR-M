@@ -29,6 +29,13 @@
 <script src="<?= base_url() ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js"></script>
 <script src="<?= base_url() ?>assets/js/form-date-time-pickes.js"></script>
 <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
+<!-- Vector map JavaScript -->
+<script src="<?= base_url() ?>assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- highcharts js -->
+<script src="<?= base_url() ?>assets/plugins/highcharts/js/highcharts.js"></script>
+<script src="<?= base_url() ?>assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/chartjs/js/Chart.min.js"></script>
 <!--app JS-->
 <script src="<?= base_url() ?>assets/js/app.js"></script>
 <script src="<?= base_url() ?>assets/js/penjumlahan.js"></script>

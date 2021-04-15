@@ -3,6 +3,36 @@
         <div class="col">
             <h3 class="mb-0 text-uppercase"><?= $title ?></h3>
             <?= $this->session->flashdata('sukses'); ?>
+            <input type="text" name="segitiga">
+            <div class="card shadow-none bg-transparent border-bottom border-2">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <h4 class="mb-3 mb-md-0">Audience Overview</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <form class="float-md-end">
+                                <div class="row row-cols-md-auto g-lg-3">
+                                    <label for="inputFromDate" class="col-md-2 col-form-label text-md-end">From Date</label>
+                                    <div class="col-md-4">
+                                        <input type="date" class="form-control" id="inputFromDate">
+                                    </div>
+                                    <label for="inputToDate" class="col-md-2 col-form-label text-md-end">To Date</label>
+                                    <div class="col-md-4">
+                                        <input type="date" class="form-control" id="inputToDate">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-none bg-transparent">
+                <div class="card-body">
+
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
             <!-- Button trigger modal -->
             <a type="button" class="btn btn-primary" href="<?= base_url(); ?>Admin/Buku_Tamu/tambah">Tambah Data Tamu</a>
             </br></br>
@@ -25,7 +55,7 @@
                                 <?php
                                 $no = 1;
                                 $start = date_create();
-                                //$r = date_format($start, '2021-04-13');
+                                //$r = date_format($start, '2021-04-14');
                                 $r = date_format($start, 'Y-m-d');
                                 $arr = array($r);
                                 foreach ($buku_tamu as $v) {

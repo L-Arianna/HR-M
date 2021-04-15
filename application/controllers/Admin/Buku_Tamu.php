@@ -15,14 +15,13 @@ class Buku_Tamu extends CI_Controller
     public function index()
     {
 
-        /*$start = date_create();
-        $r = date_format($start, 'Y-m-d');*/
         $data = [
             'title' => 'Buku Tamu',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/bukutamu/list',
-            'buku_tamu' => $this->Buku_Tamu_Model->hari_ini()
+            'buku_tamu' => $this->Buku_Tamu_Model->listing(),
+            'cart' => $this->Buku_Tamu_Model->tes()
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -187,14 +186,30 @@ class Buku_Tamu extends CI_Controller
     {
         $start = date_create();
         $r = date_format($start, 'Y-m-d');
-        $h = $this->Buku_Tamu_Model->hari_ini();
+        $h = $this->Buku_Tamu_Model->listing();
         $arr = array($r);
         //echo json_encode($h);
         foreach ($h as $value) {
             if (array_search($value->start, $arr) !== false) {
-                echo $value->nama_tamu;
+                echo json_encode($value->nama_tamu);
+                //echo count($jml);
             }
         }
+        //echo count($h);
+    }
+    function tes2()
+    {
+        $start = date_create();
+        $r = date_format($start, '2021-04-14');
+        $h = $this->Buku_Tamu_Model->tes();
+        $arr = array($r);
+        $arr2 = array();
+        echo json_encode($h);
+        /*foreach ($h as $value) {
+
+            $pecah = explode('-', $value->start);
+            echo $pecah[2] . '-' . $pecah[1] . '-' . $pecah[0] . ',';
+        }*/
     }
 }
 
