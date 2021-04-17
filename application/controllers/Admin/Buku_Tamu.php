@@ -14,14 +14,31 @@ class Buku_Tamu extends CI_Controller
 
     public function index()
     {
-
+        $start = date_create();
+        $b = date_format($start, 'Y-m-d');
+        $a = date('Y-m-d', strtotime('-1 week', strtotime($b)));
         $data = [
             'title' => 'Buku Tamu',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/bukutamu/list',
             'buku_tamu' => $this->Buku_Tamu_Model->listing(),
-            'cart' => $this->Buku_Tamu_Model->tes()
+            'cart' => $this->Buku_Tamu_Model->tes($a, $b)
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    public function cari()
+    {
+        $a = $this->input->post('tgl1');
+        $b = $this->input->post('tgl2');
+        $data = [
+            'title' => 'Buku Tamu',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/bukutamu/list',
+            'buku_tamu' => $this->Buku_Tamu_Model->listing(),
+            'cart' => $this->Buku_Tamu_Model->tes($a, $b)
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -200,16 +217,17 @@ class Buku_Tamu extends CI_Controller
     function tes2()
     {
         $start = date_create();
-        $r = date_format($start, '2021-04-14');
-        $h = $this->Buku_Tamu_Model->tes();
-        $arr = array($r);
-        $arr2 = array();
-        echo json_encode($h);
+        $r = date_format($start, 'Y-m-d');
+        //$a = '07-04-2021';
+        //$b = '20-04-2021';
+        //$h = $this->Buku_Tamu_Model->tes($a, $b);
+        //echo json_encode($h);
         /*foreach ($h as $value) {
 
             $pecah = explode('-', $value->start);
             echo $pecah[2] . '-' . $pecah[1] . '-' . $pecah[0] . ',';
         }*/
+        echo $minggu_lalu = date('Y-m-d', strtotime('-1 week', strtotime($r)));
     }
 }
 

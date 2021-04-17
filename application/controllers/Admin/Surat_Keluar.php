@@ -111,16 +111,8 @@ class Surat_Keluar extends CI_Controller
                 );
                 $insert = $this->Surat_Keluar_Model->tambah($data);
                 if ($insert) {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
-                    );
                     redirect('Admin/Surat_Keluar', 'refresh');
                 } else {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-warning" role="alert">Gagal menambahkan data </div>'
-                    );
                     redirect('Admin/Surat_Keluar', 'refresh');
                 }
             }
@@ -270,13 +262,42 @@ class Surat_Keluar extends CI_Controller
         $this->Surat_Keluar_Model->delete($data);
         $this->session->set_flashdata(
             'sukses',
-            '<div class="alert alert-danger" role="alert">Berhasil hapus Surat Masuk </div>'
+            '<div class="alert alert-danger" role="alert">Berhasil hapus Surat Keluar </div>'
         );
         if ($filesuratmasuk == '') {
         } else {
             unlink('assets/upload-pdf/' . $filesuratmasuk . '.pdf');
         }
-        redirect('Admin/Surat_Masuk', 'refresh');
+        redirect('Admin/Surat_Keluar', 'refresh');
+    }
+    function multidelete()
+    {
+        $ch = $this->input->post('idsurat');
+        //echo json_encode($ch);
+        if (empty($ch)) {
+            $this->session->set_flashdata(
+                'sukses',
+                '<div class="alert alert-danger" role="alert">Data Kosong</div>'
+            );
+            redirect('Admin/Surat_Keluar', 'refresh');
+        } else {
+            for ($i = 0; $i < count($ch); $i++) {
+                $y = $this->Surat_Keluar_Model->detail($ch[$i]);
+                //$filelama =  $y->file_surat_keluar . ".pdf";
+                $idsurat =  $y->id_surat_keluar;
+                $ul = unlink('assets/upload-pdf/' . $y->file_surat_keluar . ".pdf");
+                $data = [
+                    'id_surat_keluar' => $idsurat
+                ];
+                $del = $this->Surat_Keluar_Model->delete($data);
+            }
+            $this->session->set_flashdata(
+                'sukses',
+                '<div class="alert alert-success" role="alert">Berhasil hapus Surat Keluar </div>'
+            );
+            redirect('Admin/Surat_Keluar', 'refresh');
+            //unlink('assets/upload-pdf/' . $filelama);
+        }
     }
 }
 

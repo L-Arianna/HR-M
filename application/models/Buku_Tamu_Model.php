@@ -12,9 +12,13 @@ class Buku_Tamu_Model extends CI_Model
         $this->load->database();
     }
 
-    public function tes()
+    public function tes($a, $b)
     {
+        //$a = '07-04-2021';
+        //$b = '20-04-2021';
         $this->db->select('*,SUBSTRING(start_tamu, 1, 10) as start, count(nama_tamu)as jml');
+        $this->db->where('start_tamu BETWEEN "' . date('Y-m-d', strtotime($a)) . '" and "' . date('Y-m-d', strtotime($b)) . '"');
+
         $this->db->group_by('start');
         $this->db->from($this->table);
         $query = $this->db->get();

@@ -271,6 +271,25 @@ class Surat_Masuk extends CI_Controller
         }
         redirect('Admin/Surat_Masuk', 'refresh');
     }
+    function multidelete()
+    {
+        $ch = $this->input->post('idsurat');
+        //echo json_encode($ch);
+        for ($i = 0; $i < count($ch); $i++) {
+            $y = $this->Surat_Masuk_Model->detail($ch[$i]);
+            $idsurat =  $y->id_surat_masuk;
+            $ul = unlink('assets/upload-pdf/' . $y->file_surat_masuk . ".pdf");
+            $data = [
+                'id_surat_masuk' => $idsurat
+            ];
+            $del = $this->Surat_Masuk_Model->delete($data);
+        }
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-success" role="alert">Berhasil hapus Surat Keluar </div>'
+        );
+        redirect('Admin/Surat_Masuk', 'refresh');
+    }
 }
 
 /* End of file Surat_Masuk.php */

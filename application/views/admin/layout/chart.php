@@ -1,60 +1,77 @@
 <script type="text/javascript">
-    // chart 1
-    var ctx = document.getElementById('chart1').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-            datasets: [{
-                label: 'Google',
-                data: [6, 20, 14, 12, 17, 8, 10],
-                backgroundColor: "transparent",
-                borderColor: "#0d6efd",
-                pointRadius: "0",
-                borderWidth: 4
-            }, {
-                label: 'Facebookaa',
-                data: [5, 30, 16, 23, 8, 14, 11],
-                backgroundColor: "transparent",
-                borderColor: "#f41127",
-                pointRadius: "0",
-                borderWidth: 4
-            }]
+    var e = {
+        series: [{
+            name: "Contoh",
+            data: [<?php foreach ($cart as $value) {
+                        echo $value->jml . ",";
+                    } ?>]
+        }],
+        chart: {
+            foreColor: "#9ba7b2",
+            height: 310,
+            type: "area",
+            zoom: {
+                enabled: !1
+            },
+            toolbar: {
+                show: !0
+            },
+            dropShadow: {
+                enabled: !0,
+                top: 3,
+                left: 14,
+                blur: 4,
+                opacity: .1
+            }
         },
-        options: {
-            maintainAspectRatio: false,
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: '#585757',
-                    boxWidth: 40
-                }
-            },
-            tooltips: {
-                enabled: true
-            },
-            scales: {
-                xAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        fontColor: '#585757'
-                    },
-                    gridLines: {
-                        display: true,
-                        color: "rgba(0, 0, 0, 0.07)"
-                    },
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        fontColor: '#585757'
-                    },
-                    gridLines: {
-                        display: true,
-                        color: "rgba(0, 0, 0, 0.07)"
-                    },
-                }]
+        stroke: {
+            width: 5,
+            curve: "smooth"
+        },
+        xaxis: {
+            type: "datetime",
+            categories: [<?php foreach ($cart as $value) {
+                                echo '"' . $value->start . '"' . ',';
+                            } ?>]
+        },
+        title: {
+            text: "Contoh2",
+            align: "left",
+            style: {
+                fontSize: "16px",
+                color: "#666"
+            }
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "light",
+                gradientToColors: ["#0d6efd"],
+                shadeIntensity: 1,
+                type: "vertical",
+                opacityFrom: .7,
+                opacityTo: .2,
+                stops: [0, 100, 100, 100]
+            }
+        },
+        markers: {
+            size: 5,
+            colors: ["#0d6efd"],
+            strokeColors: "#fff",
+            strokeWidth: 2,
+            hover: {
+                size: 7
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        colors: ["#0d6efd"],
+        yaxis: {
+            title: {
+                text: "Contoh3"
             }
         }
-    });
+    };
+    new ApexCharts(document.querySelector("#chart1"), e).render();
 </script>
