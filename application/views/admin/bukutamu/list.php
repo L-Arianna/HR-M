@@ -20,8 +20,10 @@
                                     <div class="col-md-4">
                                         <input type="date" class="form-control" name="tgl2" id="inputToDate">
                                     </div>
+                                    <div class="col-md-4">
+                                        <button class="form-control btn btn-info" name="submit" type="submit">Cari</button>
+                                    </div>
                                 </div>
-                                <button name="submit" type="submit">Cari</button>
                             </form>
                         </div>
                     </div>

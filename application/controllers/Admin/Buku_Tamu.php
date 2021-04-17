@@ -25,6 +25,10 @@ class Buku_Tamu extends CI_Controller
             'buku_tamu' => $this->Buku_Tamu_Model->listing(),
             'cart' => $this->Buku_Tamu_Model->tes($a, $b)
         ];
+        $this->session->set_flashdata(
+            'sukses',
+            ''
+        );
         $this->load->view('admin/layout/wrapper', $data);
     }
 
@@ -32,15 +36,39 @@ class Buku_Tamu extends CI_Controller
     {
         $a = $this->input->post('tgl1');
         $b = $this->input->post('tgl2');
-        $data = [
-            'title' => 'Buku Tamu',
-            'user' =>  $this->db->get_where('tb_user', ['username' =>
-            $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/bukutamu/list',
-            'buku_tamu' => $this->Buku_Tamu_Model->listing(),
-            'cart' => $this->Buku_Tamu_Model->tes($a, $b)
-        ];
-        $this->load->view('admin/layout/wrapper', $data);
+        if (empty($a) || empty($b)) {
+            $start = date_create();
+            $b = date_format($start, 'Y-m-d');
+            $a = date('Y-m-d', strtotime('-1 week', strtotime($b)));
+            $data = [
+                'title' => 'Buku Tamu',
+                'user' =>  $this->db->get_where('tb_user', ['username' =>
+                $this->session->userdata('username')])->row_array(),
+                'content' => 'admin/bukutamu/list',
+                //'buku_tamu' => $this->Buku_Tamu_Model->listing(),
+                //'buku_tamu' => $this->Buku_Tamu_Model->tes($a, $b),
+                'cart' => $this->Buku_Tamu_Model->tes($a, $b)
+            ];
+            $this->session->set_flashdata(
+                'sukses',
+                '<div class="alert alert-warning" role="alert">Data Tanggal Kosong ?</div>'
+            );
+            $this->load->view('admin/layout/wrapper', $data);
+        } else {
+            $data = [
+                'title' => 'Buku Tamu',
+                'user' =>  $this->db->get_where('tb_user', ['username' =>
+                $this->session->userdata('username')])->row_array(),
+                'content' => 'admin/bukutamu/list',
+                'buku_tamu' => $this->Buku_Tamu_Model->listing(),
+                'cart' => $this->Buku_Tamu_Model->tes($a, $b)
+            ];
+            $this->session->set_flashdata(
+                'sukses',
+                ''
+            );
+            $this->load->view('admin/layout/wrapper', $data);
+        }
     }
 
     function tambah()
@@ -218,16 +246,16 @@ class Buku_Tamu extends CI_Controller
     {
         $start = date_create();
         $r = date_format($start, 'Y-m-d');
-        //$a = '07-04-2021';
-        //$b = '20-04-2021';
-        //$h = $this->Buku_Tamu_Model->tes($a, $b);
-        //echo json_encode($h);
+        $a = '13-04-2021';
+        $b = '16-04-2021';
+        $h = $this->Buku_Tamu_Model->tes($a, $b);
+        echo json_encode($h);
         /*foreach ($h as $value) {
 
             $pecah = explode('-', $value->start);
             echo $pecah[2] . '-' . $pecah[1] . '-' . $pecah[0] . ',';
         }*/
-        echo $minggu_lalu = date('Y-m-d', strtotime('-1 week', strtotime($r)));
+        //echo $minggu_lalu = date('Y-m-d', strtotime('-1 week', strtotime($r)));
     }
 }
 

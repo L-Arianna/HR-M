@@ -567,6 +567,113 @@ class Produk extends CI_Controller
     {
         echo json_encode($this->Gudang->show_all_bidang_usaha());
     }
+
+    public function kat_lib()
+    {
+        $data = [
+            'title' => 'Kategori E-Library',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/katelib'
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    public function ajax_list_kat_lib()
+    {
+        $list = $this->Gudang->get_datatables_kat_lib();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_kat_book;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="kat_lib_edit_ajax(' . "'" . $person->id_kat_book . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_kat_lib(' . "'" . $person->id_kat_book . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_kat_lib(),
+            "recordsFiltered" => $this->Gudang->count_filtered_kat_lib(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_kat_lib($idkatbook)
+    {
+        $data = $this->Gudang->get_by_id_kat_lib($idkatbook);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_kat_lib()
+    {
+        $this->_validate_kat_lib();
+
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namakatbook')));
+        $data = array(
+            'nama_kat_book' => $nama
+        );
+        $insert = $this->Gudang->kat_lib_save($data);
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_update_kat_lib()
+    {
+        $this->_validate_kat_lib();
+        $idpe = strip_tags(str_replace("'", "", $this->input->post('idkatbook')));
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namakatbook')));
+        $data = array(
+            'nama_kat_book' => $nama,
+        );
+        $update = $this->Gudang->kat_lib_update(array('id_kat_book' => $idpe), $data);
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_delete_kat_lib($idkatbook)
+    {
+        $this->Gudang->kat_lib_delete_by_id($idkatbook);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_kat_lib()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('namakatbook') == '') {
+            $data['inputerror'][] = 'namakatbook';
+            $data['error_string'][] = 'Nama Kategori Book is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_kat_book()
+    {
+        echo json_encode($this->Gudang->show_all_kat_book());
+    }
 }
 
 /* End of file Produk.php */

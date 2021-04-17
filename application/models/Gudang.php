@@ -525,6 +525,109 @@ class Gudang extends CI_Model
     {
         return $this->db->from($this->jointablestatus_surat_masuk())->get()->result();
     }
+
+    //Model Kat Library
+    var $table_kat_lib = 'tbl_kat_book';
+    var $column_order_kat_lib = array('nama_kat_book', null); //set column field database for datatable orderable
+    var $column_search_kat_lib = array('nama_kat_book'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_kat_lib = array('id_kat_book' => 'desc'); // default order 
+
+    function jointablekat_lib()
+    {
+        $this->db->from($this->table_kat_lib);
+    }
+
+    private function _get_datatables_query_kat_lib()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointablekat_lib();
+
+        $i = 0;
+
+        foreach ($this->column_search_kat_lib as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_kat_lib) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_kat_lib[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_kat_lib)) {
+            $order = $this->order_kat_lib;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_kat_lib()
+    {
+        $this->_get_datatables_query_kat_lib();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_kat_lib()
+    {
+        $this->_get_datatables_query_kat_lib();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_kat_lib()
+    {
+        $this->db->from($this->table_kat_lib);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_kat_lib($idkatbook)
+    {
+        //$this->db->from($this->table);
+        $this->jointablekat_lib();
+
+        $this->db->where('id_kat_book', $idkatbook);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
+    public function kat_lib_save($data)
+    {
+        $this->db->insert($this->table_kat_lib, $data);
+        return $this->db->insert_id();
+    }
+
+    public function kat_lib_update($where, $data)
+    {
+        $this->db->update($this->table_kat_lib, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function kat_lib_delete_by_id($idkatbook)
+    {
+        $this->db->where('id_kat_book', $idkatbook);
+        $this->db->delete($this->table_kat_lib);
+    }
+
+    public function show_all_kat_book()
+    {
+        return $this->db->from($this->jointablekat_lib())->get()->result();
+    }
 }
 
 /* End of file Gudang.php */
