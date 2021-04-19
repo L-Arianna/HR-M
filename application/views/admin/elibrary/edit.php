@@ -4,20 +4,20 @@
         <?= $this->session->flashdata('sukses'); ?>
         <div class="card">
             <div class="card-body">
-                <form action="<?= base_url(); ?>Admin/E_Library/add" id="formbook" name="formdata" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                <form action="<?= base_url(); ?>Admin/E_Library/update" id="formbook" name="formdata" class="form-horizontal" enctype="multipart/form-data" method="POST">
                     <div class="col-md-12">
-                        <input type="hidden" value="" name="idelib" />
+                        <input type="hidden" value="<?= $elib->id_book; ?>" name="idelib" />
                         <div class="form-group">
                             <label class="control-label col-md-6">Judul</label>
                             <div class="col-md-12">
-                                <input name="judulbook" placeholder="Judul E-Library" class="form-control" type="text"> </input>
+                                <input name="judulbook" placeholder="Judul E-Library" class="form-control" type="text" value="<?= $elib->judul_book; ?>"> </input>
                                 <?= form_error('judulbook', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Keterangan</label>
                             <div class="col-md-12">
-                                <textarea name="keteranganbook" placeholder="Keterangan E-Library" class="form-control" type="text"> </textarea>
+                                <textarea name="keteranganbook" placeholder="Keterangan E-Library" class="form-control" type="text"><?= $elib->keterangan_book; ?></textarea>
                                 <?= form_error('keteranganbook', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>
@@ -27,8 +27,14 @@
                                 <select class="form-control" name="kategori">
                                     <option value="">Pilih</option>
                                     <?php foreach ($katelib as $v) {
+                                        if ($v->id_kat_book == $elib->kategori_book) {
+                                            $select = 'selected';
+                                        } else {
+                                            $select = '';
+                                        }
+                                        echo "<option value=$v->id_kat_book $select> $v->nama_kat_book </option>";
                                     ?>
-                                        <option value="<?= $v->id_kat_book; ?>"><?= $v->nama_kat_book; ?></option>
+
                                     <?php
                                     } ?>
                                 </select>
@@ -38,14 +44,11 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Nama File E-Library</label>
                             <div class="col-md-12">
-                                <input name="filebook1" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook1', '<small class="text-danger pl-3">', '</small>'); ?>
-                                <input name="filebook2" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook2', '<small class="text-danger pl-3">', '</small>'); ?>
-                                <input name="filebook3" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook3', '<small class="text-danger pl-3">', '</small>'); ?>
+                                <input name="filebook" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                <?= form_error('filebook', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>
+                        <input name="filebooklama" class="form-control" type="hidden" value="<?= $elib->file_book; ?>">
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary">Reset</button>

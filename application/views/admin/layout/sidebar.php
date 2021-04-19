@@ -166,6 +166,22 @@
 			<div class="menu-title">Buku Tamu</div>
 		</a>
 	</li>
+	<li class="menu-label">E-Library</li>
+	<li>
+		<a class="has-arrow" href="javascript:;">
+			<div class="parent-icon"><i class='fadeIn animated bx bx-mail-send'></i>
+			</div>
+			<div class="menu-title">E-Library</div>
+		</a>
+		<ul>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/kat_lib"><i class="bx bx-right-arrow-alt"></i>Manage Kategori Library</a>
+			</li>
+			<li> <a href="<?= base_url(); ?>Admin/E_Library"><i class="bx bx-right-arrow-alt"></i>View E-Library</a>
+			</li>
+			<li> <a href="<?= base_url(); ?>Admin/E_Library/list_admin"><i class="bx bx-right-arrow-alt"></i>Manage E-Library</a>
+			</li>
+		</ul>
+	</li>
 	<!--end navigation-->
 </div>
 <!--end sidebar wrapper -->
