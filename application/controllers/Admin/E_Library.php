@@ -108,7 +108,7 @@ class E_Library extends CI_Controller
         $this->form_validation->set_rules('keteranganbook', 'Keterangan', 'trim|required');
         $this->form_validation->set_rules('kategori', 'Kategori', 'trim|required');
 
-        /*if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             $data = [
                 'title' => 'Tambah E-Library',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
@@ -122,14 +122,14 @@ class E_Library extends CI_Controller
             );
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
-        } else {*/
+        } else {
         $judul = htmlspecialchars($this->input->post('judulbook'));
         $keterangan = htmlspecialchars($this->input->post('keteranganbook'));
         $kategori = htmlspecialchars($this->input->post('kategori'));
         $file = $_FILES['filebook']['name'];
         $arr = array();
 
-        //echo count($file);
+        $data = [];
 
         $nama_file = "Lib__" . time();
         $config['upload_path']          = './assets/upload-pdf';
@@ -139,65 +139,50 @@ class E_Library extends CI_Controller
         $this->load->library('upload', $config);
         //Multi
         for ($i = 0; $i < count($file); $i++) {
-            if (!empty($_FILES['filebook']['size']['$i'])) {
-                if (!$this->upload->do_upload('filebook')) {
-                    $error = $this->upload->display_errors();
-                    echo $error;
-                } else {
-                    $pdf2 = $this->upload->data('file_name');
-                    echo $nama = $pdf2 . "/";
-                }
-            } else {
-                echo "kosong";
+            if (!empty($_FILES['filebook']['name'][$i])) {
+				$_FILES['file']['name'] = $_FILES['filebook']['name'][$i];
+				$_FILES['file']['type'] = $_FILES['filebook']['type'][$i];
+				$_FILES['file']['tmp_name'] = $_FILES['filebook']['tmp_name'][$i];
+				$_FILES['file']['error'] = $_FILES['filebook']['error'][$i];
+				$_FILES['file']['size'] = $_FILES['filebook']['size'][$i];
+				
+				$namafile = 'Lib__'.time();
+				$config['upload_path'] = './assets/upload-pdf/';
+				$config['allowed_types'] = 'pdf';
+				$config['file_name'] = $namafile;
+
+				if ($this->upload->do_upload('file')) {
+					$uploadData = $this->upload->data();
+					$filename = $uploadData['file_name'];
+
+					$data['totalFiles'][] = $filename;
+				}
             }
+			$name = $filename.'/';
+			$data = array(
+				'judul_book' => $judul,
+				'keterangan_book' => $keterangan,
+				'kategori_book' => $kategori,
+				'file_book' => $name
+			);
+			//echo json_encode($data);
+			$insert = $this->E_Lib_Model->tambah($data);
+			if ($insert) {
+				$this->session->set_flashdata(
+					'sukses',
+					'<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
+				);
+				redirect('Admin/E_Library/list_admin', 'refresh');
+			} else {
+				$this->session->set_flashdata(
+					'sukses',
+					'<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
+				);
+				redirect('Admin/E_Library/list_admin', 'refresh');
+		}
+	}
         }
-
-        //$nama = $pdf[$i] . '/' . $pdf[$i];
-        //echo $nama;
-
-        /*if (!$this->upload->do_upload('filebook1')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf1 = $this->upload->data('file_name');
-                if (!$this->upload->do_upload('filebook2')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf2 = $this->upload->data('file_name');
-                if (!$this->upload->do_upload('filebook3')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf3 = $this->upload->data('file_name');
-                $imp = $pdf1 . "/" . $pdf2 . "/" . $pdf3;
-                */
-        //$data = array('upload_data' => $this->upload->data());
-        //echo json_encode($imp);
-
-        /*$data = array(
-                    'judul_book' => $judul,
-                    'keterangan_book' => $keterangan,
-                    'kategori_book' => $kategori,
-                    'file_book' => $imp
-                );
-                //echo json_encode($data);
-                $insert = $this->E_Lib_Model->tambah($data);
-                if ($insert) {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
-                } else {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
-            }
-        }*/
-    }
+	}
 
     function edit()
     {
