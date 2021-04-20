@@ -9,12 +9,16 @@ class Cuti extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Cuti_model');
+		$this->load->model('Kat_cuti');
 	}
 
 	public function index()
 	{
+		$getall = $this->Cuti_model->getall();
+
 		$data = [
 			'title' => 'Daftar Pengajuan Cuti Pegawai',
+			'getall' => $getall,
 			'user' =>  $this->db->get_where('dat_pegawai', ['username' =>
 			$this->session->userdata('username')])->row_array(),
 			'content' => 'pegawai/cuti/list'
@@ -25,14 +29,56 @@ class Cuti extends CI_Controller
 	public function tambah()
 	{
 		$getapprove = $this->Cuti_model->getaprove();
-		$data = [
-			'title' => 'Tambah Pengajuan Cuti Pegawai',
-			'getapprove' => $getapprove,
-			'user' =>  $this->db->get_where('dat_pegawai', ['username' =>
-			$this->session->userdata('username')])->row_array(),
-			'content' => 'pegawai/cuti/tambah'
-		];
-		$this->load->view('pegawai/layout/wrapper', $data);
+		$getcuti = $this->Kat_cuti->listing();
+
+		$this->form_validation->set_rules('no_hp_darurat', 'Nomor HP Darurat', 'trim|required');
+		$this->form_validation->set_rules('alamat', 'Alamat Pegawai', 'trim|required');
+		$this->form_validation->set_rules('id_kat_cuti', 'Jenis Cuti', 'trim|required');
+		$this->form_validation->set_rules('tgl_mulai', 'Tanggal Mulai', 'trim|required');
+		$this->form_validation->set_rules('tgl_selesai', 'Tanggal Selesai', 'trim|required');
+		$this->form_validation->set_rules('keterangan', 'Keterangan Cuti', 'trim|required');
+		$this->form_validation->set_rules('id_user', 'Menyetujui', 'trim|required');
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$data = [
+				'title' => 'Tambah Pengajuan Cuti Pegawai',
+				'getapprove' => $getapprove,
+				'getcuti' => $getcuti,
+				'user' =>  $this->db->get_where('dat_pegawai', ['username' =>
+				$this->session->userdata('username')])->row_array(),
+				'content' => 'pegawai/cuti/tambah'
+			];
+			$this->load->view('pegawai/layout/wrapper', $data);
+		} else {
+
+			$data = [
+				'nip' => $this->input->post('nip'),
+				'no_hp_darurat' => $this->input->post('no_hp_darurat'),
+				'alamat' => $this->input->post('alamat'),
+				'id_kat_cuti' => $this->input->post('id_kat_cuti'),
+				'tgl_mulai' => $this->input->post('tgl_mulai'),
+				'tgl_selesai' => $this->input->post('tgl_selesai'),
+				'keterangan' => $this->input->post('keterangan'),
+			];
+			$id = $this->Cuti_model->tambah($data);
+			$data1 = [
+				'id_cuti' => $id,
+				'nip' => $this->input->post('nip'),
+				'id_kat_cuti' => $this->input->post('id_kat_cuti'),
+				'id_user' => $this->input->post('id_user'),
+				'status' => 'pending',
+				'tgl' => $this->input->post('tgl')
+
+			];
+			$id = $this->Cuti_model->tambah_detail($data1);
+			// var_dump($data1);
+			$this->session->set_flashdata(
+				'sukses',
+				'<div class="alert alert-success" role="alert">Berhasil Menambahkan Pengajuan Cuti </div>'
+			);
+			redirect('Pegawai/Cuti', 'refresh');
+		}
 	}
 }
 
