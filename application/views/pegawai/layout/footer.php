@@ -101,7 +101,39 @@
 			});
 		});
 	});
+	$(document).ready(function() {
+		// $("#loading").hide();
+
+		$("#all").change(function() {
+			$("#jumlah").hide();
+			// $("#loading").show(); // Tampilkan loadingnya
+
+			$.ajax({
+				type: "POST", // Method pengiriman data bisa dengan GET atau POST
+				url: "<?php echo base_url("pegawai/cuti/listcuti"); ?>", // Isi dengan url/path file php yang dituju
+				data: {
+					id_kat_cuti: $("#all").val()
+				}, // data yang akan dikirim ke file yang dituju
+				dataType: "json",
+				beforeSend: function(e) {
+					if (e && e.overrideMimeType) {
+						e.overrideMimeType("application/json;charset=UTF-8");
+					}
+				},
+				success: function(response) {
+					// $("#loading").hide();
+
+					$("#jumlah").html(response.list_cuti).show();
+				},
+				error: function(xhr, ajaxOptions, thrownError) { // Ketika ada error
+					alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError); // Munculkan alert error
+				}
+			});
+		});
+	});
 </script>
+
+
 <!-- End of Chained -->
 </body>
 

@@ -15,6 +15,9 @@
 		//
 		var bpjs_k = document.getElementById('bpjs_k').value;
 
+		var jumlah = document.getElementById('jumlah').value;
+		var number = document.getElementById('number').value;
+
 
 		// total tunjangan
 		// tunjangan gapok
@@ -22,6 +25,18 @@
 			var gapok_k = 0;
 		} else {
 			var gapok_k = parseInt(gapok.split(".").join(""));
+		}
+
+		if (jumlah == "") {
+			var jumlah = 0;
+		} else {
+			var jumlah = parseInt(jumlah.split(".").join(""));
+		}
+
+		if (number == "") {
+			var number = 0;
+		} else {
+			var number = parseInt(number.split(".").join(""));
 		}
 
 		// tunjangan jabatan
@@ -121,5 +136,10 @@
 		var jml_total = parseInt(kotor) - parseInt(pot);
 		if (!isNaN(jml_total)) {
 			document.getElementById('g_bersih').value = jml_total.toString();
+		}
+		// gaji bersih
+		var sasa = parseInt(jumlah) - parseInt(number);
+		if (!isNaN(sasa)) {
+			document.getElementById('msg').value = sasa.toString();
 		}
 	}
