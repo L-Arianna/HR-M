@@ -4,7 +4,7 @@
 		<h6 class="mb-0 text-uppercase"><?= $title ?></h6>
 
 		<!-- Button trigger modal -->
-		<a href="<?= base_url('Admin/User') ?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleExtraLargeModal">Tambah user</a>
+		<a href="<?= base_url('Admin/User') ?>" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleExtraLargeModal">Tambah user</a>
 		<?= $this->session->flashdata('suksess'); ?>
 		<!-- Modal -->
 		<div class="modal fade" id="exampleExtraLargeModal" tabindex="-1" aria-hidden="true">
@@ -37,7 +37,7 @@
 									<select name="role_id" class="form-control">
 										<option value="">Pilih</option>
 										<option value="1">Super admin</option>
-										<option value="2">Admin</option>
+										<option value="10">AdminHRD</option>
 									</select>
 									<?= form_error('role_id', '<small class="text-danger pl-3">', '</small>'); ?>
 								</div>

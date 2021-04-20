@@ -23,6 +23,21 @@ class Cuti_model extends CI_Model
 		return $query->result();
 	}
 
+	public function getall()
+	{
+		$get_role = $this->session->userdata('username');
+		$this->db->select('tb_detail_cuti. *, dat_pegawai.*, tb_kat_cuti.*, tb_cuti.*');
+		$this->db->from('tb_detail_cuti');
+		$this->db->join('dat_pegawai', 'dat_pegawai.nip = tb_detail_cuti.nip', 'left');
+		$this->db->join('tb_kat_cuti', 'tb_kat_cuti.id_kat_cuti = tb_detail_cuti.id_kat_cuti', 'left');
+		$this->db->join('tb_cuti', 'tb_cuti.id_cuti = tb_detail_cuti.id_cuti', 'left');
+		$this->db->where('username', $get_role);
+		$this->db->group_by('tb_detail_cuti.id_detail_cuti');
+		$this->db->order_by('id_detail_cuti', 'asc');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function detail($id)
 	{
 		$this->db->select('*');
@@ -36,6 +51,14 @@ class Cuti_model extends CI_Model
 	public function tambah($data)
 	{
 		$this->db->insert('tb_cuti', $data);
+		return $this->db->insert_id();
+	}
+
+	// INSERT TO TABLE USER
+	public function tambah_detail($data1)
+	{
+		$this->db->insert('tb_detail_cuti', $data1);
+		return $this->db->insert_id();
 	}
 
 	public function edit($data)
@@ -52,10 +75,8 @@ class Cuti_model extends CI_Model
 
 	public function getaprove()
 	{
-		$get_role = $this->session->userdata('id_kat_jabatan');
-		return $this->db->query("SELECT * FROM tb_kat_jabatan WHERE id_kat_jabatan = $get_role")->result();
-		// $get_role = $this->session->userdata('id_bidang');
-		// return $this->db->query("SELECT * FROM tb_kat_jabatan WHERE id_bidang = $get_role")->result();
+		$get_role = $this->session->userdata('role_id');
+		return $this->db->query("SELECT * FROM tb_user WHERE role_id > $get_role")->result();
 	}
 }
 

@@ -102,6 +102,18 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#jumlah, #harga").keyup(function() {
+			var jumlah = $("#jumlah").val();
+			var harga = $("#harga").val();
+
+			var total = parseInt(jumlah) - parseInt(harga);
+			$("#total").val(total);
+		});
+	});
+</script>
+
 <!-- End of Chained -->
 </body>
 

@@ -16,6 +16,7 @@
 		var bpjs_k = document.getElementById('bpjs_k').value;
 
 
+
 		// total tunjangan
 		// tunjangan gapok
 		if (gapok == "") {
@@ -23,6 +24,7 @@
 		} else {
 			var gapok_k = parseInt(gapok.split(".").join(""));
 		}
+
 
 		// tunjangan jabatan
 		if (gaji_jabatan == "") {
@@ -122,4 +124,5 @@
 		if (!isNaN(jml_total)) {
 			document.getElementById('g_bersih').value = jml_total.toString();
 		}
+		// gaji bersih
 	}

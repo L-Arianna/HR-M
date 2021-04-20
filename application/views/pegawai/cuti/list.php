@@ -11,23 +11,38 @@
 					<table id="example2" class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Position</th>
-								<th>Office</th>
-								<th>Age</th>
-								<th>Start date</th>
-								<th>Salary</th>
+								<th>No</th>
+								<th>Nama</th>
+								<th>NIP</th>
+								<th>Jenis Cuti</th>
+								<th>Tanggal Pengajuan Cuti</th>
+								<th>Tanggal Mulai Cuti</th>
+								<th>Tanggal Selesai Cuti</th>
+								<th>Status</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Tiger Nixon</td>
-								<td>System Architect</td>
-								<td>Edinburgh</td>
-								<td>61</td>
-								<td>2011/04/25</td>
-								<td>$320,800</td>
-							</tr>
+							<?php $i = 1;
+							foreach ($getall as $key) { ?>
+								<tr>
+									<td><?= $i ?></td>
+									<td><?= $key->nama_pegawai ?></td>
+									<td><?= $key->nip ?></td>
+									<td><?= $key->nama_cuti ?></td>
+									<td><?= $key->tgl ?></td>
+									<td><?= $key->tgl_mulai ?></td>
+									<td><?= $key->tgl_selesai ?></td>
+									<td><?php if ($key->status == 'pending') { ?>
+											<span class="badge bg-warning text-white"><?= $key->status ?></span>
+										<?php } elseif ($key->status == 'setuju') { ?>
+											<span class="badge bg-success text-white"><?= $key->status ?></span>
+										<?php } else { ?>
+											<span class="badge bg-danger text-white"><?= $key->status ?></span>
+										<?php } ?>
+									</td>
+								</tr>
+							<?php $i++;
+							} ?>
 						</tbody>
 					</table>
 				</div>
