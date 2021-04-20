@@ -47,7 +47,23 @@
 </script>
 
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("body").on("click", ".remove-multi", function() {
+			$(this).parents(".control-group").remove();
+		});
+	});
 
+	function tambahmulti() {
+		var html = $(".multi").html();
+		$(".multis").after(html);
+	}
+
+	function removemulti() {
+		//$(this).parents(".multis").remove();
+		document.getElementsByClassName('control-group').remove();
+	}
+</script>
 
 <script type="text/javascript">
 	$(document).ready(function() { // Ketika halaman sudah siap (sudah selesai di load)

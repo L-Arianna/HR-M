@@ -38,13 +38,15 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Nama File E-Library</label>
                             <div class="col-md-12">
-                                <?php
-                                for ($i = 0; $i < 5; $i++) {
-                                ?>
-                                    <input name="filebook<?= $i; ?>" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?php
-                                }
-                                ?>
+                                <div class="multis">
+                                </div>
+                                <div class="multi hidden">
+                                    <div class="control-group">
+                                        <input name="filebook[]" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                        <button type="button" id="" class="btn btn-danger remove-multi"><i class="lni lni-circle-minus"></i></button>
+                                    </div>
+                                </div>
+                                <button type="button" id="" onclick="tambahmulti();" class="btn btn-success tambah-multi"><i class="lni lni-circle-plus"></i></button>
 
                             </div>
                         </div>

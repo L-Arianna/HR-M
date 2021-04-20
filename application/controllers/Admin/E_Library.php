@@ -126,7 +126,7 @@ class E_Library extends CI_Controller
         $judul = htmlspecialchars($this->input->post('judulbook'));
         $keterangan = htmlspecialchars($this->input->post('keteranganbook'));
         $kategori = htmlspecialchars($this->input->post('kategori'));
-        //$file = $_FILES['filebook']['name'];
+        $file = $_FILES['filebook']['name'];
         $arr = array();
 
         //echo count($file);
@@ -138,14 +138,17 @@ class E_Library extends CI_Controller
 
         $this->load->library('upload', $config);
 
-        for ($i = 0; $i < 5; $i++) {
-            if (!empty($_FILES['filebook' . $i]['name'])) {
-                if (!$this->upload->do_upload('filebook' . $i)) {
-                    $this->upload->display_errors();
+        for ($i = 0; $i < count($file); $i++) {
+            if (!empty($_FILES['filebook']['size']['$i'])) {
+                if (!$this->upload->do_upload('filebook')) {
+                    $error = $this->upload->display_errors();
+                    echo $error;
                 } else {
                     $pdf2 = $this->upload->data('file_name');
                     echo $nama = $pdf2 . "/";
                 }
+            } else {
+                echo "kosong";
             }
         }
 
