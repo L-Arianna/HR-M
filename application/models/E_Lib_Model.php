@@ -20,6 +20,14 @@ class E_Lib_Model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    function join()
+    {
+        $this->db->from($this->table);
+        $this->db->join('tbl_kat_book', 'tbl_kat_book.id_kat_book = tbl_book.kategori_book');
+        //$this->db->group_by('tbl_book.kategori_book');
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function tambah($data)
     {
         $this->db->insert($this->table, $data);

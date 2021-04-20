@@ -44,15 +44,23 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Nama File E-Library</label>
                             <div class="col-md-12">
-                                <input name="filebook" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook', '<small class="text-danger pl-3">', '</small>'); ?>
+                                <input name="filebook1" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                <input name="filebook2" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                <input name="filebook3" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
                             </div>
                         </div>
-                        <input name="filebooklama" class="form-control" type="hidden" value="<?= $elib->file_book; ?>">
+                        <?php
+                        $exp = explode("/", $elib->file_book);
+                        for ($i = 0; $i < count($exp); $i++) {
+                        ?>
+                            <input type="hidden" name="filelama[]" placeholder="Filenya nih" class="form-control" value="<?= $exp[$i] ?>"></input>
+                        <?php
+                        } ?>
+
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>

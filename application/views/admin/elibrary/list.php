@@ -1,32 +1,53 @@
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
-            <div class="col">
-                <h6 class="mb-0 text-uppercase">Nama Kategori</h6>
-                <hr />
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="nav nav-pills nav-pills-danger mb-3" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="pill" href="#danger-pills-home" role="tab" aria-selected="true">
-                                    <div class="d-flex align-items-center">
-                                        <div class="tab-icon"><i class='bx bx-book font-18 me-1'></i>
+        <div class="row">
+            <hr />
+            <?= $this->session->flashdata('sukses'); ?>
+            <?php foreach ($kate as $value) {
+            ?>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="nav nav-pills nav-pills-danger mb-3" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" data-bs-toggle="pill" href="#danger-pills-home" role="tab" aria-selected="true">
+                                        <div class="d-flex align-items-center">
+                                            <div class="tab-icon"><i class='bx bx-book font-18 me-1'></i>
+                                            </div>
+                                            <div class="tab-title"><?= $value->nama_kat_book; ?></div>
                                         </div>
-                                        <div class="tab-title">Nama Kategori</div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="danger-pills-tabContent">
-                            <div class="tab-pane fade show active" id="danger-pills-home" role="tabpanel">
-                                <p>Link 1</p>
-                                <p>Link 2</p>
-                                <p>Link 3</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="danger-pills-tabContent">
+                                <div class="tab-pane fade show active" id="danger-pills-home" role="tabpanel">
+
+                                    <?php foreach ($lib as $v) {
+                                        if ($v->kategori_book == $value->id_kat_book) {
+                                    ?>
+                                            <?= $v->judul_book; ?>
+                                            </br>
+                                            <div class="row">
+                                                <?php $exp = explode("/", $v->file_book);
+                                                for ($i = 0; $i < count($exp); $i++) {
+                                                ?>
+                                                    <div class="col-md-4">
+                                                        <p><a href="<?= base_url(); ?>Admin/E_Library/download/<?= $exp[$i]; ?>">download File</a></p>
+                                                    </div>
+                                                <?php
+                                                } ?>
+                                            </div>
+                                    <?php
+                                        }
+                                    } ?>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php
+            } ?>
         </div>
     </div>
 </div>

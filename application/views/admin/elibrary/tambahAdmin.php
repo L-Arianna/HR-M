@@ -38,12 +38,14 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Nama File E-Library</label>
                             <div class="col-md-12">
-                                <input name="filebook1" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook1', '<small class="text-danger pl-3">', '</small>'); ?>
-                                <input name="filebook2" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook2', '<small class="text-danger pl-3">', '</small>'); ?>
-                                <input name="filebook3" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <?= form_error('filebook3', '<small class="text-danger pl-3">', '</small>'); ?>
+                                <?php
+                                for ($i = 0; $i < 5; $i++) {
+                                ?>
+                                    <input name="filebook<?= $i; ?>" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                <?php
+                                }
+                                ?>
+
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,11 @@
 <script type="text/javascript">
-    if ($('#chart1').length) {
-        graph();
-    }
+    $(document).ready(function() {
+        if ($('#chart1').length) {
+            graph();
+        } else {}
+
+    });
+
 
     function graph() {
         var e = {
