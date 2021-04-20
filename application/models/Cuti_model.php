@@ -52,8 +52,10 @@ class Cuti_model extends CI_Model
 
 	public function getaprove()
 	{
-		$get_role = $this->session->userdata('role_id');
-		return $this->db->query("SELECT * FROM tb_user WHERE role_id > $get_role")->result();
+		$get_role = $this->session->userdata('id_kat_jabatan');
+		return $this->db->query("SELECT * FROM tb_kat_jabatan WHERE id_kat_jabatan = $get_role")->result();
+		// $get_role = $this->session->userdata('id_bidang');
+		// return $this->db->query("SELECT * FROM tb_kat_jabatan WHERE id_bidang = $get_role")->result();
 	}
 }
 

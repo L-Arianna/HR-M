@@ -28,7 +28,7 @@ class Auth extends CI_Controller
 					$this->_login();
 				}
 			} elseif ($pegawai) {
-				if ($pegawai['role_id'] == 1) {
+				if ($pegawai['role_id'] == 3) {
 					$this->_login_pegawai();
 				}
 			}
@@ -52,6 +52,7 @@ class Auth extends CI_Controller
 					$this->session->set_userdata($data);
 					if ($user['role_id'] == 1) {
 						// print_r($this->session->userdata());
+						// var_dump($data);
 						redirect('Admin/Dashboard');
 					} elseif ($user['role_id'] == 2) {
 						redirect('operator/dashboard');
@@ -91,11 +92,14 @@ class Auth extends CI_Controller
 						'nip' => $user['nip'],
 						'nama_pegawai' => $user['nama_pegawai'],
 						'username' => $user['username'],
+						'id_kat_jabatan' => $user['id_kat_jabatan'],
 						'role_id' => $user['role_id']
 					];
 					$this->session->set_userdata($data);
-					if ($user['role_id'] == 1) {
+					if ($user['role_id'] == 3) {
 						// print_r($this->session->userdata());
+						// var_dump($data);
+
 						redirect('Pegawai/Dashboard');
 					}
 				} else {

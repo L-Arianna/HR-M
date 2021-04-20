@@ -39,7 +39,7 @@
 								<label for="form-control">Approval</label>
 								<select name="approval" class="form-control">
 									<option value="">Pilih</option>
-									<option value="<?= $key->id_user ?>"><?= $key->nama ?></option>
+									<option value="<?= $key->id_kat_jabatan ?>"><?= $key->nama_jabatan ?></option>
 								</select>
 								<?= form_error('tgl_selesai', '<small class="text-danger pl-3">', '</small>'); ?>
 							</div>

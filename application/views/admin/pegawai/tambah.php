@@ -147,6 +147,7 @@
                                 </select>
                                 <?= form_error('id_kat_jabatan', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
+
                             <div class="col-md-3">
                                 <label for="form-control">Grade Jabatan</label>
                                 <select name="id_grade" id="grade" class="form-control">
