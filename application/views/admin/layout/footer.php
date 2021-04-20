@@ -53,7 +53,7 @@
 			$(this).parents(".control-group").remove();
 		});
 	});
-
+	//Multi
 	function tambahmulti() {
 		var html = $(".multi").html();
 		$(".multis").after(html);

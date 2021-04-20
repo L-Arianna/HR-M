@@ -137,7 +137,7 @@ class E_Library extends CI_Controller
         $config['file_name']            = $nama_file;
 
         $this->load->library('upload', $config);
-
+        //Multi
         for ($i = 0; $i < count($file); $i++) {
             if (!empty($_FILES['filebook']['size']['$i'])) {
                 if (!$this->upload->do_upload('filebook')) {

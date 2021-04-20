@@ -42,6 +42,7 @@
                                 </div>
                                 <div class="multi hidden">
                                     <div class="control-group">
+                                        <!--Multi -->
                                         <input name="filebook[]" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
                                         <button type="button" id="" class="btn btn-danger remove-multi"><i class="lni lni-circle-minus"></i></button>
                                     </div>
