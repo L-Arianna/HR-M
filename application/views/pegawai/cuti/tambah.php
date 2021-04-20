@@ -45,7 +45,8 @@
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Total Awal Cuti Pegawai</label>
-							<input type="text" name="jumlah" id="jumlah" class="form-control" value="<?= $jumlah ?>" readonly>
+							<input type="hidden" name="jumlah" id="jumlah" class="form-control" value="<?= $jumlah ?>" readonly>
+							<input type="text" name="jumlah" class="form-control" value="<?= $jumcuti ?>" readonly>
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Jumlah Cuti Diambil</label>

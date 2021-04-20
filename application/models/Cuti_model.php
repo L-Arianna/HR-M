@@ -32,6 +32,7 @@ class Cuti_model extends CI_Model
 		$this->db->join('tb_kat_cuti', 'tb_kat_cuti.id_kat_cuti = tb_detail_cuti.id_kat_cuti', 'left');
 		$this->db->join('tb_cuti', 'tb_cuti.id_cuti = tb_detail_cuti.id_cuti', 'left');
 		$this->db->where('username', $get_role);
+		// $this->db->where('sisa_cuti');
 		$this->db->group_by('tb_detail_cuti.id_detail_cuti');
 		$this->db->order_by('id_detail_cuti', 'asc');
 		$query = $this->db->get();
@@ -77,6 +78,19 @@ class Cuti_model extends CI_Model
 	{
 		$get_role = $this->session->userdata('role_id');
 		return $this->db->query("SELECT * FROM tb_user WHERE role_id > $get_role")->result();
+	}
+
+	public function getjumcuti()
+	{
+		$get_jum = $this->session->userdata('nip');
+		$this->db->select('*');
+		$this->db->from('tb_detail_cuti');
+		$this->db->where('nip', $get_jum);
+		$this->db->where('sisa_cuti');
+		$this->db->group_by('tb_detail_cuti.id_detail_cuti');
+		$this->db->order_by('id_detail_cuti', 'asc');
+		$query = $this->db->get();
+		return $query->row();
 	}
 }
 

@@ -30,7 +30,7 @@ class Cuti extends CI_Controller
 	{
 		$getapprove = $this->Cuti_model->getaprove();
 		$getcuti = $this->Kat_cuti->listing();
-
+		$jumcuti = $this->Cuti_model->getjumcuti();
 		$this->form_validation->set_rules('no_hp_darurat', 'Nomor HP Darurat', 'trim|required');
 		$this->form_validation->set_rules('alamat', 'Alamat Pegawai', 'trim|required');
 		$this->form_validation->set_rules('id_kat_cuti', 'Jenis Cuti', 'trim|required');
@@ -45,6 +45,7 @@ class Cuti extends CI_Controller
 				'title' => 'Tambah Pengajuan Cuti Pegawai',
 				'getapprove' => $getapprove,
 				'getcuti' => $getcuti,
+				'jumcuti' => $jumcuti,
 				'user' =>  $this->db->get_where('dat_pegawai', ['username' =>
 				$this->session->userdata('username')])->row_array(),
 				'content' => 'pegawai/cuti/tambah'
