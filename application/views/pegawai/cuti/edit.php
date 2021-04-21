@@ -13,7 +13,7 @@
 				$query = $this->db->query($sql)->row_array();
 				?>
 				<!-- <div class="p-4 border rounded"> -->
-				<form action="<?= base_url('pegawai/cuti/tambah') ?>" method="post">
+				<form action="<?= base_url('Pegawai/Cuti/edit/' . $cuti->id_detail_cuti) ?>" method="post">
 					<div class="row mb-1">
 						<div class="col-md-3">
 							<label for="form-control">NIP</label>
@@ -26,12 +26,12 @@
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Nomor HP Darurat</label>
-							<input type="text" class="form-control" name="no_hp_darurat" placeholder="Nomor hp darurat" value="<?= set_value('no_hp_darurat') ?>">
+							<input type="text" class="form-control" name="no_hp_darurat" placeholder="Nomor hp darurat" value="<?= $cuti->no_hp_darurat ?>">
 							<?= form_error('no_hp_darurat', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Alamat Pegawai</label>
-							<input type="text" class="form-control" name="alamat" placeholder="Alamat" value="<?= set_value('alamat') ?>">
+							<input type="text" class="form-control" name="alamat" placeholder="Alamat" value="<?= $cuti->alamat ?>">
 							<?= form_error('alamat', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 					</div>
@@ -39,10 +39,9 @@
 						<div class="col-md-3">
 							<label for="form-control">Pilih Jenis Cuti</label>
 							<select name="id_kat_cuti" class="form-control" id="all">
-								<option value="">Pilih</option>
-								<?php foreach ($getcuti as $key) { ?>
-									<option value="<?= $key->id_kat_cuti ?>"><?= $key->nama_cuti ?></option>
-								<?php } ?>
+								<option value="<?= $cuti->id_kat_cuti ?>"><?php if ($cuti->id_kat_cuti == 1) {
+																							echo 'Cuti Tahunan';
+																						} ?></option>
 							</select>
 							<?= form_error('id_kat_cuti', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
@@ -56,43 +55,32 @@
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Jumlah Cuti Di ambil</label>
-							<input type="text" class="form-control" name="jumlah_ambil" placeholder="Jumlah hari cuti" id="harga" value="<?= set_value('jumlah_ambil') ?>" required>
+							<input type="text" class="form-control" name="jumlah_ambil" placeholder="Jumlah hari cuti" id="harga" value="<?= $cuti->jumlah_ambil ?>" required>
 						</div>
 						<div class="col-md-3">
 							<label for="form-control">Sisa Cuti</label>
-							<input type="text" class="form-control" name="sisa_cuti" id="total" placeholder="Sisa Cuti" value="<?= set_value('sisa_cuti') ?>" readonly>
+							<input type="text" class="form-control" name="sisa_cuti" id="total" placeholder="Sisa Cuti" value="<?= $cuti->sisa_cuti ?>" readonly>
 						</div>
 					</div>
 					<div class="row mb-1">
 						<div class="col-md-4">
 							<label for="form-control">Tanggal Mulai</label>
-							<input type="date" class="form-control" name="tgl_mulai" value="<?= set_value('tgl_mulai') ?>">
+							<input type="date" class="form-control" name="tgl_mulai" value="<?= $cuti->tgl_mulai ?>">
 							<?= form_error('tgl_mulai', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="col-md-4">
 							<label for="form-control">Tanggal Selesai</label>
-							<input type="date" class="form-control" name="tgl_selesai" value="<?= set_value('tgl_selesai') ?>">
+							<input type="date" class="form-control" name="tgl_selesai" value="<?= $cuti->tgl_selesai ?>">
 							<?= form_error('tgl_selesai', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 					</div>
 					<div class="row mb-1">
 						<label for="form-control">Keterangan Cuti pegawai</label>
 						<div class="col-md-12">
-							<textarea class="form-control" placeholder="Keterangan" name="keterangan"><?= set_value('keterangan') ?></textarea>
+							<textarea class="form-control" placeholder="Keterangan" name="keterangan"><?= $cuti->keterangan ?></textarea>
 						</div>
 					</div>
-					<?php foreach ($getapprove as $key) { ?>
-						<div class="row mb-1">
-							<div class="col-md-6">
-								<label for="form-control">Menyetujui</label>
-								<select name="id_user" class="form-control">
-									<!-- <option value="">Pilih</option> -->
-									<option value="<?= $key->id_user ?>"><?= $key->nama ?></option>
-								</select>
-								<?= form_error('id_user', '<small class="text-danger pl-3">', '</small>'); ?>
-							</div>
-						</div>
-					<?php } ?>
+
 					<div class="row">
 						<div class="col-md-2">
 							<button class="btn btn-primary btn-sm" name="submit" type="submit">Submit form</button>

@@ -26,6 +26,8 @@ class Auth extends CI_Controller
 			if ($user) {
 				if ($user['role_id'] == 1) {
 					$this->_login();
+				} elseif ($user['role_id'] == 10) {
+					$this->_login();
 				}
 			} elseif ($pegawai) {
 				if ($pegawai['role_id'] == 3) {
@@ -54,8 +56,9 @@ class Auth extends CI_Controller
 						// print_r($this->session->userdata());
 						// var_dump($data);
 						redirect('Admin/Dashboard');
-					} elseif ($user['role_id'] == 2) {
-						redirect('operator/dashboard');
+					} elseif ($user['role_id'] == 10) {
+						redirect('Manager/Dashboard');
+						// var_dump($data);
 					}
 				} else {
 					$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
@@ -69,14 +72,14 @@ class Auth extends CI_Controller
 			</div>');
 				// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
 				redirect('Auth');
-			}
-		} else {
-			//MENAMPILKAN NOTIFIKASI ERROR 
-			$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
+			} else {
+				//MENAMPILKAN NOTIFIKASI ERROR 
+				$this->session->set_flashdata('sukses', '<div class="alert alert-danger" role="alert">
 			username atau password tidak terdaftar
 			</div>');
-			// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
-			redirect('auth');
+				// SETALAH PESAN ERROR MAKA AKAN DI KEMBALIKAN PADA HALAMAN LOGIN
+				redirect('Auth');
+			}
 		}
 	}
 	private function _login_pegawai()
