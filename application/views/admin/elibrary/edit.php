@@ -44,16 +44,38 @@
                         <div class="form-group">
                             <label class="control-label col-md-6">Nama File E-Library</label>
                             <div class="col-md-12">
-                                <input name="filebook1" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <input name="filebook2" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                <input name="filebook3" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                <div class="multis">
+                                </div>
+                                <div class="multi hidden">
+                                    <div class="control-group">
+                                        <!--Multi -->
+                                        <input name="filebook[]" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
+                                        <button type="button" id="" class="btn btn-danger remove-multi"><i class="lni lni-circle-minus"></i>Kurangi File Upload</button>
+                                    </div>
+                                </div>
+                                </br>
+                                <button type="button" id="" onclick="tambahmulti();" class="btn btn-success tambah-multi"><i class="lni lni-circle-plus"></i>Tambah File Upload</button>
+                                <br><br>
                             </div>
                         </div>
                         <?php
-                        $exp = explode("/", $elib->file_book);
+                        $exp = explode('/', $elib->file_book);
+                        unset($exp[count($exp) - 1]);
                         for ($i = 0; $i < count($exp); $i++) {
                         ?>
-                            <input type="hidden" name="filelama[]" placeholder="Filenya nih" class="form-control" value="<?= $exp[$i] ?>"></input>
+                            <div class="multi hidden">
+                                <div class="control-group">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" id="filelama[]" name="filelama[]" placeholder="Filenya nih" class="form-control" value="<?= $exp[$i] ?>" readonly></input>
+                                            <a type="button" href="<?= base_url('Admin/E_library/hapus/' . $elib->id_book . '/' . $exp[$i]) ?>" onclick="return confirm('yakin mau dihapus?')" onclick="hapusmulti();" class="btn btn-danger remove-multi"><i class="lni lni-circle-minus"></i></a>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a href="<?= base_url() ?>assets/upload-pdf/<?= $exp[$i]; ?>" target="_blank">Cek File</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php
                         } ?>
 

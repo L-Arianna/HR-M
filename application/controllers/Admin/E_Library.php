@@ -7,18 +7,54 @@ class E_Library extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('pagination');
         $this->load->model('Gudang');
         $this->load->model('E_Lib_Model');
     }
     public function index()
     {
+        //konfigurasi pagination
+        $config['base_url'] = base_url('Admin/E_Library/'); //site url
+        $config['total_rows'] = $this->db->count_all('tbl_kat_book'); //total row
+        $config['per_page'] = 1;  //show record per halaman
+        $config["uri_segment"] = 3;  // uri parameter
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        // Membuat Style pagination untuk BootStrap v4
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+
+        $this->pagination->initialize($config);
+        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
+        $data['data'] = $this->E_Lib_Model->get_book_list($config["per_page"], $data['page']);
+        $data['pagination'] = $this->pagination->create_links();
+
         $data = [
-            'title' => 'E-Library',
+            'title' => 'E-Perpustakaan',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/elibrary/list',
             'kate' => $this->Gudang->show_all_kat_book(),
-            'lib' => $this->E_Lib_Model->join()
+            'lib' => $this->E_Lib_Model->join(),
         ];
         $this->session->set_flashdata(
             'sukses',
@@ -58,7 +94,7 @@ class E_Library extends CI_Controller
     function index_admin()
     {
         $data = [
-            'title' => 'E-Library',
+            'title' => 'E-Perpustakaan',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/elibrary/listAdmin'
@@ -73,7 +109,7 @@ class E_Library extends CI_Controller
     function list_admin()
     {
         $data = [
-            'title' => 'E-Library',
+            'title' => 'E-Perpustakaan',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/elibrary/listAdmin',
@@ -123,66 +159,63 @@ class E_Library extends CI_Controller
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
         } else {
-        $judul = htmlspecialchars($this->input->post('judulbook'));
-        $keterangan = htmlspecialchars($this->input->post('keteranganbook'));
-        $kategori = htmlspecialchars($this->input->post('kategori'));
-        $file = $_FILES['filebook']['name'];
-        $arr = array();
+            $judul = htmlspecialchars($this->input->post('judulbook'));
+            $keterangan = htmlspecialchars($this->input->post('keteranganbook'));
+            $kategori = htmlspecialchars($this->input->post('kategori'));
+            $file = $_FILES['filebook']['name'];
+            $arr = array();
 
-        $data = [];
+            $data = [];
 
-        $nama_file = "Lib__" . time();
-        $config['upload_path']          = './assets/upload-pdf';
-        $config['allowed_types']        = 'pdf';
-        $config['file_name']            = $nama_file;
+            $nama_file = "Lib__" . time();
+            $config['upload_path']          = './assets/upload-pdf';
+            $config['allowed_types']        = 'pdf';
+            $config['file_name']            = $nama_file;
 
-        $this->load->library('upload', $config);
-        //Multi
-        for ($i = 0; $i < count($file); $i++) {
-            if (!empty($_FILES['filebook']['name'][$i])) {
-				$_FILES['file']['name'] = $_FILES['filebook']['name'][$i];
-				$_FILES['file']['type'] = $_FILES['filebook']['type'][$i];
-				$_FILES['file']['tmp_name'] = $_FILES['filebook']['tmp_name'][$i];
-				$_FILES['file']['error'] = $_FILES['filebook']['error'][$i];
-				$_FILES['file']['size'] = $_FILES['filebook']['size'][$i];
-				
-				$namafile = 'Lib__'.time();
-				$config['upload_path'] = './assets/upload-pdf/';
-				$config['allowed_types'] = 'pdf';
-				$config['file_name'] = $namafile;
+            $this->load->library('upload', $config);
+            //Multi
+            for ($i = 0; $i < count($file); $i++) {
+                if (!empty($_FILES['filebook']['name'][$i])) {
+                    $_FILES['file']['name'] = $_FILES['filebook']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['filebook']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['filebook']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['filebook']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['filebook']['size'][$i];
 
-				if ($this->upload->do_upload('file')) {
-					$uploadData = $this->upload->data();
-					$filename = $uploadData['file_name'];
+                    if ($this->upload->do_upload('file')) {
+                        $uploadData = $this->upload->data();
+                        $filename = $uploadData['file_name'];
 
-					$data['totalFiles'][] = $filename;
-				}
+                        $data[] = $filename . '/';
+                    }
+                }
             }
-			$name = $filename.'/';
-			$data = array(
-				'judul_book' => $judul,
-				'keterangan_book' => $keterangan,
-				'kategori_book' => $kategori,
-				'file_book' => $name
-			);
-			//echo json_encode($data);
-			$insert = $this->E_Lib_Model->tambah($data);
-			if ($insert) {
-				$this->session->set_flashdata(
-					'sukses',
-					'<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-				);
-				redirect('Admin/E_Library/list_admin', 'refresh');
-			} else {
-				$this->session->set_flashdata(
-					'sukses',
-					'<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-				);
-				redirect('Admin/E_Library/list_admin', 'refresh');
-		}
-	}
+            //$filena = array('satu', 'dua', 'tiga');
+            $x = implode('', $data);
+            //echo json_encode($x);
+            $datax = array(
+                'judul_book' => $judul,
+                'keterangan_book' => $keterangan,
+                'kategori_book' => $kategori,
+                'file_book' => $x
+            );
+            //echo json_encode($data);
+            $insert = $this->E_Lib_Model->tambah($datax);
+            if ($insert) {
+                $this->session->set_flashdata(
+                    'sukses',
+                    '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
+                );
+                redirect('Admin/E_Library/list_admin', 'refresh');
+            } else {
+                $this->session->set_flashdata(
+                    'sukses',
+                    '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
+                );
+                redirect('Admin/E_Library/list_admin', 'refresh');
+            }
         }
-	}
+    }
 
     function edit()
     {
@@ -224,87 +257,78 @@ class E_Library extends CI_Controller
             $keterangan = htmlspecialchars($this->input->post('keteranganbook'));
             $kategori = htmlspecialchars($this->input->post('kategori'));
             $filelama = $this->input->post('filelama');
+            $file = $_FILES['filebook']['name'];
 
-            if (empty($_FILES['filebook1']['name'])) {
-                $data = array(
-                    'judul_book' => $judul,
-                    'keterangan_book' => $keterangan,
-                    'kategori_book' => $kategori
-                );
-                $where = ['id_book' => $idbook];
-                $insert = $this->E_Lib_Model->update($data, $where);
-                if ($insert) {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
-                } else {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
+            $data = [];
+
+            $nama_file = "Lib__" . time();
+            $config['upload_path']          = './assets/upload-pdf';
+            $config['allowed_types']        = 'pdf';
+            $config['file_name']            = $nama_file;
+
+            $this->load->library('upload', $config);
+
+            for ($i = 0; $i < count($file); $i++) {
+                if (!empty($_FILES['filebook']['name'][$i])) {
+                    $_FILES['file']['name'] = $_FILES['filebook']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['filebook']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['filebook']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['filebook']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['filebook']['size'][$i];
+
+                    $namafile = 'Lib__' . time();
+                    $config['upload_path'] = './assets/upload-pdf/';
+                    $config['allowed_types'] = 'pdf';
+                    $config['file_name'] = $namafile;
+
+                    if ($this->upload->do_upload('file')) {
+                        $uploadData = $this->upload->data();
+                        $filename = $uploadData['file_name'];
+
+                        $data[] = $filename;
+                    }
+                }
+            }
+            if ($filelama) {
+                for ($i = 0; $i < count($filelama); $i++) {
+                    //$data[] = $filelama[$i];
+                    array_push($data, $filelama[$i]);
                 }
             } else {
-                $nama_file = "Lib__" . time();
-                $config['upload_path']          = './assets/upload-pdf';
-                $config['allowed_types']        = 'pdf';
-                //$config['max_size']             = 100;
-                //$config['max_width']            = 1024;
-                //$config['max_height']           = 768;
-                $config['file_name']            = $nama_file;
+                echo "file Tidak Ada";
+            }
 
-                $this->load->library('upload', $config);
+            $x = implode('/', $data);
+            //echo $x;
+            $data = array(
+                'judul_book' => $judul,
+                'keterangan_book' => $keterangan,
+                'kategori_book' => $kategori,
+                'file_book' => $x
+            );
+            //echo json_encode($data);
+            $where = ['id_book' => $idbook];
+            $insert = $this->E_Lib_Model->update($data, $where);
+            //for ($i = 0; $i < count($filelama); $i++) {
+            //    unlink('assets/upload-pdf/' . $filelama[$i]);
+            //}
 
-                if (!$this->upload->do_upload('filebook1')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf1 = $this->upload->data('file_name');
-                if (!$this->upload->do_upload('filebook2')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf2 = $this->upload->data('file_name');
-                if (!$this->upload->do_upload('filebook3')) {
-                    $error = array('error' => $this->upload->display_errors());
-                    redirect('Admin/E_Library/tambah_admin/', 'refresh');
-                }
-                $pdf3 = $this->upload->data('file_name');
-
-                $data = array('upload_data' => $this->upload->data());
-                $imp = $pdf1 . "/" . $pdf2 . "/" . $pdf3;
-
-                $data = array(
-                    'judul_book' => $judul,
-                    'keterangan_book' => $keterangan,
-                    'kategori_book' => $kategori,
-                    'file_book' => $imp
+            if ($insert) {
+                $this->session->set_flashdata(
+                    'sukses',
+                    '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
                 );
-                //echo json_encode($data);
-                $where = ['id_book' => $idbook];
-                $insert = $this->E_Lib_Model->update($data, $where);
-                for ($i = 0; $i < count($filelama); $i++) {
-                    unlink('assets/upload-pdf/' . $filelama[$i]);
-                }
-
-                if ($insert) {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
-                } else {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-                    );
-                    redirect('Admin/E_Library/list_admin', 'refresh');
-                }
+                redirect('Admin/E_Library/list_admin', 'refresh');
+            } else {
+                $this->session->set_flashdata(
+                    'sukses',
+                    '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
+                );
+                redirect('Admin/E_Library/list_admin', 'refresh');
             }
         }
     }
+
     function multidelete()
     {
         $md = $this->input->post('idlib');
@@ -349,11 +373,45 @@ class E_Library extends CI_Controller
         }
     }
 
+    function hapus()
+    {
+        $namafile = $this->uri->segment(5);
+        $idbook = $this->uri->segment(4);
+        $edit = $this->E_Lib_Model->detail($idbook);
+        $fe = file_exists('./assets/upload-pdf/' . $namafile);
+
+        if ($fe == true) {
+            unlink('assets/upload-pdf/' . $namafile);
+            $namabaru = str_replace($namafile . '/', '', $edit->file_book);
+            $data = array(
+                'file_book' => $namabaru
+            );
+            //echo json_encode($data);
+            $where = ['id_book' => $idbook];
+            $insert = $this->E_Lib_Model->update($data, $where);
+        } else {
+            $namabaru = str_replace($namafile . '/', '', $edit->file_book);
+            $data = array(
+                'file_book' => $namabaru
+            );
+            //echo json_encode($data);
+            $where = ['id_book' => $idbook];
+            $insert = $this->E_Lib_Model->update($data, $where);
+        }
+        redirect('Admin/E_Library/edit/' . $idbook, 'refresh');
+    }
+
     function tes()
     {
         //$x = $this->Gudang->show_all_kat_book();
         //echo json_encode($x);
-        echo date('YmdHis');
+        //echo date('YmdHis');
+        $a = array();
+        $b = array_push($a, 'satu');
+        $c = array_push($a, 'dua');
+
+        //echo json_encode($a);
+        //echo implode('-', $a);
     }
 }
 

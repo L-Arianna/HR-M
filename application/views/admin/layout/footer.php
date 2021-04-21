@@ -49,9 +49,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("body").on("click", ".remove-multi", function() {
-			$(this).parents(".control-group").remove();
-		});
+
 	});
 	//Multi
 	function tambahmulti() {
@@ -59,9 +57,8 @@
 		$(".multis").after(html);
 	}
 
-	function removemulti() {
-		//$(this).parents(".multis").remove();
-		document.getElementsByClassName('control-group').remove();
+	function hapusmulti() {
+		$(this).parents(".control-group").remove();
 	}
 </script>
 

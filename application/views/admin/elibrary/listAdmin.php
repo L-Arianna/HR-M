@@ -3,8 +3,14 @@
         <h3 class="mb-0 text-uppercase"><?= $title ?></h3>
         <a type="button" class="btn btn-primary" href="<?= base_url(); ?>Admin/E_Library/tambah_admin">Tambah</a>
         <form method="POST" action="<?= base_url(); ?>Admin/E_Library/multidelete" id="form-delete">
-            <button class="btn btn-danger" onclick="return confirm('yakin mau dihapus?')">Multi-Delete</button>
             <div class="card">
+                <div class="row">
+                    <div class="col-lg-10">
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-danger" onclick="return confirm('yakin mau dihapus?')">Hapus</button>
+                    </div>
+                </div>
                 <div class="card-body">
                     <?= $this->session->flashdata('sukses'); ?>
                     <div class="table-responsive">

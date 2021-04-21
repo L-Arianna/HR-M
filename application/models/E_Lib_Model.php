@@ -12,6 +12,12 @@ class E_Lib_Model extends CI_Model
         $this->load->database();
     }
 
+    function get_book_list($limit, $start)
+    {
+        $query = $this->db->get($this->table, $limit, $start);
+        return $query;
+    }
+
     public function listing()
     {
         //$this->db->select('*');

@@ -29,10 +29,11 @@
                                             </br>
                                             <div class="row">
                                                 <?php $exp = explode("/", $v->file_book);
+                                                unset($exp[count($exp) - 1]);
                                                 for ($i = 0; $i < count($exp); $i++) {
                                                 ?>
-                                                    <div class="col-md-4">
-                                                        <p><a href="<?= base_url(); ?>Admin/E_Library/download/<?= $exp[$i]; ?>">download File</a></p>
+                                                    <div class="col-md-3">
+                                                        <p><a href="<?= base_url(); ?>Admin/E_Library/download/<?= $exp[$i]; ?>"><?= $v->judul_book; ?></a></p>
                                                     </div>
                                                 <?php
                                                 } ?>
@@ -48,6 +49,12 @@
                 </div>
             <?php
             } ?>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--Tampilkan pagination-->
+                <?php echo $pagination; ?>
+            </div>
         </div>
     </div>
 </div>
