@@ -56,10 +56,6 @@
                             <tbody>
                                 <?php
                                 $no = 1;
-                                $start = date_create();
-                                //$r = date_format($start, '2021-04-14');
-                                $r = date_format($start, 'Y-m-d');
-                                $arr = array($r);
                                 if (isset($_POST['caritanggal'])) {
                                     foreach ($cart as $v) { ?>
                                         <tr>
@@ -84,6 +80,10 @@
                                         <?php
                                     }
                                 } else {
+                                    $awal = date_create();
+                                    //$r = date_format($start, '2021-04-14');
+                                    $r = date_format($awal, 'Y-m-d');
+                                    $arr = array($r);
                                     foreach ($buku_tamu as $v) {
                                         if (array_search($v->start, $arr) !== false) { ?>
                                             <tr>
@@ -101,7 +101,7 @@
                                                     } ?>
 
                                                     <a href="<?= base_url('Admin/Buku_Tamu/edit/' . $v->id_tamu) ?>" class="btn btn-warning btn-sm" visibility="hidden"><i class="bx bx-edit-alt"></i></a>
-                                                    <a href="<?= base_url('Admin/Buku_Tamu/hapus/' . $v->id_tamu) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
+                                                    <a href="<?= base_url('Admin/Buku_Tamu/hapus/' . $v->id_tamu) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i>aaa</a>
                                                 </td>
                                             </tr>
                                 <?php $no++;

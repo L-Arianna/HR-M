@@ -2,7 +2,9 @@
     $(document).ready(function() {
         if ($('#chart1').length) {
             graph();
-        } else {}
+        } else {
+            return;
+        }
 
     });
 

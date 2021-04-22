@@ -103,19 +103,11 @@ class Surat_Masuk extends CI_Controller
                     'tembusan_surat_masuk' => $tbn
                 );
                 $insert = $this->Surat_Masuk_Model->tambah($data);
-                if ($insert) {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
-                    );
-                    redirect('Admin/Surat_Masuk', 'refresh');
-                } else {
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-warning" role="alert">Gagal menambahkan data </div>'
-                    );
-                    redirect('Admin/Surat_Masuk', 'refresh');
-                }
+                $this->session->set_flashdata(
+                    'sukses',
+                    '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
+                );
+                redirect('Admin/Surat_Masuk', 'refresh');
             }
         }
     }

@@ -14,11 +14,15 @@
 			datatable_bidang_usaha();
 		} else if ($('#tablestatussuratmasukdropdown').length) {
 			datatable_status_surat_masuk();
-		} else if($('#tablekatlib').length) {
+		} else if ($('#tablekatlib').length) {
 			datatable_kat_lib();
+		} else if ($('#tablekegkhazanah').length) {
+			datatable_keg_khazanah();
 		} else {
 
 		}
+
+		
 	};
 
 	function datatable_produk()
@@ -908,6 +912,149 @@
 					//if success reload ajax table
 					$('#kat_lib_modal_form').modal('hide');
 					kat_lib_reload_table();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('Error deleting data');
+				}
+			});
+
+		}
+	}
+	//CRUD Kegiatan Khazanah
+	var save_method_keg_khazanah; //for save method string
+	var table_keg_khazanah;
+
+	function datatable_keg_khazanah() {
+		//datatables Pendidikan
+		table_keg_khazanah = $('#tablekegkhazanah').DataTable({
+
+			"processing": true, //Feature control the processing indicator.
+			"serverSide": true, //Feature control DataTables' server-side processing mode.
+			"order": [], //Initial no order.
+
+			// Load data for the table's content from an Ajax source
+			"ajax": {
+				"url": "ajax_list_keg_khazanah",
+				"type": "POST"
+			},
+
+			//Set column definition initialisation properties.
+			"columnDefs": [{
+				"targets": [-1], //last column
+				"orderable": false, //set not orderable
+			}, ],
+
+		});
+
+		//set input/textarea/select event when change value, remove class error and remove text help block 
+		$("input").change(function() {
+			$(this).parent().parent().removeClass('has-error');
+			$(this).next().empty();
+		});
+	}
+
+	function keg_khazanah_add_ajax() {
+		save_method_keg_khazanah = 'add';
+		$('#formkegkhazanah')[0].reset(); // reset form on modals
+		$('.form-group').removeClass('has-error'); // clear error class
+		$('.help-block').empty(); // clear error string
+		$('#keg_khazanah_modal_form').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Add Kegiatan Khazanah'); // Set Title to Bootstrap modal title
+		$('#btnSavekegkhazanah').text('save'); //change button text
+		$('#btnSavekegkhazanah').attr('disabled', false); //set button enable 
+	}
+
+	function keg_khazanah_edit_ajax(idkegkhazanah) {
+		save_method_keg_khazanah = 'update';
+		$('#formkegkhazanah')[0].reset(); // reset form on modals
+		$('.form-group').removeClass('has-error'); // clear error class
+		$('.help-block').empty(); // clear error string
+		//Ajax Load data from ajax
+		$.ajax({
+			url: "ajax_edit_keg_khazanah/" + idkegkhazanah,
+			type: "GET",
+			dataType: "JSON",
+			success: function(data) {
+
+				$('[name="idkegkhazanah"]').val(data.id_keg_khazanah);
+				$('[name="jeniskegkhazanah"]').val(data.jenis_keg_khazanah);
+				$('[name="nobukukegkhazanah"]').val(data.nobuku_keg_khazanah);
+				$('[name="stokkegkhazanah"]').val(data.stok_keg_khazanah);
+				$('[name="idbukukegkhazanah"]').val(data.idbuku_keg_khazanah);
+				//$('[name="dob"]').datepicker('update',data.dob);
+				$('#keg_khazanah_modal_form').modal('show'); // show bootstrap modal when complete loaded
+				$('.modal-title').text('Edit Kegiatan Khazanah'); // Set title to Bootstrap modal title
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error get data from ajax');
+			}
+		});
+	}
+
+	function keg_khazanah_reload_table() {
+		table_keg_khazanah.ajax.reload(null, false); //reload datatable ajax 
+	}
+
+	function keg_khazanah_save() {
+		$('#btnSavekegkhazanah').text('saving...'); //change button text
+		$('#btnSavekegkhazanah').attr('disabled', true); //set button disable 
+		var url;
+
+		if (save_method_keg_khazanah == 'add') {
+			url = "ajax_add_keg_khazanah";
+		} else {
+			url = "ajax_update_keg_khazanah";
+		}
+		var form = document.forms.namedItem('formdata');
+		var form_data = new FormData(form);
+
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: form_data,
+			dataType: "JSON",
+			contentType: false,
+			processData: false,
+			cache: false,
+			success: function(data) {
+
+				if (data.status) //if success close modal and reload ajax table
+				{
+					$('#btnSavekegkhazanah').text('save'); //change button text
+					$('#btnSavekegkhazanah').attr('disabled', false); //set button enable 
+					$('#keg_khazanah_modal_form').modal('hide');
+					$('#formkegkhazanah')[0].reset();
+					keg_khazanah_reload_table();
+				} else {
+					for (var i = 0; i < data.inputerror.length; i++) {
+						$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+						$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+					}
+					$('#btnSavekegkhazanah').text('save'); //change button text
+					$('#btnSavekegkhazanah').attr('disabled', false); //set button enable 
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error adding / update data');
+				$('#btnSavekegkhazanah').text('save'); //change button text
+				$('#btnSavekegkhazanah').attr('disabled', false); //set button enable 
+
+			}
+		});
+	}
+
+	function delete_keg_khazanah(idkegkhazanah) {
+		if (confirm('Are you sure delete this data?')) {
+			// ajax delete data to database
+			$.ajax({
+				url: "ajax_delete_keg_khazanah/" + idkegkhazanah,
+				type: "POST",
+				dataType: "JSON",
+				success: function(data) {
+					//if success reload ajax table
+					$('#kat_lib_modal_form').modal('hide');
+					keg_khazanah_reload_table();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					alert('Error deleting data');
