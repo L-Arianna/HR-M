@@ -14,10 +14,10 @@ class E_Library extends CI_Controller
     public function index()
     {
         //konfigurasi pagination
-        $config['base_url'] = base_url('Admin/E_Library/'); //site url
+        $config['base_url'] = site_url('Admin/E_Library/index'); //site url
         $config['total_rows'] = $this->db->count_all('tbl_kat_book'); //total row
-        $config['per_page'] = 1;  //show record per halaman
-        $config["uri_segment"] = 3;  // uri parameter
+        $config['per_page'] = 2;  //show record per halaman
+        $config["uri_segment"] = 4;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
 
@@ -42,20 +42,17 @@ class E_Library extends CI_Controller
         $config['last_tagl_close']  = '</span></li>';
 
         $this->pagination->initialize($config);
-        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
-        //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-        $data['data'] = $this->E_Lib_Model->get_book_list($config["per_page"], $data['page']);
+        $data['data'] = $this->Gudang->get_kat_book_list($config["per_page"], $data['page']);
         $data['pagination'] = $this->pagination->create_links();
+        $data['title'] = 'E-Perpustakaan';
+        $data['user'] = $this->db->get_where('tb_user', ['username' =>
+        $this->session->userdata('username')])->row_array();
+        $data['content'] = 'admin/elibrary/list';
+        $data['kate'] = $this->Gudang->show_all_kat_book();
+        $data['lib'] = $this->E_Lib_Model->join();
 
-        $data = [
-            'title' => 'E-Perpustakaan',
-            'user' =>  $this->db->get_where('tb_user', ['username' =>
-            $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/elibrary/list',
-            'kate' => $this->Gudang->show_all_kat_book(),
-            'lib' => $this->E_Lib_Model->join(),
-        ];
         $this->session->set_flashdata(
             'sukses',
             ''
@@ -71,7 +68,7 @@ class E_Library extends CI_Controller
         $x = force_download($path, Null);
         if (!$x) {
             $data = [
-                'title' => 'E-Library',
+                'title' => 'E-Perpustakaan',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
                 'content' => 'admin/elibrary/list',

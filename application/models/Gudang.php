@@ -624,6 +624,12 @@ class Gudang extends CI_Model
         $this->db->delete($this->table_kat_lib);
     }
 
+    function get_kat_book_list($limit, $start)
+    {
+        $query = $this->db->get($this->table_kat_lib, $limit, $start);
+        return $query;
+    }
+
     public function show_all_kat_book()
     {
         return $this->db->from($this->jointablekat_lib())->get()->result();

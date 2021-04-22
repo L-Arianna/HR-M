@@ -21,7 +21,7 @@
                                         <input type="date" class="form-control" name="tgl2" id="inputToDate">
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="form-control btn btn-info" name="submit" type="submit">Cari</button>
+                                        <button class="form-control btn btn-info" name="caritanggal" type="submit">Cari</button>
                                     </div>
                                 </div>
                             </form>
@@ -60,8 +60,8 @@
                                 //$r = date_format($start, '2021-04-14');
                                 $r = date_format($start, 'Y-m-d');
                                 $arr = array($r);
-                                foreach ($buku_tamu as $v) {
-                                    if (array_search($v->start, $arr) !== false) { ?>
+                                if (isset($_POST['caritanggal'])) {
+                                    foreach ($cart as $v) { ?>
                                         <tr>
                                             <td><?= $no ?></td>
                                             <td><?= $v->nama_tamu; ?></td>
@@ -81,7 +81,32 @@
                                             </td>
                                         </tr>
                                         <?php $no++; ?>
-                                <?php }
+                                        <?php
+                                    }
+                                } else {
+                                    foreach ($buku_tamu as $v) {
+                                        if (array_search($v->start, $arr) !== false) { ?>
+                                            <tr>
+                                                <td><?= $no ?></td>
+                                                <td><?= $v->nama_tamu; ?></td>
+                                                <td><?= $v->tujuan_tamu; ?></td>
+                                                <td><?= $v->keterangan_tamu; ?></td>
+                                                <td><?= $v->start_tamu; ?></td>
+                                                <td><?= $v->end_tamu; ?></td>
+                                                <td>
+                                                    <?php if ($v->end_tamu == '') {
+                                                        echo "<a href=" . base_url('Admin/Buku_Tamu/tamu_selesai/' . $v->id_tamu) . " class='btn btn-success btn-sm'>Selesai</a>";
+                                                    } else {
+                                                        echo "<button class='btn btn-info btn-sm' disabled>Selesai</button>";
+                                                    } ?>
+
+                                                    <a href="<?= base_url('Admin/Buku_Tamu/edit/' . $v->id_tamu) ?>" class="btn btn-warning btn-sm" visibility="hidden"><i class="bx bx-edit-alt"></i></a>
+                                                    <a href="<?= base_url('Admin/Buku_Tamu/hapus/' . $v->id_tamu) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
+                                                </td>
+                                            </tr>
+                                <?php $no++;
+                                        }
+                                    }
                                 } ?>
                             </tbody>
                         </table>

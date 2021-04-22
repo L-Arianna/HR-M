@@ -2,8 +2,7 @@
     <div class="page-content">
         <div class="row">
             <hr />
-            <?= $this->session->flashdata('sukses'); ?>
-            <?php foreach ($kate as $value) {
+            <?php foreach ($data->result() as $value) {
             ?>
                 <div class="col-md-6">
                     <div class="card">
