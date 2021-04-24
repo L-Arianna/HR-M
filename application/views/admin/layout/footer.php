@@ -48,6 +48,57 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		if ($('#text').length) {
+			startTime();
+		}
+	});
+
+	function startTime() {
+		<?php foreach ($statusdua as $value) {
+			$sdua = $value->jumlah;
+		} ?>
+		<?php foreach ($statussatu as $value) {
+			$ssatu = $value->jumlah;
+		} ?>
+		<?php foreach ($statusnol as $value) {
+			$snol = $value->jumlah;
+		} ?>
+		var today = new Date();
+		var h = today.getHours();
+		var m = today.getMinutes();
+		var s = today.getSeconds();
+		m = checkTime(m);
+		s = checkTime(s);
+		document.getElementById('txt').innerHTML =
+			h + ":" + m + ":" + s;
+		var t = setTimeout(startTime, 500);
+
+		var x = h + ":" + m + ":" + s;
+		var y = "10:45:00";
+		if (y < x && x < "16:00:00" && x > "15:00:00") {
+			document.getElementById('text').innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $snol; ?> + " Belum ACC</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		} else {
+
+		}
+
+		var z = "10:02:00";
+		if (z < x && x < "17:00:00" && x > "16:00:00") {
+			document.getElementById('text').innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+			z = "23:59:59";
+		} else {
+
+		}
+	}
+
+	function checkTime(i) {
+		if (i < 10) {
+			i = "0" + i
+		}; // add zero in front of numbers < 10
+		return i;
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
 		if ($('#passwordKhazanah').length) {
 			$('#passwordKhazanah').on('show.bs.modal', function(e) {
 				// get information to update quickly to modal view as loading begins
@@ -100,8 +151,8 @@
 	});
 
 	// $('#exampleModal').on('show.bs.modal', function(event) {
-	// 	let bookId = $(event.relatedTarget).data('bookid')
-	// 	$(this).find('.modal-body input').val(bookId)
+	// let bookId = $(event.relatedTarget).data('bookid')
+	// $(this).find('.modal-body input').val(bookId)
 	// })
 
 	$(function() {

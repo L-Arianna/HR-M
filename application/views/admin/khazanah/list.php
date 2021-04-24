@@ -3,6 +3,8 @@
     <div class="page-content">
         <h6 class="mb-1 text-uppercase"><?= $title ?></h6>
         <?= $this->session->flashdata('sukses'); ?>
+        <div id="txt"></div>
+        <div id="text"></div>
         <hr />
         <form method="POST" action="<?= base_url(); ?>Admin/Khazanah/multidelete2" id="form-delete">
             <div class="col mb-1">

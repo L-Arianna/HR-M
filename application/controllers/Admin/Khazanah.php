@@ -13,6 +13,11 @@ class Khazanah extends CI_Controller
         $this->load->model('Khazanah_Model');
     }
 
+    function tes()
+    {
+        echo json_encode($this->Khazanah_Model->count_status_dua());
+    }
+
     public function index()
     {
         $data = [
@@ -20,7 +25,10 @@ class Khazanah extends CI_Controller
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/khazanah/list',
-            'khazanah' => $this->Khazanah_Model->listing()
+            'khazanah' => $this->Khazanah_Model->listing(),
+            'statusnol' => $this->Khazanah_Model->count_status_nol(),
+            'statussatu' => $this->Khazanah_Model->count_status_satu(),
+            'statusdua' => $this->Khazanah_Model->count_status_dua()
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -69,7 +77,7 @@ class Khazanah extends CI_Controller
     function otorisasi()
     {
         $id = htmlspecialchars($this->input->post('id'));
-        $username = $this->session->userdata('username');
+        $username = $this->session->userdata('username'); //berdasarkan session bisa di ganti dengan yang lain
         $tuju = htmlspecialchars($this->input->post('tujuan'));
         $pass = htmlspecialchars($this->input->post('password'));
         $user = $this->db->get_where('tb_user', ['username' => $username])->row_array();

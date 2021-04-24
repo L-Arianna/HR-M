@@ -31,6 +31,35 @@ class Khazanah_Model extends CI_Model
         return $this->db->count_all_results();
     }
 
+    function count_status_nol()
+    {
+        $this->db->from($this->table);
+        $this->db->select('COUNT(status_khazanah) as jumlah');
+
+        $this->db->where('status_khazanah', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_status_dua()
+    {
+        $this->db->from($this->table);
+        $this->db->select('COUNT(status_khazanah) as jumlah');
+
+        $this->db->where('status_khazanah', 2);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_status_satu()
+    {
+        $this->db->from($this->table);
+        $this->db->select('COUNT(status_khazanah) as jumlah');
+        $this->db->where('status_khazanah', 1);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function detail($idkhazanah)
     {
         $this->db->from($this->table);
