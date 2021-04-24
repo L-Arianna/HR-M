@@ -21,7 +21,7 @@
                                         <input type="date" class="form-control" name="tgl2" id="inputToDate">
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="form-control btn btn-info" name="caritanggal" type="submit">Cari</button>
+                                        <button class="form-control btn btn-info btn-sm" name="caritanggal" type="submit">Cari</button>
                                     </div>
                                 </div>
                             </form>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <!-- Button trigger modal -->
-            <a type="button" class="btn btn-primary" href="<?= base_url(); ?>Admin/Buku_Tamu/tambah">Tambah Data Tamu</a>
+            <a type="button" class="btn btn-primary btn-sm" href="<?= base_url(); ?>Admin/Buku_Tamu/tambah">Tambah Data Tamu</a>
             </br></br>
             <div class="card">
                 <div class="card-body">

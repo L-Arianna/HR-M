@@ -48,7 +48,23 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		if ($('#passwordKhazanah').length) {
+			$('#passwordKhazanah').on('show.bs.modal', function(e) {
+				// get information to update quickly to modal view as loading begins
+				var opener = e.relatedTarget; //this holds the element who called the modal
 
+				//we get details from attributes
+				var firstname = $(opener).attr('data-id');
+				var tujuan = $(opener).attr('data-tujuan');
+
+				//set what we got to our form
+				$('#formkhazanah').find('[name="id"]').val(firstname);
+				$('#tujuan').val(tujuan);
+
+			});
+		} else {
+			return;
+		}
 	})
 </script>
 <script type="text/javascript">

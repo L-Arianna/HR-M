@@ -2,7 +2,7 @@
     <div class="page-content">
         <div class="col">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="keg_khazanah_add_ajax()" data-bs-target="#keg_khazanah_modal_form">Tambah Kegiatan Khazanah</button>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" onclick="keg_khazanah_add_ajax()" data-bs-target="#keg_khazanah_modal_form">Tambah Kegiatan Khazanah</button>
             </br></br>
             <div class="card">
                 <div class="card-body">
@@ -75,8 +75,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" id="btnSavekegkhazanah" onclick="keg_khazanah_save();" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="btnSavekegkhazanah" onclick="keg_khazanah_save();" class="btn btn-primary btn-sm">Save changes</button>
                             </div>
                         </form>
                     </div>

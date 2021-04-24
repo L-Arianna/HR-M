@@ -2,7 +2,7 @@
     <div class="page-content">
         <div class="col">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="pendidikan_add_ajax()" data-bs-target="#pendidikan_modal_form">Tambah Pendidikan Terakhir</button>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" onclick="pendidikan_add_ajax()" data-bs-target="#pendidikan_modal_form">Tambah Pendidikan Terakhir</button>
             </br></br>
             <div class="card">
                 <div class="card-body">
@@ -48,8 +48,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" id="btnSavependidikan" onclick="pendidikan_save();" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="btnSavependidikan" onclick="pendidikan_save();" class="btn btn-primary btn-sm">Save changes</button>
                             </div>
                         </form>
                     </div>
