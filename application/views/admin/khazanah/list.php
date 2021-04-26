@@ -3,15 +3,15 @@
     <div class="page-content">
         <h6 class="mb-1 text-uppercase"><?= $title ?></h6>
         <?= $this->session->flashdata('sukses'); ?>
-        <div id="txt"></div>
-        <div id="text"></div>
+        <div id="jam"></div>
+        <div id="notif"></div>
         <hr />
         <form method="POST" action="<?= base_url(); ?>Admin/Khazanah/multidelete2" id="form-delete">
             <div class="col mb-1">
                 <div class="btn-group" role="group">
-                    <a type="button" class="btn btn-primary" href="<?= base_url(); ?>Admin/Khazanah/add">Tambah</a>
+                    <a type="button" class="btn btn-primary btn-sm" href="<?= base_url(); ?>Admin/Khazanah/add">Tambah</a>
                 </div>
-                <button id="btn-delete" type="submit" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger">Hapus</button>
+                <button id="btn-delete" type="submit" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm">Hapus</button>
             </div>
 
             <div class="card">
@@ -51,15 +51,15 @@
                                         <td><?php if ($v->status_khazanah == 0) {
                                                 echo "Belum ACC";
                                                 echo "</td><td>
-                                            <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-tujuan=" . $v->status_khazanah . " data-id=" . $v->id_khazanah . "><i class='bx bx-edit-alt'></i>ACC</button>";
+                                            <button id='btnkhazanah' type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-tujuan=" . $v->status_khazanah . " data-id=" . $v->id_khazanah . "><i class='bx bx-edit-alt'></i>ACC</button>";
                                             } else if ($v->status_khazanah == 1) {
                                                 echo "Sudah ACC";
                                                 echo "</td><td>
-                                            <button type='button' class='btn btn-info' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-tujuan=" . $v->status_khazanah . " data-id=" . $v->id_khazanah . "><i class='bx bx-edit-alt'></i>Selesai</button>";
+                                            <button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-tujuan=" . $v->status_khazanah . " data-id=" . $v->id_khazanah . "><i class='bx bx-edit-alt'></i>Selesai</button>";
                                             } else {
                                                 echo "Selesai";
                                                 echo "</td><td>
-                                            <button type='button' class='btn btn-info' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-id=" . $v->id_khazanah . " disabled><i class='bx bx-edit-alt'></i>Ok</button>";
+                                            <button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#passwordKhazanah' data-id=" . $v->id_khazanah . " disabled><i class='bx bx-edit-alt'></i>Ok</button>";
                                             } ?>
 
                                             <a href="<?= base_url('Admin/Khazanah/edit/' . $v->id_khazanah) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
@@ -71,6 +71,9 @@
                                 <?php } ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

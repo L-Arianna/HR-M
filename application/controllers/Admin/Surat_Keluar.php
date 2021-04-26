@@ -89,10 +89,8 @@ class Surat_Keluar extends CI_Controller
 
             if (!$this->upload->do_upload('filesuratkeluar')) {
                 $error = array('error' => $this->upload->display_errors());
-                $this->session->set_flashdata(
-                    'error',
-                    '<div class="alert alert-success" role="alert">' . $error . ' </div>'
-                );
+                $isi = 'Gagal Simpan Data |' . $error;
+                $this->flashdatas($isi);
                 redirect('Admin/Surat_Keluar/tambah/', 'refresh');
             } else {
                 $data = array('upload_data' => $this->upload->data());
@@ -110,11 +108,9 @@ class Surat_Keluar extends CI_Controller
                     'file_surat_keluar' => $nama_file
                 );
                 $insert = $this->Surat_Keluar_Model->tambah($data);
-                if ($insert) {
-                    redirect('Admin/Surat_Keluar', 'refresh');
-                } else {
-                    redirect('Admin/Surat_Keluar', 'refresh');
-                }
+                $isi = 'Berhasil Tambah Data!';
+                $this->flashdatas($isi);
+                redirect('Admin/Surat_Keluar/', 'refresh');
             }
         }
     }
@@ -198,7 +194,8 @@ class Surat_Keluar extends CI_Controller
                 ];
                 $where = ['id_surat_keluar' => $idsuratkeluar];
                 $this->Surat_Keluar_Model->update($data, $where);
-
+                $isi = 'Berhasil Update Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Surat_Keluar/', 'refresh');
             } else {
                 $this->load->library('upload', $config);
@@ -206,10 +203,8 @@ class Surat_Keluar extends CI_Controller
 
                 if (!$this->upload->do_upload('filesuratkeluar')) {
                     $error = array('error' => $this->upload->display_errors());
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">' . $error . ' </div>'
-                    );
+                    $isi = 'Gagal Update Data |' . $error;
+                    $this->flashdatas($isi);
                     redirect('Admin/Surat_Keluar/edit/' . $idsuratkeluar . '', 'refresh');
                 } else {
                     $data = array('upload_data' => $this->upload->data());
@@ -230,10 +225,8 @@ class Surat_Keluar extends CI_Controller
                     unlink('assets/upload-pdf/' . $filelama);
                     $where = ['id_surat_keluar' => $idsuratkeluar];
                     $this->Surat_Keluar_Model->update($data, $where);
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Berhasil Update </div>'
-                    );
+                    $isi = 'Berhasil Update Data!';
+                    $this->flashdatas($isi);
                     redirect('Admin/Surat_Keluar/', 'refresh');
                 }
             }
@@ -260,10 +253,8 @@ class Surat_Keluar extends CI_Controller
             'id_surat_keluar' => $idsuratkeluar
         ];
         $this->Surat_Keluar_Model->delete($data);
-        $this->session->set_flashdata(
-            'sukses',
-            '<div class="alert alert-danger" role="alert">Berhasil hapus Surat Keluar </div>'
-        );
+        $isi = 'Berhasil Update Data!';
+        $this->flashdatas($isi);
         if ($filesuratmasuk == '') {
         } else {
             unlink('assets/upload-pdf/' . $filesuratmasuk . '.pdf');
@@ -275,10 +266,8 @@ class Surat_Keluar extends CI_Controller
         $ch = $this->input->post('idsurat');
         //echo json_encode($ch);
         if (empty($ch)) {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-danger" role="alert">Data Kosong</div>'
-            );
+            $isi = 'Data Kosong!';
+            $this->flashdatas($isi);
             redirect('Admin/Surat_Keluar', 'refresh');
         } else {
             for ($i = 0; $i < count($ch); $i++) {
@@ -291,13 +280,22 @@ class Surat_Keluar extends CI_Controller
                 ];
                 $del = $this->Surat_Keluar_Model->delete($data);
             }
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert">Berhasil hapus Surat Keluar </div>'
-            );
+            $isi = 'Berhasil Hapus Data!';
+            $this->flashdatas($isi);
             redirect('Admin/Surat_Keluar', 'refresh');
             //unlink('assets/upload-pdf/' . $filelama);
         }
+    }
+
+    function flashdatas($isi)
+    {
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+        );
     }
 }
 

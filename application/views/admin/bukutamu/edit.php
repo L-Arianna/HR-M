@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" name="submit" type="submit">Submit form</button>
+                            <button class="btn btn-primary btn-sm" name="submit" type="submit">Update Tamu</button>
                         </div>
                     </form>
                 </div>

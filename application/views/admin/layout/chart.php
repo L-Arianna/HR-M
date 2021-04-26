@@ -3,7 +3,11 @@
         if ($('#chart1').length) {
             graph();
         } else {
-            return;
+            //return;
+            <?php if (empty($cart)) {
+                $cart = array();
+            }
+            ?>
         }
 
     });
@@ -12,7 +16,7 @@
     function graph() {
         var e = {
             series: [{
-                name: "Contoh",
+                name: "Tamu",
                 data: [<?php foreach ($cart as $value) {
                             echo $value->jml . ",";
                         } ?>]
@@ -46,7 +50,7 @@
                                 } ?>]
             },
             title: {
-                text: "Contoh2",
+                text: "Jumlah Tamu",
                 align: "left",
                 style: {
                     fontSize: "16px",
@@ -80,7 +84,7 @@
             colors: ["#0d6efd"],
             yaxis: {
                 title: {
-                    text: "Contoh3"
+                    text: "Tamu"
                 }
             }
         };

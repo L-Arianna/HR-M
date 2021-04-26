@@ -90,7 +90,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Tambah Surat Masuk</button>
+                        <button type="submit" class="btn btn-primary">Update Surat Masuk</button>
                     </div>
                 </form>
             </div>

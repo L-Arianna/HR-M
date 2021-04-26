@@ -737,6 +737,109 @@ class Gudang extends CI_Model
     {
         return $this->db->from($this->jointablekeg_khazanah())->get()->result();
     }
+
+    //Model Tujuan Khazanah
+    var $table_tujuan_khazanah = 'tbl_tujuan_khazanah';
+    var $column_order_tujuan_khazanah = array('nama_tujuan_khazanah', null); //set column field database for datatable orderable
+    var $column_search_tujuan_khazanah = array('nama_tujuan_khazanah'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_tujuan_khazanah = array('id_tujuan_khazanah' => 'desc'); // default order 
+
+    function jointabletujuan_khazanah()
+    {
+        $this->db->from($this->table_tujuan_khazanah);
+    }
+
+    private function _get_datatables_query_tujuan_khazanah()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointabletujuan_khazanah();
+
+        $i = 0;
+
+        foreach ($this->column_search_tujuan_khazanah as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_tujuan_khazanah) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_tujuan_khazanah[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_tujuan_khazanah)) {
+            $order = $this->order_tujuan_khazanah;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_tujuan_khazanah()
+    {
+        $this->_get_datatables_query_tujuan_khazanah();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_tujuan_khazanah()
+    {
+        $this->_get_datatables_query_tujuan_khazanah();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_tujuan_khazanah()
+    {
+        $this->db->from($this->table_tujuan_khazanah);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_tujuan_khazanah($idtujuankhazanah)
+    {
+        //$this->db->from($this->table);
+        $this->jointabletujuan_khazanah();
+
+        $this->db->where('id_tujuan_khazanah', $idtujuankhazanah);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
+    public function tujuan_khazanah_save($data)
+    {
+        $this->db->insert($this->table_tujuan_khazanah, $data);
+        return $this->db->insert_id();
+    }
+
+    public function tujuan_khazanah_update($where, $data)
+    {
+        $this->db->update($this->table_tujuan_khazanah, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function tujuan_khazanah_delete_by_id($idtujuankhazanah)
+    {
+        $this->db->where('id_tujuan_khazanah', $idtujuankhazanah);
+        $this->db->delete($this->table_tujuan_khazanah);
+    }
+
+    public function show_all_tujuan_khazanah()
+    {
+        return $this->db->from($this->jointabletujuan_khazanah())->get()->result();
+    }
 }
 
 /* End of file Gudang.php */

@@ -25,10 +25,6 @@ class Buku_Tamu extends CI_Controller
             'buku_tamu' => $this->Buku_Tamu_Model->listing(),
             'cart' => $this->Buku_Tamu_Model->tes($a, $b)
         ];
-        $this->session->set_flashdata(
-            'sukses',
-            ''
-        );
         $this->load->view('admin/layout/wrapper', $data);
     }
 
@@ -49,10 +45,8 @@ class Buku_Tamu extends CI_Controller
                 //'buku_tamu' => $this->Buku_Tamu_Model->tes($a, $b),
                 'cart' => $this->Buku_Tamu_Model->tes($a, $b)
             ];
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-warning" role="alert">Data Tanggal Kosong ?</div>'
-            );
+            $isi = 'Data Tanggal Kosong!';
+            $this->flashdatas($isi);
             $this->load->view('admin/layout/wrapper', $data);
         } else {
             $data = [
@@ -63,10 +57,6 @@ class Buku_Tamu extends CI_Controller
                 'buku_tamu' => $this->Buku_Tamu_Model->listing(),
                 'cart' => $this->Buku_Tamu_Model->tes($a, $b)
             ];
-            $this->session->set_flashdata(
-                'sukses',
-                ''
-            );
             $this->load->view('admin/layout/wrapper', $data);
         }
     }
@@ -110,16 +100,12 @@ class Buku_Tamu extends CI_Controller
             //var_dump($data);
             $insert = $this->Buku_Tamu_Model->tambah($data);
             if ($insert) {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
-                );
+                $isi = 'Gagal Tambah Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Buku_Tamu', 'refresh');
             } else {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-warning" role="alert">Gagal menambahkan data </div>'
-                );
+                $isi = 'Berhasil Tambah Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Buku_Tamu', 'refresh');
             }
         }
@@ -157,10 +143,8 @@ class Buku_Tamu extends CI_Controller
             );
             redirect('Admin/Buku_Tamu', 'refresh');
         } else {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-warning" role="alert">Gagal menambahkan data </div>'
-            );
+            $isi = 'Berhasil Tambah Data!';
+            $this->flashdatas($isi);
             redirect('Admin/Buku_Tamu', 'refresh');
         }
     }
@@ -193,17 +177,12 @@ class Buku_Tamu extends CI_Controller
             //$where = ['id_tamu' => $id_tamu];
             $update = $this->Buku_Tamu_Model->update($data, $where);
             if ($update == true) {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
-
-                );
+                $isi = 'Berhasil Update Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Buku_Tamu', 'refresh');
             } else {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-warning" role="alert">Gagal menambahkan data </div>'
-                );
+                $isi = 'Gagal Update Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Buku_Tamu', 'refresh');
             }
         }
@@ -214,16 +193,12 @@ class Buku_Tamu extends CI_Controller
 
         $x = $this->Buku_Tamu_Model->delete($data);
         if ($x == true) {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert">Berhasil hapus Tamu </div>'
-            );
+            $isi = 'Berhasil Hapus Data!';
+            $this->flashdatas($isi);
             redirect('Admin/Buku_Tamu', 'refresh');
         } else {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-danger" role="alert">Gagal hapus Tamu </div>'
-            );
+            $isi = 'Gaga; Hapus Data!';
+            $this->flashdatas($isi);
             redirect('Admin/Buku_Tamu', 'refresh');
         }
     }
@@ -249,13 +224,30 @@ class Buku_Tamu extends CI_Controller
         $a = '13-04-2021';
         $b = '16-04-2021';
         $h = $this->Buku_Tamu_Model->tes($a, $b);
-        echo json_encode($h);
+        foreach ($h as $value) {
+            $data = [
+                'nama' => $value->nama_tamu,
+                'tujuan' => $value->tujuan_tamu
+            ];
+
+            echo json_encode($data);
+        }
         /*foreach ($h as $value) {
 
             $pecah = explode('-', $value->start);
             echo $pecah[2] . '-' . $pecah[1] . '-' . $pecah[0] . ',';
         }*/
         //echo $minggu_lalu = date('Y-m-d', strtotime('-1 week', strtotime($r)));
+    }
+    function flashdatas($isi)
+    {
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+        );
     }
 }
 

@@ -182,6 +182,22 @@
 			</li>
 		</ul>
 	</li>
+	<li class="menu-label">Khazanah</li>
+	<li>
+		<a class="has-arrow" href="javascript:;">
+			<div class="parent-icon"><i class='fadeIn animated bx bx-mail-send'></i>
+			</div>
+			<div class="menu-title">Khazanah</div>
+		</a>
+		<ul>
+			<li> <a href="<?= base_url(); ?>Admin/Khazanah"><i class="bx bx-right-arrow-alt"></i>Manage Khazanah</a>
+			</li>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/keg_khazanah"><i class="bx bx-right-arrow-alt"></i>Manage Kegiatan Khazanah</a>
+			</li>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/tujuan_khazanah"><i class="bx bx-right-arrow-alt"></i>Manage Tujuan Khazanah</a>
+			</li>
+		</ul>
+	</li>
 	<!--end navigation-->
 </div>
 <!--end sidebar wrapper -->

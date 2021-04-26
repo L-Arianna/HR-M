@@ -55,7 +55,7 @@ class E_Library extends CI_Controller
 
         $this->session->set_flashdata(
             'sukses',
-            ''
+            'haha'
         );
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -75,10 +75,8 @@ class E_Library extends CI_Controller
                 'kate' => $this->Gudang->show_all_kat_book(),
                 'lib' => $this->E_Lib_Model->join()
             ];
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-warning" role="alert">Data error Harap Upload Ulang</div>'
-            );
+            $isi = 'Data Error Hapar Upload Kembali!';
+            $this->flashdatas($isi);
             $this->load->view('admin/layout/wrapper', $data);
         }
     }
@@ -112,10 +110,6 @@ class E_Library extends CI_Controller
             'content' => 'admin/elibrary/listAdmin',
             'elib' => $this->E_Lib_Model->listing()
         ];
-        $this->session->set_flashdata(
-            'sukses',
-            ''
-        );
         $this->load->view('admin/layout/wrapper', $data);
     }
 
@@ -128,10 +122,6 @@ class E_Library extends CI_Controller
             'content' => 'admin/elibrary/tambahAdmin',
             'katelib' => $this->Gudang->show_all_kat_book()
         ];
-        $this->session->set_flashdata(
-            'sukses',
-            ''
-        );
         $this->load->view('admin/layout/wrapper', $data);
     }
 
@@ -149,10 +139,8 @@ class E_Library extends CI_Controller
                 'content' => 'admin/elibrary/tambahAdmin',
                 'katelib' => $this->Gudang->show_all_kat_book()
             ];
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-            );
+            $isi = 'Gagal Tambah Data!';
+            $this->flashdatas($isi);
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
         } else {
@@ -199,16 +187,12 @@ class E_Library extends CI_Controller
             //echo json_encode($data);
             $insert = $this->E_Lib_Model->tambah($datax);
             if ($insert) {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-                );
+                $isi = 'File Tidak Ada!';
+                $this->flashdatas($isi);
                 redirect('Admin/E_Library/list_admin', 'refresh');
             } else {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-                );
+                $isi = 'Berhasil Tambah Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/E_Library/list_admin', 'refresh');
             }
         }
@@ -242,10 +226,8 @@ class E_Library extends CI_Controller
                 'content' => 'admin/elibrary/tambahAdmin',
                 'katelib' => $this->Gudang->show_all_kat_book()
             ];
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-            );
+            $isi = 'Gagal Update Data!';
+            $this->flashdatas($isi);
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
         } else {
@@ -292,7 +274,9 @@ class E_Library extends CI_Controller
                     array_push($data, $filelama[$i]);
                 }
             } else {
-                echo "file Tidak Ada";
+                $isi = 'File Tidak Ada!';
+                $this->flashdatas($isi);
+                redirect('Admin/E_Library/list_admin', 'refresh');
             }
 
             $x = implode('/', $data);
@@ -311,16 +295,12 @@ class E_Library extends CI_Controller
             //}
 
             if ($insert) {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-warning" role="alert">Harap isi Semua Data</div>'
-                );
+                $isi = 'Gagal Update Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/E_Library/list_admin', 'refresh');
             } else {
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Data berhasil ditambah</div>'
-                );
+                $isi = 'Berhasil Tambah Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/E_Library/list_admin', 'refresh');
             }
         }
@@ -331,10 +311,8 @@ class E_Library extends CI_Controller
         $md = $this->input->post('idlib');
         //echo json_encode($ch);
         if (empty($md)) {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-danger" role="alert">Data Kosong</div>'
-            );
+            $isi = 'Data Kosong!';
+            $this->flashdatas($isi);
             redirect('Admin/E_Library/list_admin', 'refresh');
         } else {
             for ($i = 0; $i < count($md); $i++) {
@@ -347,7 +325,7 @@ class E_Library extends CI_Controller
                         'id_book' => $idb
                     ];
                     $x = $this->E_Lib_Model->delete($data);
-                    //echo $x;
+                    //echo json_encode($data);
                 } else {
                     $exp = explode("/", $fn);
                     for ($i = 0; $i < count($exp); $i++) {
@@ -358,13 +336,11 @@ class E_Library extends CI_Controller
                         'id_book' => $idb
                     ];
                     $x = $this->E_Lib_Model->delete($data);
-                    //echo $x;
+                    //echo json_encode($data);
                 }
             }
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert">Berhasil hapus Surat Keluar </div>'
-            );
+            $isi = 'Berhasil Hapus Data!';
+            $this->flashdatas($isi);
             redirect('Admin/E_Library/list_admin', 'refresh');
             //unlink('assets/upload-pdf/' . $filelama);
         }
@@ -409,6 +385,17 @@ class E_Library extends CI_Controller
 
         //echo json_encode($a);
         //echo implode('-', $a);
+    }
+
+    function flashdatas($isi)
+    {
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+        );
     }
 }
 

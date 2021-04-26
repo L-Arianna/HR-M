@@ -683,9 +683,27 @@ class Produk extends CI_Controller
             'title' => 'Kegiatan Khazanah',
             'user' =>  $this->db->get_where('tb_user', ['username' =>
             $this->session->userdata('username')])->row_array(),
-            'content' => 'admin/dropdown/kegkhazanah'
+            'content' => 'admin/dropdown/kegkhazanah',
+            'kegiatan' => $this->Gudang->show_all_tujuan_khazanah()
         ];
         $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    function cobadulu()
+    {
+        $list = $this->Gudang->show_all_keg_khazanah();
+        foreach ($list as $value) {
+            $idtujuankhazanah = explode(",", $value->tujuan_keg_khazanah);
+            $tujuan = $this->Gudang->show_all_tujuan_khazanah();
+            foreach ($tujuan as $x) {
+                if (array_search($x->id_tujuan_khazanah, $idtujuankhazanah) !== false) {
+                    $arr = array($x->nama_tujuan_khazanah);
+                    $imp = implode("|", $arr);
+                    $row = $imp;
+                    echo json_encode($imp);
+                }
+            }
+        }
     }
 
     public function ajax_list_keg_khazanah()
@@ -694,6 +712,9 @@ class Produk extends CI_Controller
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $person) {
+            $idtujuankhazanah = explode(",", $person->tujuan_keg_khazanah);
+            $tujuan = $this->Gudang->show_all_tujuan_khazanah();
+
             $no++;
             $row = array();
             $row[] = $no;
@@ -701,7 +722,12 @@ class Produk extends CI_Controller
             $row[] = $person->idbuku_keg_khazanah;
             $row[] = $person->nobuku_keg_khazanah;
             $row[] = $person->stok_keg_khazanah;
-
+            foreach ($tujuan as $value) {
+                if (array_search($value->id_tujuan_khazanah, $idtujuankhazanah) !== false) {
+                    $imp = $value->nama_tujuan_khazanah;
+                    $row[] = $imp;
+                }
+            }
             //add html for action
             $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="keg_khazanah_edit_ajax(' . "'" . $person->id_keg_khazanah . "'" . ')"><i class="bx bx-edit-alt"></i></a>
 				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_keg_khazanah(' . "'" . $person->id_keg_khazanah . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
@@ -733,12 +759,16 @@ class Produk extends CI_Controller
         $idbuku = strip_tags(str_replace("'", "", $this->input->post('idbukukegkhazanah')));
         $nobuku = strip_tags(str_replace("'", "", $this->input->post('nobukukegkhazanah')));
         $stok = strip_tags(str_replace("'", "", $this->input->post('stokkegkhazanah')));
+        $tujuan = $this->input->post('tujuan');
+        $imp = implode(',', $tujuan);
         $data = array(
             'jenis_keg_khazanah' => $jenis,
             'idbuku_keg_khazanah' => $idbuku,
             'nobuku_keg_khazanah' => $nobuku,
-            'stok_keg_khazanah' => $stok
+            'stok_keg_khazanah' => $stok,
+            'tujuan_keg_khazanah' => $imp
         );
+
         $insert = $this->Gudang->keg_khazanah_save($data);
         if ($insert) {
             echo json_encode(array("status" => TRUE));
@@ -755,12 +785,18 @@ class Produk extends CI_Controller
         $idbuku = strip_tags(str_replace("'", "", $this->input->post('idbukukegkhazanah')));
         $nobuku = strip_tags(str_replace("'", "", $this->input->post('nobukukegkhazanah')));
         $stok = strip_tags(str_replace("'", "", $this->input->post('stokkegkhazanah')));
+        $tujuan = $this->input->post('tujuan');
+        $imp = implode(',', $tujuan);
+
         $data = array(
             'jenis_keg_khazanah' => $jenis,
             'idbuku_keg_khazanah' => $idbuku,
             'nobuku_keg_khazanah' => $nobuku,
-            'stok_keg_khazanah' => $stok
+            'stok_keg_khazanah' => $stok,
+            'tujuan_keg_khazanah' => $imp
         );
+        //echo json_encode($data);
+
         $update = $this->Gudang->keg_khazanah_update(array('id_keg_khazanah' => $idkek), $data);
         if ($update) {
             echo json_encode(array("status" => TRUE));
@@ -815,6 +851,114 @@ class Produk extends CI_Controller
     public function all_keg_khazanah()
     {
         echo json_encode($this->Gudang->show_all_keg_khazanah());
+    }
+
+    //Manage Tujuan Khazanah
+    public function tujuan_khazanah()
+    {
+        $data = [
+            'title' => 'Tujuan Khazanah',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/tujuankhazanah'
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    public function ajax_list_tujuan_khazanah()
+    {
+        $list = $this->Gudang->get_datatables_tujuan_khazanah();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_tujuan_khazanah;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="tujuan_khazanah_edit_ajax(' . "'" . $person->id_tujuan_khazanah . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_tujuan_khazanah(' . "'" . $person->id_tujuan_khazanah . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_tujuan_khazanah(),
+            "recordsFiltered" => $this->Gudang->count_filtered_tujuan_khazanah(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_tujuan_khazanah($idtujuankhazanah)
+    {
+        $data = $this->Gudang->get_by_id_tujuan_khazanah($idtujuankhazanah);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_tujuan_khazanah()
+    {
+        $this->_validate_tujuan_khazanah();
+
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namatujuankhazanah')));
+        $data = array(
+            'nama_tujuan_khazanah' => $nama
+        );
+        $insert = $this->Gudang->tujuan_khazanah_save($data);
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_update_tujuan_khazanah()
+    {
+        $this->_validate_tujuan_khazanah();
+        $idtuj = strip_tags(str_replace("'", "", $this->input->post('idtujuankhazanah')));
+        $nama = strip_tags(str_replace("'", "", $this->input->post('namatujuankhazanah')));
+        $data = array(
+            'nama_tujuan_khazanah' => $nama,
+        );
+        $update = $this->Gudang->tujuan_khazanah_update(array('id_tujuan_khazanah' => $idtuj), $data);
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_delete_tujuan_khazanah($idtujuankhazanah)
+    {
+        $this->Gudang->tujuan_khazanah_delete_by_id($idtujuankhazanah);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_tujuan_khazanah()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('namatujuankhazanah') == '') {
+            $data['inputerror'][] = 'namatujuankhazanah';
+            $data['error_string'][] = 'Nama Tujuan Khazanah is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_tujuan_khazanah()
+    {
+        echo json_encode($this->Gudang->show_all_tujuan_khazanah());
     }
 }
 

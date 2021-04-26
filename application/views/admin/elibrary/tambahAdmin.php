@@ -44,17 +44,17 @@
                                     <div class="control-group">
                                         <!--Multi -->
                                         <input name="filebook[]" placeholder="Filenya nih" class="form-control" type="file" accept="application/pdf"></input>
-                                        <button type="button" id="" class="btn btn-danger remove-multi"><i class="lni lni-circle-minus"></i>Kurangi File Upload</button>
+                                        <button type="button" id="" class="btn btn-danger btn-sm remove-multi"><i class="lni lni-circle-minus"></i>Kurangi File Upload</button>
                                     </div>
                                 </div>
-                                <button type="button" id="" onclick="tambahmulti();" class="btn btn-success tambah-multi"><i class="lni lni-circle-plus"></i>Tambah File Upload</button>
+                                <button type="button" id="" onclick="tambahmulti();" class="btn btn-success btn-sm tambah-multi"><i class="lni lni-circle-plus"></i>Tambah File Upload</button>
 
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Tambah</button>
                     </div>
                 </form>
             </div>

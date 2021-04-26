@@ -47,7 +47,6 @@
                                             <td>
                                                 <a href="<?= base_url('Admin/Surat_Keluar/lihatsurat/' . $value->id_surat_keluar) ?>" target="_blank" class="btn btn-info btn-sm"><i class="bx bx-book-alt"></i></a>
                                                 <a href="<?= base_url('Admin/Surat_Keluar/edit/' . $value->id_surat_keluar) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
-                                                <a href="<?= base_url('Admin/Surat_Keluar/delete/' . $value->id_surat_keluar . '/' . $value->file_surat_keluar) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
                                             </td>
 
                                             <td><input type="checkbox" class="check-item" name="idsurat[]" value="<?= $value->id_surat_keluar; ?>"></td>

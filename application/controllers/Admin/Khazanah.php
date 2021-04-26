@@ -65,12 +65,21 @@ class Khazanah extends CI_Controller
             );
 
             $x = $this->Khazanah_Model->tambah($data);
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert"> Data Tersimpan </div>'
-            );
+            $isi = 'Berhasil Simpan Data';
+            $this->flashdatas($isi);
             redirect('Admin/Khazanah', 'refresh');
         }
+    }
+
+    function flashdatas($isi)
+    {
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+        );
     }
 
 
@@ -89,10 +98,8 @@ class Khazanah extends CI_Controller
                 $this->selesai($id);
             }
         } else {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-danger" role="alert"> Gagal </div>'
-            );
+            $isi = 'Kata Sandi Anda Salah!';
+            $this->flashdatas($isi);
             redirect('Admin/Khazanah', 'refresh');
         }
     }
@@ -111,10 +118,8 @@ class Khazanah extends CI_Controller
         $where = ['id_khazanah' => $id];
         //echo json_encode($data);
         $x = $this->Khazanah_Model->update($data, $where);
-        $this->session->set_flashdata(
-            'sukses',
-            '<div class="alert alert-success" role="alert"> Sudah ACC </div>'
-        );
+        $isi = 'Sudah ACC!';
+        $this->flashdatas($isi);
         redirect('Admin/Khazanah', 'refresh');
     }
 
@@ -132,10 +137,8 @@ class Khazanah extends CI_Controller
         $where = ['id_khazanah' => $id];
         //echo json_encode($data);
         $x = $this->Khazanah_Model->update($data, $where);
-        $this->session->set_flashdata(
-            'sukses',
-            '<div class="alert alert-success" role="alert"> Sudah Selesai </div>'
-        );
+        $isi = 'Sudah Selesai!';
+        $this->flashdatas($isi);
         redirect('Admin/Khazanah', 'refresh');
     }
 
@@ -191,10 +194,8 @@ class Khazanah extends CI_Controller
 
             $where = ['id_khazanah' => $idkhazanah];
             $x = $this->Khazanah_Model->update($data, $where);
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert"> Data Tersimpan </div>'
-            );
+            $isi = 'Berhasil Update Data!';
+            $this->flashdatas($isi);
             redirect('Admin/Khazanah', 'refresh');
         }
     }
@@ -203,10 +204,8 @@ class Khazanah extends CI_Controller
         $ch = $this->input->post('idkhazanah');
         //echo json_encode($ch);
         if (empty($ch)) {
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-danger" role="alert">Data Kosong</div>'
-            );
+            $isi = 'Data Kosong';
+            $this->flashdatas($isi);
             redirect('Admin/Khazanah', 'refresh');
         } else {
             for ($i = 0; $i < count($ch); $i++) {
@@ -215,13 +214,11 @@ class Khazanah extends CI_Controller
                 $data = [
                     'id_khazanah' => $ch[$i]
                 ];
-                echo json_encode($data);
+                //echo json_encode($data);
                 $del = $this->Khazanah_Model->delete($data);
             }
-            $this->session->set_flashdata(
-                'sukses',
-                '<div class="alert alert-success" role="alert">Berhasil Hapus </div>'
-            );
+            $isi = 'Berhasil Hapus Data';
+            $this->flashdatas($isi);
             redirect('Admin/Khazanah', 'refresh');
         }
     }

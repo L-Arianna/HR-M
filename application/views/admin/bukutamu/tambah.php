@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" name="submit" type="submit">Tambah Tamu</button>
+                            <button class="btn btn-primary btn-sm" name="submit" type="submit">Tambah Tamu</button>
                         </div>
                     </form>
                 </div>

@@ -1,5 +1,6 @@
 <div class="page-wrapper">
     <div class="page-content">
+        <?= $this->session->flashdata('sukses'); ?>
         <h3 class="mb-0 text-uppercase"><?= $title ?></h3>
         <div class="card">
             <div class="card-body">

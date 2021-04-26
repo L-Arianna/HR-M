@@ -48,12 +48,21 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		if ($('#text').length) {
+		if ($('#jam').length) {
 			startTime();
 		}
 	});
 
 	function startTime() {
+		<?php if (empty($statusno) || empty($statussatu) || empty($statusdua)) {
+			$statusnol = array();
+			$statussatu = array();
+			$statusdua = array();
+			$snol = 0;
+			$ssatu = 1;
+			$sdua = 2;
+		}
+		?>
 		<?php foreach ($statusdua as $value) {
 			$sdua = $value->jumlah;
 		} ?>
@@ -67,27 +76,39 @@
 		var h = today.getHours();
 		var m = today.getMinutes();
 		var s = today.getSeconds();
+		var bulan = today.getMonth();
+		var tahun = today.getFullYear();
+		var tanggal = today.getDate();
+		var notif = document.getElementById('notif');
+		var jam = document.getElementById('jam');
 		m = checkTime(m);
 		s = checkTime(s);
-		document.getElementById('txt').innerHTML =
+		h = checkTime(h);
+		jam.innerHTML =
 			h + ":" + m + ":" + s;
 		var t = setTimeout(startTime, 500);
 
 		var x = h + ":" + m + ":" + s;
-		var y = "10:45:00";
-		if (y < x && x < "16:00:00" && x > "15:00:00") {
-			document.getElementById('text').innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $snol; ?> + " Belum ACC</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		var y = "08:00:00";
+		var lastmasuk = "16:00:00";
+		var firtsmasuk = "15:00:00";
+		if (y < x && x < lastmasuk && x > firtsmasuk) {
+			notif.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $snol; ?> + " Belum ACC</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		} else {
+
+		}
+		var lastkeluar = "11:35:00";
+		var firstkeluar = "11:32:00";
+		var z = "08:00:00";
+		if (z < x && x < lastkeluar && x > firstkeluar) {
+			notif.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
 
 		}
 
-		var z = "10:02:00";
-		if (z < x && x < "17:00:00" && x > "16:00:00") {
-			document.getElementById('text').innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
-			z = "23:59:59";
-		} else {
-
-		}
+		//if (x > "17:05:00") {
+		//	$('#btnkhazanah').attr('disabled', true);
+		//}
 	}
 
 	function checkTime(i) {

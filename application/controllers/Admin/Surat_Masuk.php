@@ -55,7 +55,8 @@ class Surat_Masuk extends CI_Controller
                 'title' => 'Tambah Surat Masuk',
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
-                'content' => 'admin/suratmasuk/tambah'
+                'content' => 'admin/suratmasuk/tambah',
+                'jabatan' => $this->Kat_jabatan->listing()
             ];
             $this->load->view('admin/layout/wrapper', $data);
             //exit();
@@ -83,12 +84,9 @@ class Surat_Masuk extends CI_Controller
 
             if (!$this->upload->do_upload('filesuratmasuk')) {
                 $error = array('error' => $this->upload->display_errors());
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">' . $error . ' </div>'
-                );
+                $isi = 'Data Kosong |' . $error;
+                $this->flashdatas($isi);
                 redirect('Admin/Surat_Masuk/tambah/', 'refresh');
-                $this->load->view('upload_form', $error);
             } else {
                 $data = array('upload_data' => $this->upload->data());
 
@@ -103,10 +101,8 @@ class Surat_Masuk extends CI_Controller
                     'tembusan_surat_masuk' => $tbn
                 );
                 $insert = $this->Surat_Masuk_Model->tambah($data);
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Berhasil menambahkan data </div>'
-                );
+                $isi = 'Berhasil Simpan Data!';
+                $this->flashdatas($isi);
                 redirect('Admin/Surat_Masuk', 'refresh');
             }
         }
@@ -186,10 +182,8 @@ class Surat_Masuk extends CI_Controller
                 ];
                 $where = ['id_surat_masuk' => $w];
                 $this->Surat_Masuk_Model->update($data, $where);
-                $this->session->set_flashdata(
-                    'sukses',
-                    '<div class="alert alert-success" role="alert">Berhasil Update </div>'
-                );
+                $isi = 'Berhasil Update data';
+                $this->flashdatas($isi);
                 redirect('Admin/Surat_Masuk/', 'refresh');
             } else {
                 $this->load->library('upload', $config);
@@ -218,10 +212,8 @@ class Surat_Masuk extends CI_Controller
                     ];
                     $where = ['id_surat_masuk' => $w];
                     $this->Surat_Masuk_Model->update($data, $where);
-                    $this->session->set_flashdata(
-                        'sukses',
-                        '<div class="alert alert-success" role="alert">Berhasil Update </div>'
-                    );
+                    $isi = 'Berhasil Update Data!';
+                    $this->flashdatas($isi);
                     redirect('Admin/Surat_Masuk/', 'refresh');
                 }
             }
@@ -267,20 +259,36 @@ class Surat_Masuk extends CI_Controller
     {
         $ch = $this->input->post('idsurat');
         //echo json_encode($ch);
-        for ($i = 0; $i < count($ch); $i++) {
-            $y = $this->Surat_Masuk_Model->detail($ch[$i]);
-            $idsurat =  $y->id_surat_masuk;
-            $ul = unlink('assets/upload-pdf/' . $y->file_surat_masuk . ".pdf");
-            $data = [
-                'id_surat_masuk' => $idsurat
-            ];
-            $del = $this->Surat_Masuk_Model->delete($data);
+        $jml = count($ch);
+        if (empty($ch)) {
+            $isi = 'Data Kosong';
+            $this->flashdatas($isi);
+            redirect('Admin/Surat_Masuk', 'refresh');
+        } else {
+            for ($i = 0; $i < $jml; $i++) {
+                $y = $this->Surat_Masuk_Model->detail($ch[$i]);
+                $idsurat =  $y->id_surat_masuk;
+                $ul = unlink('assets/upload-pdf/' . $y->file_surat_masuk . ".pdf");
+                $data = [
+                    'id_surat_masuk' => $idsurat
+                ];
+                $del = $this->Surat_Masuk_Model->delete($data);
+            }
+            $isi = 'Berhasil Hapus Data!';
+            $this->flashdatas($isi);
+            redirect('Admin/Surat_Masuk', 'refresh');
         }
+    }
+
+    function flashdatas($isi)
+    {
         $this->session->set_flashdata(
             'sukses',
-            '<div class="alert alert-success" role="alert">Berhasil hapus Surat Keluar </div>'
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
         );
-        redirect('Admin/Surat_Masuk', 'refresh');
     }
 }
 
