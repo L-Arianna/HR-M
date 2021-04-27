@@ -15,7 +15,7 @@ class Khazanah extends CI_Controller
 
     function tes()
     {
-        echo json_encode($this->Khazanah_Model->count_status_dua());
+        echo json_encode($this->Khazanah_Model->joinpegawai());
     }
 
     public function index()
@@ -34,6 +34,7 @@ class Khazanah extends CI_Controller
     }
     function add()
     {
+        $where = '3';
         $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'trim|required');
         $this->form_validation->set_rules('tujuan', 'Tujuan', 'trim|required');
         $this->form_validation->set_rules('filelokasi', 'Filelokasi', 'trim|required');
@@ -46,7 +47,8 @@ class Khazanah extends CI_Controller
                 'user' =>  $this->db->get_where('tb_user', ['username' =>
                 $this->session->userdata('username')])->row_array(),
                 'content' => 'admin/khazanah/tambah',
-                'kegiatan' => $this->Gudang->show_all_keg_khazanah()
+                'kegiatan' => $this->Gudang->show_all_keg_khazanah(),
+                'pengawas' => $this->Khazanah_Model->joinpegawai($where)
             ];
             $this->load->view('admin/layout/wrapper', $data);
         } else {
@@ -55,14 +57,17 @@ class Khazanah extends CI_Controller
             $filelokasi = htmlspecialchars($this->input->post('filelokasi'));
             $petugas = htmlspecialchars($this->input->post('petugas'));
             $pengawas = htmlspecialchars($this->input->post('pengawas'));
+            $keterangan = htmlspecialchars($this->input->post('keterangan'));
 
             $data = array(
                 'kegiatan_khazanah' => $kegiatan,
                 'tujuan_khazanah' => $tujuan,
                 'filelokasi_khazanah' => $filelokasi,
                 'petugas_khazanah' => $petugas,
-                'pengawas_khazanah' => $pengawas
+                'pengawas_khazanah' => $pengawas,
+                'keterangan_khazanah' => $keterangan
             );
+            //echo json_encode($data);
 
             $x = $this->Khazanah_Model->tambah($data);
             $isi = 'Berhasil Simpan Data';
@@ -144,6 +149,7 @@ class Khazanah extends CI_Controller
 
     function edit()
     {
+        $where = '3';
         $idkhazanah = $this->uri->segment(4);
         $data = [
             'title' => 'Khazanah',
@@ -151,7 +157,8 @@ class Khazanah extends CI_Controller
             $this->session->userdata('username')])->row_array(),
             'content' => 'admin/khazanah/edit',
             'kegiatan' => $this->Gudang->show_all_keg_khazanah(),
-            'khazanah' => $this->Khazanah_Model->detail($idkhazanah)
+            'khazanah' => $this->Khazanah_Model->detail($idkhazanah),
+            'pengawas' => $this->Khazanah_Model->joinpegawai($where)
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
@@ -181,13 +188,15 @@ class Khazanah extends CI_Controller
             $filelokasi = htmlspecialchars($this->input->post('filelokasi'));
             $petugas = htmlspecialchars($this->input->post('petugas'));
             $pengawas = htmlspecialchars($this->input->post('pengawas'));
+            $keterangan = htmlspecialchars($this->input->post('keterangan'));
 
             $data = array(
                 'kegiatan_khazanah' => $kegiatan,
                 'tujuan_khazanah' => $tujuan,
                 'filelokasi_khazanah' => $filelokasi,
                 'petugas_khazanah' => $petugas,
-                'pengawas_khazanah' => $pengawas
+                'pengawas_khazanah' => $pengawas,
+                'keterangan_khazanah' => $keterangan
             );
 
             //echo json_encode($data);

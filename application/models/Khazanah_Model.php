@@ -14,9 +14,20 @@ class Khazanah_Model extends CI_Model
 
     public function listing()
     {
-        //$this->db->select('*');
+        //$this->db->select('id_kat_jabatan', 'nip', 'nama_pegawai', 'password', 'nama_jabatan');
         $this->db->from($this->table);
         $this->db->join('tbl_kegiatan_khazanah', 'tbl_kegiatan_khazanah.id_keg_khazanah = tbl_khazanah.kegiatan_khazanah');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function joinpegawai($where)
+    {
+        $this->db->select('dat_pegawai.id_kat_jabatan, dat_pegawai.nip , dat_pegawai.nama_pegawai , dat_pegawai.password , tb_kat_jabatan.nama_jabatan');
+        $this->db->from('dat_pegawai');
+        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = dat_pegawai.id_kat_jabatan');
+        $this->db->where('dat_pegawai.id_kat_jabatan', $where);
+
         $query = $this->db->get();
         return $query->result();
     }

@@ -2,12 +2,11 @@
     <div class="page-content">
         <div class="col">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" onclick="keg_khazanah_add_ajax()" data-bs-target="#keg_khazanah_modal_form">Tambah Kegiatan Khazanah</button>
-            </br></br>
+            <a type="button" class="btn btn-primary btn-sm" href="<?= base_url(); ?>Gudang/Produk/tambah_keg_khazanah">Tambah Kegiatan Khazanah</a>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tablekegkhazanah" class="table table-striped table-bordered">
+                        <table id="example2" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -20,82 +19,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>No</td>
-                                    <td>Jenis</td>
-                                    <td>Id Buku</td>
-                                    <td>Nomor Buku</td>
-                                    <td>Stok</td>
-                                    <th>Tujuan</th>
-                                    <td>Action</td>
-                                </tr>
+                                <?php
+                                $no = 1;
+                                foreach ($kegiatan as $value) {
+                                    $exp = explode(",", $value->tujuan_keg_khazanah);
+                                ?>
+                                    <tr>
+                                        <td><?= $no; ?></td>
+                                        <td><?= $value->jenis_keg_khazanah; ?></td>
+                                        <td><?= $value->idbuku_keg_khazanah; ?></td>
+                                        <td><?= $value->nobuku_keg_khazanah; ?></td>
+                                        <td><?= $value->stok_keg_khazanah; ?></td>
+                                        <td><?php foreach ($tujuan as $v) {
+                                                if (array_search($v->id_tujuan_khazanah, $exp) !== false) {
+                                                    echo "<span class='badge rounded-pill bg-warning text-dark'>" . "[" . $v->nama_tujuan_khazanah . "] " . "</span";
+                                                }
+                                            } ?></td>
+                                        <td><a href="<?= base_url('Gudang/Produk/edit_keg_khazanah/' . $value->id_keg_khazanah) ?>" class="btn btn-warning btn-sm"><i class="bx bx-edit-alt"></i></a>
+                                            <a href="<?= base_url('Gudang/Produk/delete_keg_khazanah/' . $value->id_keg_khazanah) ?>" onclick="return confirm('yakin mau dihapus?')" class="btn btn-danger btn-sm"><i class="bx bx-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                    $no++;
+                                }
+                                ?>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="keg_khazanah_modal_form" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" id="formkegkhazanah" name="formdata" class="form-horizontal" enctype="multipart/form-data" method="POST">
-                            <div class="col-md-12">
-                                <input type="hidden" value="" name="idkegkhazanah" />
-                                <div class="form-group">
-                                    <label class="control-label col-md-6">Jenis </label>
-                                    <div class="col-md-12">
-                                        <input name="jeniskegkhazanah" placeholder="Nama Jenis" class="form-control" type="text">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-6">ID Buku </label>
-                                    <div class="col-md-12">
-                                        <input name="idbukukegkhazanah" placeholder="ID Buku" class="form-control" type="text">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-6">Nomor Buku </label>
-                                    <div class="col-md-12">
-                                        <input name="nobukukegkhazanah" placeholder="Nomor Buku" class="form-control" type="text">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-6">Stok </label>
-                                    <div class="col-md-12">
-                                        <input name="stokkegkhazanah" placeholder="Stok" class="form-control" type="number">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-6">Tujuan Kegiatan</label>
-                                    <div class="row d-flex">
-                                        <?php $no = 1;
-                                        foreach ($kegiatan as $value) {
-                                        ?>
-                                            <div class="form-check col-md-2">
-                                                <input class="form-check-input" name="tujuan[]" type="checkbox" value="<?= $value->id_tujuan_khazanah; ?>" id="flexCheckIndeterminate<?= $no; ?>">
-                                                <label class="form-check-label" for="flexCheckIndeterminate<?= $no; ?>"><?= $value->nama_tujuan_khazanah; ?></label>
-                                            </div>
-                                        <?php
-                                            $no++;
-                                        } ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                                <button type="button" id="btnSavekegkhazanah" onclick="keg_khazanah_save();" class="btn btn-primary btn-sm">Save changes</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

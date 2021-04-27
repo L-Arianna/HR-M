@@ -11,7 +11,7 @@
                             <input type="hidden" name="idkhazanah" value="<?= $khazanah->id_khazanah; ?>">
                             <div class="col-md-4">
                                 <label for="kegiatan">Kegiatan</label>
-                                <select class="form-control" name="kegiatan">
+                                <select class="form-control" id="kegiatan" name="kegiatan">
                                     <option>Pilih</option>
                                     <?php foreach ($kegiatan as $value) {
                                         if ($khazanah->kegiatan_khazanah == $value->id_keg_khazanah) {
@@ -26,18 +26,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="tujuan">Tujuan</label>
-                                <select class="form-control" name="tujuan">
-                                    <option> Pilih </option>
-                                    <?php if ($this->session->userdata('username') == 'admin') {
-                                        echo "<option value=audit>Audit</option>";
-                                    }
-                                    if ($khazanah->tujuan_khazanah == 'operasional') {
-                                        echo "<option value=operasional selected>Operasional Harian</option>";
-                                    }
-                                    if ($khazanah->tujuan_khazanah == 'audit') {
-                                        echo "<option value=audit selected>Audit</option>";
-                                    } ?>
-
+                                <select class="form-control" id="tujuan" name="tujuan" onkeydown="callajax()">
                                 </select>
                                 <?= form_error('tujuan', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
@@ -53,7 +42,14 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="pengawas">Pengawas</label>
-                                <input type="text" class="form-control" name="pengawas" placeholder="Pengawas" value="<?= $khazanah->pengawas_khazanah; ?>">
+                                <select class="form-control" id="pengawas" name="pengawas">
+                                    <option>Pilih</option>
+                                    <?php foreach ($pengawas as $v) {
+                                    ?>
+                                        <option value="<?= $v->nama_jabatan; ?>"><?= $v->nama_jabatan; ?> </option>
+                                    <?php
+                                    } ?>
+                                </select>
                                 <?= form_error('pengawas', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                         </div>

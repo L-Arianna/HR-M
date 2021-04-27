@@ -10,7 +10,7 @@
                         <div class="row mb-2">
                             <div class="col-md-4">
                                 <label for="kegiatan">Kegiatan</label>
-                                <select class="form-control" name="kegiatan">
+                                <select class="form-control" id="kegiatan" name="kegiatan">
                                     <option>Pilih</option>
                                     <?php foreach ($kegiatan as $value) {
                                     ?>
@@ -22,12 +22,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="tujuan">Tujuan</label>
-                                <select class="form-control" name="tujuan">
-                                    <option> Pilih </option>
-                                    <?php if ($this->session->userdata('username') == 'admin') {
-                                        echo "<option value=audit>Audit</option>";
-                                    } ?>
-                                    <option value="operasional">Operasional Harian</option>
+                                <select class="form-control" id="tujuan" name="tujuan" onkeydown="callajax()">
                                 </select>
                                 <?= form_error('tujuan', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
@@ -43,12 +38,23 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="pengawas">Pengawas</label>
-                                <input type="text" class="form-control" name="pengawas" placeholder="Pengawas">
+                                <select class="form-control" id="pengawas" name="pengawas">
+                                    <option>Pilih</option>
+                                    <?php foreach ($pengawas as $v) {
+                                    ?>
+                                        <option value="<?= $v->nama_jabatan; ?>"><?= $v->nama_jabatan; ?> </option>
+                                    <?php
+                                    } ?>
+                                </select>
                                 <?= form_error('pengawas', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="keterangan">Keterangan</label>
+                                <textarea type="text" class="form-control" name="keterangan" placeholder="Keterangan"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" name="submit" type="submit">Submit form</button>
+                            <button class="btn btn-primary btn-sm" name="submit" type="submit">Submit form</button>
                         </div>
                     </form>
                 </div>

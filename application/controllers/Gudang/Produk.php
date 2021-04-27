@@ -677,7 +677,7 @@ class Produk extends CI_Controller
     }
 
     //Manage Kegiatan Khazanah
-    public function keg_khazanah()
+    /*public function keg_khazanah()
     {
         $data = [
             'title' => 'Kegiatan Khazanah',
@@ -851,7 +851,7 @@ class Produk extends CI_Controller
     public function all_keg_khazanah()
     {
         echo json_encode($this->Gudang->show_all_keg_khazanah());
-    }
+    }*/
 
     //Manage Tujuan Khazanah
     public function tujuan_khazanah()
@@ -959,6 +959,199 @@ class Produk extends CI_Controller
     public function all_tujuan_khazanah()
     {
         echo json_encode($this->Gudang->show_all_tujuan_khazanah());
+    }
+
+    //Manage Kegiatan Khazanah tanpa Ajax
+    public function keg_khazanah()
+    {
+        $data = [
+            'title' => 'Kegiatan Khazanah',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/kegkhazanah',
+            'kegiatan' => $this->Gudang->show_all_keg_khazanah(),
+            'tujuan' => $this->Gudang->show_all_tujuan_khazanah()
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    function tambah_keg_khazanah()
+    {
+        $data = [
+            'title' => 'Tambah Kegiatan Khazanah',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/kegkhazanahtambah',
+            'kegiatan' => $this->Gudang->show_all_tujuan_khazanah()
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+
+    function add_keg_khazanah()
+    {
+        $this->form_validation->set_rules('jeniskegkhazanah', 'Jenis', 'trim|required');
+        $this->form_validation->set_rules('idbukukegkhazanah', 'Buku', 'trim|required');
+        $this->form_validation->set_rules('nobukukegkhazanah', 'No Buku', 'trim|required');
+        $this->form_validation->set_rules('stokkegkhazanah', 'Stok', 'trim|required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data = [
+                'title' => 'Tambah Kegiatan Khazanah',
+                'user' =>  $this->db->get_where('tb_user', ['username' =>
+                $this->session->userdata('username')])->row_array(),
+                'content' => 'admin/dropdown/kegkhazanahtambah',
+                'jabatan' => $this->Kat_jabatan->listing()
+            ];
+            $this->load->view('admin/layout/wrapper', $data);
+            //exit();
+        } else {
+
+            $jenis = strip_tags(str_replace("'", "", $this->input->post('jeniskegkhazanah')));
+            $idbuku = strip_tags(str_replace("'", "", $this->input->post('idbukukegkhazanah')));
+            $nobuku = strip_tags(str_replace("'", "", $this->input->post('nobukukegkhazanah')));
+            $stok = strip_tags(str_replace("'", "", $this->input->post('stokkegkhazanah')));
+            $tujuan = $this->input->post('tujuan');
+            $imp = implode(",", $tujuan);
+
+            $data = array(
+                'jenis_keg_khazanah' => $jenis,
+                'idbuku_keg_khazanah' => $idbuku,
+                'nobuku_keg_khazanah' => $nobuku,
+                'stok_keg_khazanah' => $stok,
+                'tujuan_keg_khazanah' => $imp
+            );
+            echo json_encode($data);
+            $insert = $this->Gudang->tambah_keg_khazanah($data);
+            $isi = 'Berhasil Simpan Data!';
+            $this->flashdatas($isi);
+            redirect('Gudang/Produk/keg_khazanah', 'refresh');
+        }
+    }
+
+    function listkegiatan()
+    {
+        $id_keg = $this->input->post('id_keg');
+        $id = $this->Gudang->detail_keg_khazanah($id_keg);
+        $exp = explode(",", $id->tujuan_keg_khazanah);
+        $tujuan = $this->Gudang->show_all_tujuan_khazanah();
+
+        $list[] = "<option value=''>Pilih</option>";
+
+        foreach ($tujuan as $data) {
+            if (array_search($data->id_tujuan_khazanah, $exp) !== false) {
+                $list[] = "<option value='" . $data->nama_tujuan_khazanah . "'>" . $data->nama_tujuan_khazanah . "</option>";
+            }
+        }
+        $callback = array('list_grade' => $list);
+
+        echo json_encode($callback);
+    }
+
+    function edit_keg_khazanah()
+    {
+        $idkegkhazanah = $this->uri->segment(4);
+
+        $data = [
+            'title' => 'Edit Kegiatan Khazanah',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'kegiatan' => $this->Gudang->detail_keg_khazanah($idkegkhazanah),
+            'tujuan' => $this->Gudang->show_all_tujuan_khazanah(),
+            'content' => 'admin/dropdown/kegkhazanahedit'
+        ];
+        $this->load->view('admin/layout/wrapper', $data);
+    }
+    function update_keg_khazanah()
+    {
+
+        $idkegkhazanah = htmlspecialchars($this->input->post('idkegkhazanah'));
+        $this->form_validation->set_rules('jeniskegkhazanah', 'Jenis', 'trim|required');
+        $this->form_validation->set_rules('idbukukegkhazanah', 'Buku', 'trim|required');
+        $this->form_validation->set_rules('nobukukegkhazanah', 'No Buku', 'trim|required');
+        $this->form_validation->set_rules('stokkegkhazanah', 'Stok', 'trim|required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data = [
+                'title' => 'Edit Kegiatan Khazanah',
+                'user' =>  $this->db->get_where('tb_user', ['username' =>
+                $this->session->userdata('username')])->row_array(),
+                'surat_masuk' => $this->Gudang->detail_keg_khazanah($idkegkhazanah),
+                'content' => 'admin/dropdown/editkegkhazanah'
+            ];
+            $this->load->view('admin/layout/wrapper', $data);
+            //redirect(base_url('Admin/Surat_Masuk/edit', $data));
+        } else {
+
+            $jenis = strip_tags(str_replace("'", "", $this->input->post('jeniskegkhazanah')));
+            $idbuku = strip_tags(str_replace("'", "", $this->input->post('idbukukegkhazanah')));
+            $nobuku = strip_tags(str_replace("'", "", $this->input->post('nobukukegkhazanah')));
+            $stok = strip_tags(str_replace("'", "", $this->input->post('stokkegkhazanah')));
+            $tujuan = $this->input->post('tujuan');
+            $imp = implode(",", $tujuan);
+
+            $data = array(
+                'jenis_keg_khazanah' => $jenis,
+                'idbuku_keg_khazanah' => $idbuku,
+                'nobuku_keg_khazanah' => $nobuku,
+                'stok_keg_khazanah' => $stok,
+                'tujuan_keg_khazanah' => $imp
+            );
+            //echo json_encode($data);
+
+            $where = ['id_keg_khazanah' => $idkegkhazanah];
+            $this->Gudang->update_keg_khazanah($data, $where);
+            $isi = 'Berhasil Update Data!';
+            $this->flashdatas($isi);
+            redirect('Gudang/Produk/keg_khazanah/' . $idkegkhazanah, 'refresh');
+        }
+    }
+
+    function delete_keg_khazanah()
+    {
+        $idkegkhazanah = $this->uri->segment(4);
+
+        $data = [
+            'id_keg_khazanah' => $idkegkhazanah
+        ];
+        $this->Gudang->keg_khazanah_delete_by_id($idkegkhazanah);
+        $isi = 'Berhasil Delete Data!';
+        $this->flashdatas($isi);
+        redirect('Gudang/Produk/keg_khazanah', 'refresh');
+    }
+    function multidelete()
+    {
+        $ch = $this->input->post('idsurat');
+        //echo json_encode($ch);
+        $jml = count($ch);
+        if (empty($ch)) {
+            $isi = 'Data Kosong';
+            $this->flashdatas($isi);
+            redirect('Admin/Surat_Masuk', 'refresh');
+        } else {
+            for ($i = 0; $i < $jml; $i++) {
+                $y = $this->Surat_Masuk_Model->detail($ch[$i]);
+                $idsurat =  $y->id_surat_masuk;
+                $ul = unlink('assets/upload-pdf/' . $y->file_surat_masuk . ".pdf");
+                $data = [
+                    'id_surat_masuk' => $idsurat
+                ];
+                $del = $this->Surat_Masuk_Model->delete($data);
+            }
+            $isi = 'Berhasil Hapus Data!';
+            $this->flashdatas($isi);
+            redirect('Admin/Surat_Masuk', 'refresh');
+        }
+    }
+
+    function flashdatas($isi)
+    {
+        $this->session->set_flashdata(
+            'sukses',
+            '<div class="alert alert-secondary border-0 bg-secondary alert-dismissible fade show">
+            <div class="text-white text-center">' . $isi . '</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+        );
     }
 }
 

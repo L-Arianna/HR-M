@@ -738,6 +738,35 @@ class Gudang extends CI_Model
         return $this->db->from($this->jointablekeg_khazanah())->get()->result();
     }
 
+    public function listing_keg_khazanah()
+    {
+        //$this->db->select('*');
+        $this->db->from($this->table_keg_khazanah);
+        //$this->db->join('tbl_dropdown_statussuratmasuk', 'tbl_dropdown_statussuratmasuk.id_dropdown_statussuratmasuk = tbl_surat_keluar.status_surat_keluar');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function tambah_keg_khazanah($data)
+    {
+        $this->db->insert($this->table_keg_khazanah, $data);
+    }
+
+    public function detail_keg_khazanah($idkegkhazanah)
+    {
+        $this->db->from($this->table_keg_khazanah);
+        $this->db->where('id_keg_khazanah', $idkegkhazanah);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    function update_keg_khazanah($data, $where)
+    {
+        //$this->db->update($this->table, $data, $where);
+        //return $this->db->affected_rows();
+        $this->db->where($where);
+        $this->db->update($this->table_keg_khazanah, $data);
+    }
+
     //Model Tujuan Khazanah
     var $table_tujuan_khazanah = 'tbl_tujuan_khazanah';
     var $column_order_tujuan_khazanah = array('nama_tujuan_khazanah', null); //set column field database for datatable orderable
