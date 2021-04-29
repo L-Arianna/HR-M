@@ -190,6 +190,8 @@
 			</li>
 			<li> <a href="<?= base_url(); ?>Gudang/Produk/tujuan_khazanah"><i class="bx bx-right-arrow-alt"></i>Manage Tujuan Khazanah</a>
 			</li>
+			<li> <a href="<?= base_url(); ?>Gudang/Produk/jam_khazanah"><i class="bx bx-right-arrow-alt"></i>Manage Jam Khazanah</a>
+			</li>
 		</ul>
 	</li>
 	<!--end navigation-->

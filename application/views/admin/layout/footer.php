@@ -80,6 +80,7 @@
 		var tahun = today.getFullYear();
 		var tanggal = today.getDate();
 		var notif = document.getElementById('notif');
+		var notif2 = document.getElementById('notif2');
 		var jam = document.getElementById('jam');
 		m = checkTime(m);
 		s = checkTime(s);
@@ -91,17 +92,17 @@
 		var x = h + ":" + m + ":" + s;
 		var y = "08:00:00";
 		var lastmasuk = "16:00:00";
-		var firtsmasuk = "15:00:00";
+		var firtsmasuk = "10:00:00";
 		if (y < x && x < lastmasuk && x > firtsmasuk) {
 			notif.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $snol; ?> + " Belum ACC</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
 
 		}
 		var lastkeluar = "11:35:00";
-		var firstkeluar = "11:32:00";
+		var firstkeluar = "10:00:00";
 		var z = "08:00:00";
 		if (z < x && x < lastkeluar && x > firstkeluar) {
-			notif.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+			notif2.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
 
 		}

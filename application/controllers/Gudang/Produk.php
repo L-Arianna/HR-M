@@ -1153,6 +1153,151 @@ class Produk extends CI_Controller
         </div>'
         );
     }
+    //Manage Jam Khazanah
+    public function jam_khazanah()
+    {
+        $data = [
+            'title' => 'Jam Khazanah',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/jamkhazanah'
+        ];
+        $this->load->view('layout/wrapper', $data);
+    }
+
+    public function ajax_list_jam_khazanah()
+    {
+        $list = $this->Gudang->get_datatables_jam_khazanah();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->start_jam_khazanah;
+            $row[] = $person->end_jam_khazanah;
+            if ($person->status_jam_khazanah == 0) {
+                $row[] = 'Belum ACC';
+            } else if ($person->status_jam_khazanah == 1) {
+                $row[] = 'Sudah ACC';
+            } else if ($person->status_jam_khazanah == 2) {
+                $row[] = 'Selesai';
+            } else {
+                $row[] = '';
+            }
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="jam_khazanah_edit_ajax(' . "'" . $person->id_jam_khazanah . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_jam_khazanah(' . "'" . $person->id_jam_khazanah . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_jam_khazanah(),
+            "recordsFiltered" => $this->Gudang->count_filtered_jam_khazanah(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_jam_khazanah($idjamkhazanah)
+    {
+        $data = $this->Gudang->get_by_id_jam_khazanah($idjamkhazanah);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_jam_khazanah()
+    {
+        $this->_validate_jam_khazanah();
+
+        $start = htmlspecialchars($this->input->post('start'));
+        $end = htmlspecialchars($this->input->post('end'));
+        $status = htmlspecialchars($this->input->post('status'));
+        if ($end < $start) {
+            $isi = 'Jam Salah';
+            $this->flashdatas($isi);
+            echo json_encode(array("status" => FALSE));
+        } else {
+            $data = array(
+                'start_jam_khazanah' => $start,
+                'end_jam_khazanah' => $end,
+                'status_jam_khazanah' => $status
+            );
+            //echo json_encode($data);
+            $insert = $this->Gudang->jam_khazanah_save($data);
+            if ($insert) {
+                echo json_encode(array("status" => TRUE));
+            } else {
+                echo json_encode(array("status" => FALSE));
+            }
+        }
+    }
+
+    public function ajax_update_jam_khazanah()
+    {
+        $this->_validate_jam_khazanah();
+        $idtuj = strip_tags(str_replace("'", "", $this->input->post('id')));
+        $start = strip_tags(str_replace("'", "", $this->input->post('start')));
+        $end = strip_tags(str_replace("'", "", $this->input->post('end')));
+        $status = strip_tags(str_replace("'", "", $this->input->post('status')));
+        if ($end < $start) {
+            $isi = 'Jam Salah';
+            $this->flashdatas($isi);
+            echo json_encode(array("status" => FALSE));
+        } else {
+            $data = array(
+                'start_jam_khazanah' => $start,
+                'end_jam_khazanah' => $end,
+                'status_jam_khazanah' => $status
+            );
+            //echo json_encode($data);
+            $update = $this->Gudang->jam_khazanah_update(array('id_jam_khazanah' => $idtuj), $data);
+            if ($update) {
+                echo json_encode(array("status" => TRUE));
+            } else {
+                echo json_encode(array("status" => FALSE));
+            }
+        }
+    }
+
+    public function ajax_delete_jam_khazanah($idjamkhazanah)
+    {
+        $this->Gudang->jam_khazanah_delete_by_id($idjamkhazanah);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_jam_khazanah()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('start') == '') {
+            $data['inputerror'][] = 'start';
+            $data['error_string'][] = 'Time is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($this->input->post('end') == '') {
+            $data['inputerror'][] = 'end';
+            $data['error_string'][] = 'Time is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_jam_khazanah()
+    {
+        echo json_encode($this->Gudang->show_all_jam_khazanah());
+    }
 }
 
 /* End of file Produk.php */

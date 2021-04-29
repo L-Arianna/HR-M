@@ -54,24 +54,53 @@
 	});
 
 	function startTime() {
-		<?php if (empty($statusno) || empty($statussatu) || empty($statusdua)) {
+		<?php if (empty($statusnol) || empty($statussatu) || empty($statusdua) || empty($listingjam)) {
 			$statusnol = array();
 			$statussatu = array();
 			$statusdua = array();
+			$listingjam = array();
+			$start1 = "00:00:00";
+			$start2 = "00:00:00";
+			$end1 = "00:00:00";
+			$end2 = "00:00:00";
 			$snol = 0;
 			$ssatu = 1;
 			$sdua = 2;
 		}
 		?>
-		<?php foreach ($statusdua as $value) {
-			$sdua = $value->jumlah;
-		} ?>
-		<?php foreach ($statussatu as $value) {
-			$ssatu = $value->jumlah;
-		} ?>
-		<?php foreach ($statusnol as $value) {
-			$snol = $value->jumlah;
-		} ?>
+		<?php foreach ($statusdua as $v) {
+			$sdua = $v->jumlah;
+		}
+		foreach ($statussatu as $va) {
+			$ssatu = $va->jumlah;
+		}
+		foreach ($statusnol as $val) {
+			$snol = $val->jumlah;
+		}
+		foreach ($listingjam as $value) {
+			//json_encode($value);
+			if ($value->status_jam_khazanah == 0) {
+				$start0 = $value->start_jam_khazanah;
+				$end0 = $value->end_jam_khazanah;
+			}
+			if ($value->status_jam_khazanah == 1) {
+				$start1 = $value->start_jam_khazanah;
+				$end1 = $value->end_jam_khazanah;
+			}
+			if ($value->status_jam_khazanah == 2) {
+				$start2 = $value->start_jam_khazanah;
+				$end2 = $value->end_jam_khazanah;
+			}
+		}
+		$tgl = date_create();
+		$b = date_format($tgl, 'Y-m-d H:i:s');
+		foreach ($kemarin as $value) {
+			if ($value->tgl < $b) {
+				$a[] = $value->tgl;
+			}
+		}
+		$jumlahkemarin = count($a);
+		?>
 		var today = new Date();
 		var h = today.getHours();
 		var m = today.getMinutes();
@@ -80,35 +109,47 @@
 		var tahun = today.getFullYear();
 		var tanggal = today.getDate();
 		var notif = document.getElementById('notif');
+		var notif2 = document.getElementById('notif2');
 		var jam = document.getElementById('jam');
 		m = checkTime(m);
 		s = checkTime(s);
 		h = checkTime(h);
-		jam.innerHTML =
-			h + ":" + m + ":" + s;
+		//jam.innerHTML =	h + ":" + m + ":" + s;
 		var t = setTimeout(startTime, 500);
 
-		var x = h + ":" + m + ":" + s;
-		var y = "08:00:00";
-		var lastmasuk = "16:00:00";
-		var firtsmasuk = "15:00:00";
-		if (y < x && x < lastmasuk && x > firtsmasuk) {
-			notif.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $snol; ?> + " Belum ACC</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
-		} else {
-
-		}
-		var lastkeluar = "11:35:00";
-		var firstkeluar = "11:32:00";
 		var z = "08:00:00";
+		var x = h + ":" + m + ":" + s;
+
+		var lastkeluar = <?= '"' . $end0 . '"'; ?>;
+		var firstkeluar = <?= '"' . $start0 . '"'; ?>;
 		if (z < x && x < lastkeluar && x > firstkeluar) {
-			notif.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Data Belum Selesai</h6> <div class = 'text-white' > A simple danger alert— check it out! </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+			notif0.innerHTML = "<div class='alert alert-warning border-0 bg-warning alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0' >" + <?= $snol; ?> + " Data Belum ACC</h6> <div class = '' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		} else {
+
+		}
+		var lastmasuk = <?= '"' . $end1 . '"'; ?>;
+		var firtsmasuk = <?= '"' . $start1 . '"'; ?>;
+		if (z < x && x < lastmasuk && x > firtsmasuk) {
+			notif1.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Belum Selesai</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		} else {
+
+		}
+		var lastkeluar = <?= '"' . $end2 . '"'; ?>;
+		var firstkeluar = <?= '"' . $start2 . '"'; ?>;
+		if (z < x && x < lastkeluar && x > firstkeluar) {
+			notif2.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $sdua; ?> + " Data Selesai</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
 
 		}
 
-		//if (x > "17:05:00") {
-		//	$('#btnkhazanah').attr('disabled', true);
-		//}
+		var kemarin = <?= '"' . $jumlahkemarin . '"'; ?>;
+		if (kemarin > 0) {
+			notif3.innerHTML = "<div class='alert alert-danger border-0 bg-danger alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $jumlahkemarin; ?> + " Data Kemarin</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+		} else {
+
+		}
+
+
 	}
 
 	function checkTime(i) {
@@ -137,7 +178,7 @@
 		} else {
 			return;
 		}
-	})
+	});
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {

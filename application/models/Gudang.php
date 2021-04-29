@@ -869,6 +869,108 @@ class Gudang extends CI_Model
     {
         return $this->db->from($this->jointabletujuan_khazanah())->get()->result();
     }
+    //Model Jam Khazanah
+    var $table_jam_khazanah = 'tbl_jam_khazanah';
+    var $column_order_jam_khazanah = array('start_jam_khazanah', 'end_jam_khazanah', 'status_jam_khazanah', null); //set column field database for datatable orderable
+    var $column_search_jam_khazanah = array('start_jam_khazanah', 'end_jam_khazanah', 'status_jam_khazanah'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_jam_khazanah = array('id_jam_khazanah' => 'desc'); // default order 
+
+    function jointablejam_khazanah()
+    {
+        $this->db->from($this->table_jam_khazanah);
+    }
+
+    private function _get_datatables_query_jam_khazanah()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointablejam_khazanah();
+
+        $i = 0;
+
+        foreach ($this->column_search_jam_khazanah as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_jam_khazanah) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_jam_khazanah[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_jam_khazanah)) {
+            $order = $this->order_jam_khazanah;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_jam_khazanah()
+    {
+        $this->_get_datatables_query_jam_khazanah();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_jam_khazanah()
+    {
+        $this->_get_datatables_query_jam_khazanah();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_jam_khazanah()
+    {
+        $this->db->from($this->table_jam_khazanah);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_jam_khazanah($idjamkhazanah)
+    {
+        //$this->db->from($this->table);
+        $this->jointablejam_khazanah();
+
+        $this->db->where('id_jam_khazanah', $idjamkhazanah);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
+    public function jam_khazanah_save($data)
+    {
+        $this->db->insert($this->table_jam_khazanah, $data);
+        return $this->db->insert_id();
+    }
+
+    public function jam_khazanah_update($where, $data)
+    {
+        $this->db->update($this->table_jam_khazanah, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function jam_khazanah_delete_by_id($idjamkhazanah)
+    {
+        $this->db->where('id_jam_khazanah', $idjamkhazanah);
+        $this->db->delete($this->table_jam_khazanah);
+    }
+
+    public function show_all_jam_khazanah()
+    {
+        return $this->db->from($this->jointablejam_khazanah())->get()->result();
+    }
 }
 
 /* End of file Gudang.php */

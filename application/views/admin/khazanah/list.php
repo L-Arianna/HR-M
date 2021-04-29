@@ -4,8 +4,12 @@
         <h6 class="mb-1 text-uppercase"><?= $title ?></h6>
         <?= $this->session->flashdata('sukses'); ?>
         <div id="jam"></div>
-        <div id="notif"></div>
-        <hr />
+        <div class="row mb-1">
+            <div id="notif0" class="col-md-3"></div>
+            <div id="notif1" class="col-md-3"></div>
+            <div id="notif2" class="col-md-3"></div>
+            <div id="notif3" class="col-md-3"></div>
+        </div>
         <form method="POST" action="<?= base_url(); ?>Admin/Khazanah/multidelete2" id="form-delete">
             <div class="col mb-1">
                 <div class="btn-group" role="group">

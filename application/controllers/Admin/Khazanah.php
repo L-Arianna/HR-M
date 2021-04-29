@@ -15,7 +15,16 @@ class Khazanah extends CI_Controller
 
     function tes()
     {
-        echo json_encode($this->Khazanah_Model->joinpegawai());
+        $start = date_create();
+        $b = date_format($start, 'Y-m-d H:i:s');
+        //echo json_encode($this->Khazanah_Model->count_status_kemarin());
+        $X = $this->Khazanah_Model->count_status_kemarin();
+        foreach ($X as $value) {
+            if ($value->tgl < $b) {
+                $a[] = $value->tgl;
+            }
+        }
+        echo count($a);
     }
 
     public function index()
@@ -28,10 +37,13 @@ class Khazanah extends CI_Controller
             'khazanah' => $this->Khazanah_Model->listing(),
             'statusnol' => $this->Khazanah_Model->count_status_nol(),
             'statussatu' => $this->Khazanah_Model->count_status_satu(),
-            'statusdua' => $this->Khazanah_Model->count_status_dua()
+            'statusdua' => $this->Khazanah_Model->count_status_dua(),
+            'listingjam' => $this->Khazanah_Model->listingjam(),
+            'kemarin' => $this->Khazanah_Model->count_status_kemarin()
         ];
-        $this->load->view('admin/layout/wrapper', $data);
+        $this->load->view('layout/wrapper', $data);
     }
+
     function add()
     {
         $where = '3';
@@ -50,7 +62,7 @@ class Khazanah extends CI_Controller
                 'kegiatan' => $this->Gudang->show_all_keg_khazanah(),
                 'pengawas' => $this->Khazanah_Model->joinpegawai($where)
             ];
-            $this->load->view('admin/layout/wrapper', $data);
+            $this->load->view('layout/wrapper', $data);
         } else {
             $kegiatan = htmlspecialchars($this->input->post('kegiatan'));
             $tujuan = htmlspecialchars($this->input->post('tujuan'));
@@ -181,7 +193,7 @@ class Khazanah extends CI_Controller
                 'kegiatan' => $this->Gudang->show_all_keg_khazanah(),
                 'khazanah' => $this->Khazanah_Model->detail($idkhazanah)
             ];
-            $this->load->view('admin/layout/wrapper', $data);
+            $this->load->view('layout/wrapper', $data);
         } else {
             $kegiatan = htmlspecialchars($this->input->post('kegiatan'));
             $tujuan = htmlspecialchars($this->input->post('tujuan'));

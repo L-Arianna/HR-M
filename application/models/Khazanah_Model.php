@@ -36,16 +36,36 @@ class Khazanah_Model extends CI_Model
         $this->db->insert($this->table, $data);
     }
 
+    public function tambahjam($data)
+    {
+        $this->db->insert('tbl_jam_khazanah', $data);
+    }
+    public function listingjam()
+    {
+        $this->db->from('tbl_jam_khazanah');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     function count_all()
     {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
+    function count_status_kemarin()
+    {
+        $this->db->from($this->table);
+        $this->db->select('*, SUBSTRING(masuk_khazanah, 1,10) as tgl');
+        $this->db->where('status_khazanah != ', 2);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     function count_status_nol()
     {
         $this->db->from($this->table);
-        $this->db->select('COUNT(status_khazanah) as jumlah');
+        $this->db->select('*,COUNT(status_khazanah) as jumlah');
 
         $this->db->where('status_khazanah', 0);
         $query = $this->db->get();
@@ -65,7 +85,7 @@ class Khazanah_Model extends CI_Model
     function count_status_satu()
     {
         $this->db->from($this->table);
-        $this->db->select('COUNT(status_khazanah) as jumlah');
+        $this->db->select('*,COUNT(status_khazanah) as jumlah');
         $this->db->where('status_khazanah', 1);
         $query = $this->db->get();
         return $query->result();
