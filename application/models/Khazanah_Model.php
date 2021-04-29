@@ -112,6 +112,28 @@ class Khazanah_Model extends CI_Model
         $this->db->where($this->primaryKey, $data['id_khazanah']);
         $this->db->delete($this->table);
     }
+
+    function multi($id)
+    {
+        $this->db->select('dat_pegawai.id_kat_jabatan, dat_pegawai.nip , dat_pegawai.nama_pegawai , dat_pegawai.password , tb_kat_jabatan.nama_jabatan');
+        $this->db->from('dat_pegawai');
+        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = dat_pegawai.id_kat_jabatan');
+        $this->db->where('dat_pegawai.id_kat_jabatan', $id);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function multi2($idp)
+    {
+        //$this->db->select('dat_pegawai.id_kat_jabatan, dat_pegawai.nip , dat_pegawai.nama_pegawai , dat_pegawai.password , tb_kat_jabatan.nama_jabatan');
+        $this->db->from('tb_gaji');
+        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = tb_gaji.id_kat_jabatan');
+        $this->db->where('tb_gaji.id_kat_jabatan', $idp);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
 /* End of file Khazanah.php */

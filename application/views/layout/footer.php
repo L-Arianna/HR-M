@@ -125,6 +125,7 @@
 		if (z < x && x < lastkeluar && x > firstkeluar) {
 			notif0.innerHTML = "<div class='alert alert-warning border-0 bg-warning alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0' >" + <?= $snol; ?> + " Data Belum ACC</h6> <div class = '' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
+			notif0.innerHTML = "<div class='alert alert-warning border-0 bg-warning alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0' ></h6> <div class = '' ></div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 
 		}
 		var lastmasuk = <?= '"' . $end1 . '"'; ?>;
@@ -132,6 +133,7 @@
 		if (z < x && x < lastmasuk && x > firtsmasuk) {
 			notif1.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $ssatu; ?> + " Belum Selesai</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
+			notif1.innerHTML = "<div class='alert alert-info border-0 bg-info alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' ></h6> <div class = 'text-white' ></div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 
 		}
 		var lastkeluar = <?= '"' . $end2 . '"'; ?>;
@@ -139,14 +141,15 @@
 		if (z < x && x < lastkeluar && x > firstkeluar) {
 			notif2.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $sdua; ?> + " Data Selesai</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
+			notif2.innerHTML = "<div class='alert alert-success border-0 bg-success alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' ><div class = 'text-white' ></div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 
 		}
 
 		var kemarin = <?= '"' . $jumlahkemarin . '"'; ?>;
 		if (kemarin > 0) {
-			notif3.innerHTML = "<div class='alert alert-danger border-0 bg-danger alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $jumlahkemarin; ?> + " Data Kemarin</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
+			notif3.innerHTML = "<div class='alert alert-danger border-0 bg-danger alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' >" + <?= $jumlahkemarin; ?> + " Data Kemarin Belum Selesai</h6> <div class = 'text-white' > ------------------------------ </div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		} else {
-
+			notif3.innerHTML = "<div class='alert alert-danger border-0 bg-danger alert-dismissible fade show py-2'><div class = 'd-flex align-items-center'><div class = 'font-35 text-white' ><i class = bx bxs-message-square-x></i> </div> <div class = 'ms-3' ><h6 class = 'mb-0 text-white' ></h6> <div class = 'text-white' ></div> </div> </div> <button type = 'button' class = 'btn-close' data-bs-dismiss = 'alert' aria-label = 'Close' > </button> </div>";
 		}
 
 

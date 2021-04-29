@@ -13,6 +13,39 @@ class Khazanah extends CI_Controller
         $this->load->model('Khazanah_Model');
     }
 
+    function multian()
+    {
+        $id = 2;
+        $array = array();
+        $query = $this->Khazanah_Model->multi($id);
+        foreach ($query as $value) {
+            $idp = $value->id_kat_jabatan;
+            if ($value->id_kat_jabatan == 2) {
+                $value->id_kat_jabatan = $this->Khazanah_Model->multi2($idp);
+            } else {
+                $value->id_kat_jabatan = array('2', '5', '9');
+            }
+        }
+        foreach ($query as $key => $value) {
+            foreach ($value->id_kat_jabatan as $key2 => $val) {
+                //echo $val->id_gaji;
+                if ($val->id_pendidikan == 4) {
+                    $val->id_pendidikan = "empat";
+                } else {
+                    $val->id_pendidikan = "four";
+                }
+            }
+        }
+        echo json_encode($query);
+        /*$cars = array(
+            array("Volvo", 22, 18),
+            array("BMW", array(15, 12), 13),
+            array("Saab", 5, 2),
+            array("Land Rover", 17, 15)
+        );*/
+
+        //echo json_encode($cars);
+    }
     function tes()
     {
         $start = date_create();
