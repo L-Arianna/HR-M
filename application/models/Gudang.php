@@ -971,6 +971,306 @@ class Gudang extends CI_Model
     {
         return $this->db->from($this->jointablejam_khazanah())->get()->result();
     }
+
+    //Model Menu
+    var $table_menu = 'tbl_menu';
+    var $column_order_menu = array('nama_menu', null); //set column field database for datatable orderable
+    var $column_search_menu = array('nama_menu'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_menu = array('id_menu' => 'desc'); // default order 
+
+    function jointablemenu()
+    {
+        $this->db->from($this->table_menu);
+    }
+
+    private function _get_datatables_query_menu()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointablemenu();
+
+        $i = 0;
+
+        foreach ($this->column_search_menu as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_menu) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_menu[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_menu)) {
+            $order = $this->order_menu;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_menu()
+    {
+        $this->_get_datatables_query_menu();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_menu()
+    {
+        $this->_get_datatables_query_menu();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_menu()
+    {
+        $this->db->from($this->table_menu);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_menu($idmenu)
+    {
+        //$this->db->from($this->table);
+        $this->jointablemenu();
+
+        $this->db->where('id_menu', $idmenu);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+    public function menu_update($where, $data)
+    {
+        $this->db->update($this->table_menu, $data, $where);
+        return $this->db->affected_rows();
+    }
+    public function menu_save($data)
+    {
+        $this->db->insert($this->table_menu, $data);
+        return $this->db->insert_id();
+    }
+    public function ajax_delete_menu($idmenu)
+    {
+        $this->db->where('id_menu', $idmenu);
+        $this->db->delete($this->table_menu);
+    }
+    public function show_all_menu()
+    {
+        return $this->db->from($this->jointablemenu())->get()->result();
+    }
+
+    //Model Submenu Khazanah
+    var $table_sub_menu = 'tbl_sub_menu';
+    var $column_order_sub_menu = array('menu_id', 'title', 'icon', 'url', 'is_active', null); //set column field database for datatable orderable
+    var $column_search_sub_menu = array('menu_id', 'title', 'icon', 'url', 'is_active'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_sub_menu = array('id' => 'desc'); // default order 
+
+    function jointablesubmenu()
+    {
+        $this->db->from($this->table_sub_menu);
+        $this->db->join('tbl_menu', 'tbl_menu.id_menu = tbl_sub_menu.menu_id', 'left');
+    }
+
+    private function _get_datatables_query_sub_menu()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointablesubmenu();
+
+        $i = 0;
+
+        foreach ($this->column_search_sub_menu as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_sub_menu) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_sub_menu[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_sub_menu)) {
+            $order = $this->order_sub_menu;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_sub_menu()
+    {
+        $this->_get_datatables_query_sub_menu();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_sub_menu()
+    {
+        $this->_get_datatables_query_menu();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_sub_menu()
+    {
+        $this->db->from($this->table_sub_menu);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_sub_menu($idsubmenu)
+    {
+        //$this->db->from($this->table);
+        $this->jointablesubmenu();
+
+        $this->db->where('id', $idsubmenu);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+    public function sub_menu_update($where, $data)
+    {
+        $this->db->update($this->table_sub_menu, $data, $where);
+        return $this->db->affected_rows();
+    }
+    public function sub_menu_save($data)
+    {
+        $this->db->insert($this->table_sub_menu, $data);
+        return $this->db->insert_id();
+    }
+    public function ajax_delete_sub_menu($idsubmenu)
+    {
+        $this->db->where('id', $idsubmenu);
+        $this->db->delete($this->table_sub_menu);
+    }
+    public function show_all_sub_menu()
+    {
+        return $this->db->from($this->jointablesubmenu())->get()->result();
+    }
+
+    //Model Access menu Khazanah
+    var $table_access_menu = 'tbl_access_menu';
+    var $column_order_access_menu = array('menu_id', 'role_id', null); //set column field database for datatable orderable
+    var $column_search_access_menu = array('menu_id', 'role_id'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order_access_menu = array('id' => 'desc'); // default order 
+
+    function jointableaccessmenu()
+    {
+        $this->db->from($this->table_access_menu);
+        $this->db->join('tb_kat_jabatan', 'tb_kat_jabatan.id_kat_jabatan = tbl_access_menu.role_id', 'left');
+        $this->db->join('tbl_menu', 'tbl_menu.id_menu = tbl_access_menu.menu_id', 'left');
+    }
+
+    private function _get_datatables_query_access_menu()
+    {
+
+        //$this->db->from($this->table);
+        $this->jointableaccessmenu();
+
+        $i = 0;
+
+        foreach ($this->column_search_access_menu as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search_access_menu) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order_access_menu[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_access_menu)) {
+            $order = $this->order_access_menu;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables_access_menu()
+    {
+        $this->_get_datatables_query_access_menu();
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_access_menu()
+    {
+        $this->_get_datatables_query_access_menu();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_access_menu()
+    {
+        $this->db->from($this->table_access_menu);
+        return $this->db->count_all_results();
+    }
+
+    public function get_by_id_access_menu($idaccessmenu)
+    {
+        //$this->db->from($this->table);
+        $this->jointableaccessmenu();
+
+        $this->db->where('id', $idaccessmenu);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+    public function access_menu_update($where, $data)
+    {
+        $this->db->update($this->table_access_menu, $data, $where);
+        return $this->db->affected_rows();
+    }
+    public function access_menu_save($data)
+    {
+        $this->db->insert($this->table_access_menu, $data);
+        return $this->db->insert_id();
+    }
+    public function ajax_delete_access_menu($idaccessmenu)
+    {
+        $this->db->where('id', $idaccessmenu);
+        $this->db->delete($this->table_access_menu);
+    }
+    public function show_all_access_menu()
+    {
+        return $this->db->from($this->jointableaccessmenu())->get()->result();
+    }
 }
 
 /* End of file Gudang.php */

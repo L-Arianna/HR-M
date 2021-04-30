@@ -22,6 +22,12 @@
 			datatable_tujuan_khazanah();
 		} else if ($('#tablejamkhazanah').length) {
 			datatable_jam_khazanah();
+		} else if ($('#tablemenu').length) {
+			datatable_menu();
+		} else if ($('#tablesubmenu').length) {
+			datatable_sub_menu();
+		} else if ($('#tableaccessmenu').length) {
+			datatable_access_menu();
 		} else {
 			return;
 		}
@@ -1358,3 +1364,442 @@
 
 		}
 	}
+//CRUD Menu Khazanah
+var save_method_menu; //for save method string
+var table_menu;
+
+function datatable_menu() {
+	//datatables Pendidikan
+	table_menu = $('#tablemenu').DataTable({
+
+		"processing": true, //Feature control the processing indicator.
+		"serverSide": true, //Feature control DataTables' server-side processing mode.
+		"order": [], //Initial no order.
+
+		// Load data for the table's content from an Ajax source
+		"ajax": {
+			"url": "ajax_list_menu",
+			"type": "POST"
+		},
+
+		//Set column definition initialisation properties.
+		"columnDefs": [{
+			"targets": [-1], //last column
+			"orderable": false, //set not orderable
+		}, ],
+		
+		"minimumInputLength": 1,
+		"multiple": true,
+		"tokenSeparators": '|'
+
+	});
+
+	//set input/textarea/select event when change value, remove class error and remove text help block 
+	$("input").change(function() {
+		$(this).parent().parent().removeClass('has-error');
+		$(this).next().empty();
+	});
+}
+
+function menu_add_ajax() {
+	save_method_menu = 'add';
+	$('#formmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	$('#menu_modal_form').modal('show'); // show bootstrap modal
+	$('.modal-title').text('Menu'); // Set Title to Bootstrap modal title
+	$('#btnSavemenu').text('save'); //change button text
+	$('#btnSavemenu').attr('disabled', false); //set button enable 
+}
+
+function menu_edit_ajax(idmenu) {
+	save_method_menu = 'update';
+	$('#formmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	//Ajax Load data from ajax
+	$.ajax({
+		url: "ajax_edit_menu/" + idmenu,
+		type: "GET",
+		dataType: "JSON",
+		success: function(data) {
+
+			$('[name="idmenu"]').val(data.id_menu);
+			$('[name="menu"]').val(data.nama_menu); 	
+			//$('[name="dob"]').datepicker('update',data.dob);
+			$('#menu_modal_form').modal('show'); // show bootstrap modal when complete loaded
+			$('.modal-title').text('Edit Jam Khazanah'); // Set title to Bootstrap modal title
+
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error get data from ajax');
+		}
+	});
+}
+
+function menu_reload_table() {
+	table_menu.ajax.reload(null, false); //reload datatable ajax 
+}
+
+function menu_save() {
+	$('#btnSavemenu').text('saving...'); //change button text
+	$('#btnSavemenu').attr('disabled', true); //set button disable 
+	var url;
+
+	if (save_method_menu == 'add') {
+		url = "ajax_add_menu";
+	} else {
+		url = "ajax_update_menu";
+	}
+	var form = document.forms.namedItem('formdata');
+	var form_data = new FormData(form);
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: form_data,
+		dataType: "JSON",
+		contentType: false,
+		processData: false,
+		cache: false,
+		success: function(data) {
+
+			if (data.status) //if success close modal and reload ajax table
+			{
+				$('#btnSavemenu').text('save'); //change button text
+				$('#btnSavemenu').attr('disabled', false); //set button enable 
+				$('#menu_modal_form').modal('hide');
+				$('#formmenu')[0].reset();
+				menu_reload_table();
+			} else {
+				for (var i = 0; i < data.inputerror.length; i++) {
+					$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+					$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+				}
+				$('#btnSavemenu').text('save'); //change button text
+				$('#btnSavemenu').attr('disabled', false); //set button enable 
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error adding / update data');
+			$('#btnSavemenu').text('save'); //change button text
+			$('#btnSavemenu').attr('disabled', false); //set button enable 
+
+		}
+	});
+}
+
+function delete_menu(idmenu) {
+	if (confirm('Are you sure delete this data?')) {
+		// ajax delete data to database
+		$.ajax({
+			url: "ajax_delete_menu/" + idmenu,
+			type: "POST",
+			dataType: "JSON",
+			success: function(data) {
+				//if success reload ajax table
+				$('#menu_modal_form').modal('hide');
+				menu_reload_table();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error deleting data');
+			}
+		});
+
+	}
+}
+//CRUD Sub Menu
+var save_method_sub_menu; //for save method string
+var table_sub_menu;
+
+function datatable_sub_menu() {
+	//datatables Pendidikan
+	table_sub_menu = $('#tablesubmenu').DataTable({
+
+		"processing": true, //Feature control the processing indicator.
+		"serverSide": true, //Feature control DataTables' server-side processing mode.
+		"order": [], //Initial no order.
+
+		// Load data for the table's content from an Ajax source
+		"ajax": {
+			"url": "ajax_list_sub_menu",
+			"type": "POST"
+		},
+
+		//Set column definition initialisation properties.
+		"columnDefs": [{
+			"targets": [-1], //last column
+			"orderable": false, //set not orderable
+		}, ],
+		
+		"minimumInputLength": 1,
+		"multiple": true,
+		"tokenSeparators": '|'
+
+	});
+
+	//set input/textarea/select event when change value, remove class error and remove text help block 
+	$("input").change(function() {
+		$(this).parent().parent().removeClass('has-error');
+		$(this).next().empty();
+	});
+}
+
+function sub_menu_add_ajax() {
+	save_method_sub_menu = 'add';
+	$('#formsubmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	$('#sub_menu_modal_form').modal('show'); // show bootstrap modal
+	$('.modal-title').text('Menu'); // Set Title to Bootstrap modal title
+	$('#btnSavesubmenu').text('save'); //change button text
+	$('#btnSavesubmenu').attr('disabled', false); //set button enable 
+}
+
+function sub_menu_edit_ajax(idsubmenu) {
+	save_method_sub_menu = 'update';
+	$('#formsubmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	//Ajax Load data from ajax
+	$.ajax({
+		url: "ajax_edit_sub_menu/" + idsubmenu,
+		type: "GET",
+		dataType: "JSON",
+		success: function(data) {
+
+			$('[name="idmenu"]').val(data.id);
+			$('[name="menuid"]').val(data.menu_id);
+			$('[name="title"]').val(data.title);
+			$('[name="icon"]').val(data.icon);
+			$('[name="url"]').val(data.url);
+			$('[name="is_active"]').val(data.is_active); 	
+			//$('[name="dob"]').datepicker('update',data.dob);
+			$('#sub_menu_modal_form').modal('show'); // show bootstrap modal when complete loaded
+			$('.modal-title').text('Edit'); // Set title to Bootstrap modal title
+
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error get data from ajax');
+		}
+	});
+}
+
+function sub_menu_reload_table() {
+	table_sub_menu.ajax.reload(null, false); //reload datatable ajax 
+}
+
+function sub_menu_save() {
+	$('#btnSavesubmenu').text('saving...'); //change button text
+	$('#btnSavesubmenu').attr('disabled', true); //set button disable 
+	var url;
+
+	if (save_method_sub_menu == 'add') {
+		url = "ajax_add_sub_menu";
+	} else {
+		url = "ajax_update_sub_menu";
+	}
+	var form = document.forms.namedItem('formdata');
+	var form_data = new FormData(form);
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: form_data,
+		dataType: "JSON",
+		contentType: false,
+		processData: false,
+		cache: false,
+		success: function(data) {
+
+			if (data.status) //if success close modal and reload ajax table
+			{
+				$('#btnSavesubmenu').text('save'); //change button text
+				$('#btnSavesubmenu').attr('disabled', false); //set button enable 
+				$('#sub_menu_modal_form').modal('hide');
+				$('#formsubmenu')[0].reset();
+				sub_menu_reload_table();
+			} else {
+				for (var i = 0; i < data.inputerror.length; i++) {
+					$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+					$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+				}
+				$('#btnSavesubmenu').text('save'); //change button text
+				$('#btnSavesubmenu').attr('disabled', false); //set button enable 
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error adding / update data');
+			$('#btnSavesubmenu').text('save'); //change button text
+			$('#btnSavesubmenu').attr('disabled', false); //set button enable 
+
+		}
+	});
+}
+
+function delete_sub_menu(idsubmenu) {
+	if (confirm('Are you sure delete this data?')) {
+		// ajax delete data to database
+		$.ajax({
+			url: "ajax_delete_sub_menu/" + idsubmenu,
+			type: "POST",
+			dataType: "JSON",
+			success: function(data) {
+				//if success reload ajax table
+				$('#menu_modal_form').modal('hide');
+				sub_menu_reload_table();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error deleting data');
+			}
+		});
+
+	}
+}
+
+//CRUD Access Menu
+var save_method_access_menu; //for save method string
+var table_access_menu;
+
+function datatable_access_menu() {
+	//datatables Pendidikan
+	table_access_menu = $('#tableaccessmenu').DataTable({
+
+		"processing": true, //Feature control the processing indicator.
+		"serverSide": true, //Feature control DataTables' server-side processing mode.
+		"order": [], //Initial no order.
+
+		// Load data for the table's content from an Ajax source
+		"ajax": {
+			"url": "ajax_list_access_menu",
+			"type": "POST"
+		},
+
+		//Set column definition initialisation properties.
+		"columnDefs": [{
+			"targets": [-1], //last column
+			"orderable": false, //set not orderable
+		}, ],
+		
+		"minimumInputLength": 1,
+		"multiple": true,
+		"tokenSeparators": '|'
+
+	});
+
+	//set input/textarea/select event when change value, remove class error and remove text help block 
+	$("input").change(function() {
+		$(this).parent().parent().removeClass('has-error');
+		$(this).next().empty();
+	});
+}
+
+function access_menu_add_ajax() {
+	save_method_access_menu = 'add';
+	$('#formaccessmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	$('#access_menu_modal_form').modal('show'); // show bootstrap modal
+	$('.modal-title').text('Menu'); // Set Title to Bootstrap modal title
+	$('#btnSaveaccessmenu').text('save'); //change button text
+	$('#btnSaveaccessmenu').attr('disabled', false); //set button enable 
+}
+
+function access_menu_edit_ajax(idaccessmenu) {
+	save_method_access_menu = 'update';
+	$('#formaccessmenu')[0].reset(); // reset form on modals
+	$('.form-group').removeClass('has-error'); // clear error class
+	$('.help-block').empty(); // clear error string
+	//Ajax Load data from ajax
+	$.ajax({
+		url: "ajax_edit_access_menu/" + idaccessmenu,
+		type: "GET",
+		dataType: "JSON",
+		success: function(data) {
+
+			$('[name="idmenu"]').val(data.id);
+			$('[name="roleid"]').val(data.role_id);
+			$('[name="menuid"]').val(data.menu_id);
+			//$('[name="menuid"]').val(data.menu_id); 	
+			//$('[name="dob"]').datepicker('update',data.dob);
+			$('#access_menu_modal_form').modal('show'); // show bootstrap modal when complete loaded
+			$('.modal-title').text('Edit'); // Set title to Bootstrap modal title
+
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error get data from ajax');
+		}
+	});
+}
+
+function access_menu_reload_table() {
+	table_access_menu.ajax.reload(null, false); //reload datatable ajax 
+}
+
+function access_menu_save() {
+	$('#btnSaveaccessmenu').text('saving...'); //change button text
+	$('#btnSaveaccessmenu').attr('disabled', true); //set button disable 
+	var url;
+
+	if (save_method_access_menu == 'add') {
+		url = "ajax_add_access_menu";
+	} else {
+		url = "ajax_update_access_menu";
+	}
+	var form = document.forms.namedItem('formdata');
+	var form_data = new FormData(form);
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: form_data,
+		dataType: "JSON",
+		contentType: false,
+		processData: false,
+		cache: false,
+		success: function(data) {
+
+			if (data.status) //if success close modal and reload ajax table
+			{
+				$('#btnSaveaccessmenu').text('save'); //change button text
+				$('#btnSaveaccessmenu').attr('disabled', false); //set button enable 
+				$('#access_menu_modal_form').modal('hide');
+				$('#formaccessmenu')[0].reset();
+				access_menu_reload_table();
+			} else {
+				for (var i = 0; i < data.inputerror.length; i++) {
+					$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+					$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
+				}
+				$('#btnSaveaccessmenu').text('save'); //change button text
+				$('#btnSaveaccessmenu').attr('disabled', false); //set button enable 
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Error adding / update data');
+			$('#btnSaveaccessmenu').text('save'); //change button text
+			$('#btnSaveaccessmenu').attr('disabled', false); //set button enable 
+
+		}
+	});
+}
+
+function delete_access_menu(idaccessmenu) {
+	if (confirm('Are you sure delete this data?')) {
+		// ajax delete data to database
+		$.ajax({
+			url: "ajax_delete_access_menu/" + idaccessmenu,
+			type: "POST",
+			dataType: "JSON",
+			success: function(data) {
+				//if success reload ajax table
+				$('#access_menu_modal_form').modal('hide');
+				access_menu_reload_table();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error deleting data');
+			}
+		});
+
+	}
+}

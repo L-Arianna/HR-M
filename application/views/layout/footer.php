@@ -59,10 +59,14 @@
 			$statussatu = array();
 			$statusdua = array();
 			$listingjam = array();
+			$kemarin = array();
+			$a = array();
 			$start1 = "00:00:00";
 			$start2 = "00:00:00";
 			$end1 = "00:00:00";
 			$end2 = "00:00:00";
+			$start0 = "00:00:00";
+			$end0 = "00:00:00";
 			$snol = 0;
 			$ssatu = 1;
 			$sdua = 2;

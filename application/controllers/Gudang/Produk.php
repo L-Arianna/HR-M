@@ -10,6 +10,7 @@ class Produk extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Gudang');
+        $this->load->model('Kat_jabatan');
     }
 
     public function index()
@@ -22,7 +23,11 @@ class Produk extends CI_Controller
         ];
         $this->load->view('admin/layout/wrapper', $data);
     }
-
+    function tes()
+    {
+        $x = $this->Gudang->show_all_menu();
+        echo json_encode($x);
+    }
     public function ajax_list()
     {
         $list = $this->Gudang->get_datatables_produk();
@@ -1297,6 +1302,395 @@ class Produk extends CI_Controller
     public function all_jam_khazanah()
     {
         echo json_encode($this->Gudang->show_all_jam_khazanah());
+    }
+    //Manage Menu
+    public function menu()
+    {
+        $data = [
+            'title' => 'Menu',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/menu'
+        ];
+        $this->load->view('layout/wrapper', $data);
+    }
+
+    public function ajax_list_menu()
+    {
+        $list = $this->Gudang->get_datatables_menu();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_menu;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="menu_edit_ajax(' . "'" . $person->id_menu . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_menu(' . "'" . $person->id_menu . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_menu(),
+            "recordsFiltered" => $this->Gudang->count_filtered_menu(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_menu($idmenu)
+    {
+        $data = $this->Gudang->get_by_id_menu($idmenu);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_menu()
+    {
+        $this->_validate_menu();
+
+        $nama = strip_tags(str_replace("'", "", $this->input->post('menu')));
+        $data = array(
+            'nama_menu' => $nama
+        );
+        $insert = $this->Gudang->menu_save($data);
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    public function ajax_update_menu()
+    {
+        $this->_validate_menu();
+        $idtuj = strip_tags(str_replace("'", "", $this->input->post('idmenu')));
+        $nama = strip_tags(str_replace("'", "", $this->input->post('menu')));
+        $data = array(
+            'nama_menu' => $nama
+        );
+        $update = $this->Gudang->menu_update(array('id_menu' => $idtuj), $data);
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE));
+        }
+    }
+
+    function ajax_delete_menu($idmenu)
+    {
+        $this->Gudang->ajax_delete_menu($idmenu);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_menu()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('menu') == '') {
+            $data['inputerror'][] = 'menu';
+            $data['error_string'][] = 'Menu is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_menu()
+    {
+        echo json_encode($this->Gudang->show_all_menu());
+    }
+
+    // Manage Submenu
+    public function submenu()
+    {
+        $data = [
+            'title' => 'SubMenu',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/submenu',
+            'menu' => $this->Gudang->show_all_menu()
+
+        ];
+        $this->load->view('layout/wrapper', $data);
+    }
+
+    public function ajax_list_sub_menu()
+    {
+        $list = $this->Gudang->get_datatables_sub_menu();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_menu;
+            $row[] = $person->title;
+            $row[] = $person->icon;
+            $row[] = $person->url;
+            $row[] = $person->is_active;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="sub_menu_edit_ajax(' . "'" . $person->id . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_sub_menu(' . "'" . $person->id . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_sub_menu(),
+            "recordsFiltered" => $this->Gudang->count_filtered_sub_menu(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_sub_menu($idsubmenu)
+    {
+        $data = $this->Gudang->get_by_id_sub_menu($idsubmenu);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_sub_menu()
+    {
+        $this->_validate_sub_menu();
+
+        $menuid = strip_tags(str_replace("'", "", $this->input->post('menuid')));
+        $title = strip_tags(str_replace("'", "", $this->input->post('title')));
+        $icon = strip_tags(str_replace("'", "", $this->input->post('icon')));
+        $url = strip_tags(str_replace("'", "", $this->input->post('url')));
+        $active = strip_tags(str_replace("'", "", $this->input->post('is_active')));
+        $data = array(
+            'menu_id' => $menuid,
+            'title' => $title,
+            'url' => $url,
+            'icon' => $icon,
+            'is_active' => $active
+        );
+        $insert = $this->Gudang->sub_menu_save($data);
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array(
+                "status" => FALSE,
+                "error" => $this->db->error()
+            ));
+        }
+    }
+
+    public function ajax_update_sub_menu()
+    {
+        $this->_validate_sub_menu();
+        $idtuj = strip_tags(str_replace("'", "", $this->input->post('idmenu')));
+        $menuid = strip_tags(str_replace("'", "", $this->input->post('menuid')));
+        $title = strip_tags(str_replace("'", "", $this->input->post('title')));
+        $icon = strip_tags(str_replace("'", "", $this->input->post('icon')));
+        $url = strip_tags(str_replace("'", "", $this->input->post('url')));
+        $active = strip_tags(str_replace("'", "", $this->input->post('is_active')));
+        $data = array(
+            'menu_id' => $menuid,
+            'title' => $title,
+            'url' => $url,
+            'icon' => $icon,
+            'is_active' => $active
+        );
+        $update = $this->Gudang->sub_menu_update(array('id' => $idtuj), $data);
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "error" => $this->db->error($update)));
+        }
+    }
+
+    function ajax_delete_sub_menu($idmenu)
+    {
+        $this->Gudang->ajax_delete_sub_menu($idmenu);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_sub_menu()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('title') == '') {
+            $data['inputerror'][] = 'title';
+            $data['error_string'][] = 'Title is required';
+            $data['status'] = FALSE;
+        }
+        if ($this->input->post('menuid') == '') {
+            $data['inputerror'][] = 'menuid';
+            $data['error_string'][] = 'Menu is required';
+            $data['status'] = FALSE;
+        }
+        if ($this->input->post('icon') == '') {
+            $data['inputerror'][] = 'icon';
+            $data['error_string'][] = 'Icon is required';
+            $data['status'] = FALSE;
+        }
+        if ($this->input->post('url') == '') {
+            $data['inputerror'][] = 'url';
+            $data['error_string'][] = 'URL is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_sub_menu()
+    {
+        echo json_encode($this->Gudang->show_all_menu());
+    }
+
+    // Manage Access menu
+    public function accessmenu()
+    {
+        $data = [
+            'title' => 'access Menu',
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array(),
+            'content' => 'admin/dropdown/accessmenu',
+            'menu' => $this->Gudang->show_all_menu(),
+            'jabatan' => $this->Kat_jabatan->listing()
+
+        ];
+        $this->load->view('layout/wrapper', $data);
+    }
+
+    public function ajax_list_access_menu()
+    {
+        $list = $this->Gudang->get_datatables_access_menu();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $person->nama_menu;
+            $row[] = $person->nama_jabatan;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="access_menu_edit_ajax(' . "'" . $person->id . "'" . ')"><i class="bx bx-edit-alt"></i></a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_access_menu(' . "'" . $person->id . "'" . ')"><i class="bx bx-trash-alt"></i></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Gudang->count_all_access_menu(),
+            "recordsFiltered" => $this->Gudang->count_filtered_access_menu(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function ajax_edit_access_menu($idaccessmenu)
+    {
+        $data = $this->Gudang->get_by_id_access_menu($idaccessmenu);
+        echo json_encode($data);
+    }
+
+    public function ajax_add_access_menu()
+    {
+        $this->_validate_access_menu();
+
+        $roleid = strip_tags(str_replace("'", "", $this->input->post('roleid')));
+        $menuid = $this->input->post('menuid');
+        $count = count($menuid);
+        for ($i = 0; $i < $count; $i++) {
+            $data = array(
+                'menu_id' => $menuid[$i],
+                'role_id' => $roleid
+            );
+
+            $insert = $this->Gudang->access_menu_save($data);
+        }
+        //echo json_encode($data);
+
+        if ($insert) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array(
+                "status" => FALSE,
+                "error" => $this->db->error()
+            ));
+        }
+    }
+
+    public function ajax_update_access_menu()
+    {
+        $this->_validate_access_menu();
+        $idtuj = strip_tags(str_replace("'", "", $this->input->post('idmenu')));
+        $roleid = strip_tags(str_replace("'", "", $this->input->post('roleid')));
+        $menuid = $this->input->post('menuid');
+        $count = count($menuid);
+        for ($i = 0; $i < $count; $i++) {
+            $data = array(
+                'menu_id' => $menuid[$i],
+                'role_id' => $roleid
+            );
+
+            $update = $this->Gudang->access_menu_update(array('id' => $idtuj), $data);
+        }
+        if ($update) {
+            echo json_encode(array("status" => TRUE));
+        } else {
+            echo json_encode(array("status" => FALSE, "error" => $this->db->error($update)));
+        }
+    }
+
+    function ajax_delete_access_menu($idmenu)
+    {
+        $this->Gudang->ajax_delete_access_menu($idmenu);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    private function _validate_access_menu()
+    {
+        $data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+
+        if ($this->input->post('roleid') == '') {
+            $data['inputerror'][] = 'roleid';
+            $data['error_string'][] = 'Role is required';
+            $data['status'] = FALSE;
+        }
+        if ($this->input->post('menuid') == '') {
+            $data['inputerror'][] = 'menuid';
+            $data['error_string'][] = 'Menu is required';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
+            echo json_encode($data);
+            exit();
+        }
+    }
+
+    public function all_access_menu()
+    {
+        echo json_encode($this->Gudang->show_all_menu());
     }
 }
 

@@ -36,7 +36,7 @@ class Khazanah extends CI_Controller
                 }
             }
         }
-        echo json_encode($query);
+        //echo json_encode($query);
         /*$cars = array(
             array("Volvo", 22, 18),
             array("BMW", array(15, 12), 13),
@@ -44,11 +44,20 @@ class Khazanah extends CI_Controller
             array("Land Rover", 17, 15)
         );*/
 
-        //echo json_encode($cars);
+        $data = [
+            'user' =>  $this->db->get_where('tb_user', ['username' =>
+            $this->session->userdata('username')])->row_array()
+        ];
+
+        foreach ($data as $key => $value) {
+            //echo $value->id_user;
+        }
+
+        //echo json_encode($data);
     }
     function tes()
     {
-        $start = date_create();
+        /*      $start = date_create();
         $b = date_format($start, 'Y-m-d H:i:s');
         //echo json_encode($this->Khazanah_Model->count_status_kemarin());
         $X = $this->Khazanah_Model->count_status_kemarin();
@@ -57,7 +66,7 @@ class Khazanah extends CI_Controller
                 $a[] = $value->tgl;
             }
         }
-        echo count($a);
+        echo count($a);*/
     }
 
     public function index()
